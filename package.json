@@ -19,6 +19,7 @@
     "@gluestack-ui/input": "^0.1.31",
     "@gluestack-ui/nativewind-utils": "^1.0.24",
     "@gluestack-ui/overlay": "^0.1.15",
+    "@gluestack-ui/switch": "^0.1.22",
     "@gluestack-ui/toast": "^1.0.7",
     "@react-navigation/native": "^6.0.2",
     "babel-plugin-module-resolver": "^5.0.2",

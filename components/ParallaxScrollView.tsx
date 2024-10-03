@@ -15,12 +15,14 @@ const HEADER_HEIGHT = 250;
 type Props = PropsWithChildren<{
   headerImage: ReactElement;
   headerBackgroundColor: { dark: string; light: string };
+  title: string
 }>;
 
 export default function ParallaxScrollView({
   children,
   headerImage,
   headerBackgroundColor,
+  title = ''
 }: Props) {
   const colorScheme = useColorScheme() ?? "light";
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
@@ -58,7 +60,7 @@ export default function ParallaxScrollView({
           ]}
         >
           <ThemedText style={{color: '#f1f1f1'}} type="subtitle">
-            Search
+            {title}
           </ThemedText>
         </Animated.View>
         <ThemedView style={styles.content}>{children}</ThemedView>

@@ -8,6 +8,7 @@ export default function HomeScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#101d25" }}
+      title="Search"
       headerImage={
         <Image
           source={require("@/assets/images/partial-react-logo.png")}
