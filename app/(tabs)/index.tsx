@@ -2,7 +2,7 @@ import { Image, StyleSheet } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedView } from "@/components/ThemedView";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
-import { Keyboard, Mic } from "lucide-react-native";
+import { ArrowRight, Keyboard, Mic } from "lucide-react-native";
 
 export default function HomeScreen() {
   return (
@@ -18,7 +18,7 @@ export default function HomeScreen() {
     >
       <Input
         variant="rounded"
-        size="md"
+        size="lg"
         isDisabled={false}
         isInvalid={false}
         isReadOnly={false}
@@ -36,8 +36,20 @@ export default function HomeScreen() {
           </InputIcon>
         </InputSlot>
       </Input>
-      <ThemedView style={styles.titleContainer}></ThemedView>
-      <ThemedView style={styles.stepContainer}></ThemedView>
+
+      <div className="bg-[#f1f1f1] flex flex-col p-8 rounded-xl gap-6">
+        <div className="flex flex-col gap-2 text-center">
+          <p className="text-2xl font-bold">Word</p>
+          <p className="text-[15px]">
+            n. (wɜːd): a single unit of language that means something and can be
+            spoken or written
+          </p>
+        </div>
+        <span className="flex justify-end text-right gap-1 text-[#6c00e5]">
+         <span className="text-[15px]"> See more meanings </span>
+         <ArrowRight size={24} color={"#6c00e5"} />
+        </span>
+      </div>
     </ParallaxScrollView>
   );
 }
