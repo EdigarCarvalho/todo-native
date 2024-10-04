@@ -1,102 +1,132 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, Image, Platform } from 'react-native';
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { StyleSheet } from "react-native";
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import ParallaxScrollView from "@/components/ParallaxScrollView";
+import { ThemedText } from "@/components/ThemedText";
+import { ReactNode } from "react";
+import { Switch } from "@/components/ui/switch";
+import { ArrowRight, CheckIcon, Keyboard, Mic } from "lucide-react-native";
+import {
+  Checkbox,
+  CheckboxIcon,
+  CheckboxIndicator,
+  CheckboxLabel,
+} from "@/components/ui/checkbox";
+import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 
-export default function TabTwoScreen() {
+const Container = ({ children }: { children: ReactNode }) => {
+  return (
+    <div className="bg-[#f1f1f1] p-4 rounded-lg flex justify-between">
+      {children}
+    </div>
+  );
+};
+
+const glossary = [
+  {
+    title: "Abacist",
+    definition: "n. (ab-uh-sist): a person skilled in using an abacus",
+  },
+  {
+    title: "Axiom",
+    definition:
+      "n. (ak-see-uhm): a statement or proposition that is regarded as being established, accepted, or self-evidently true",
+  },
+  {
+    title: "Biocentrism",
+    definition:
+      "n. (bio-sen-triz-uhm): the belief that life and biology are central to reality and the universe",
+  },
+  {
+    title: "Conundrum",
+    definition:
+      "n. (kuh-nuhn-druhm): a confusing and difficult problem or question",
+  },
+  {
+    title: "Diaphanous",
+    definition:
+      "adj. (dai-a-fuh-nuhs): light, delicate, and translucent, especially fabric",
+  },
+  {
+    title: "Ebullient",
+    definition: "adj. (ih-buhl-yuhnt): cheerful and full of energy",
+  },
+  {
+    title: "Fugacious",
+    definition: "adj. (fyoo-gay-shuhs): tending to disappear; fleeting",
+  },
+  {
+    title: "Halcyon",
+    definition:
+      "adj. (hal-see-uhn): denoting a period of time in the past that was idyllically happy and peaceful",
+  },
+];
+
+export default function BookMarksScreen() {
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={<Ionicons size={310} name="code-slash" style={styles.headerImage} />}>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText> library
-          to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
+      headerBackgroundColor={{ light: "#A1CEDC", dark: "#101d25" }}
+      title="Bookmarks"
+      headerImage={
+        <Ionicons size={310} name="code-slash" style={styles.headerImage} />
+      }
+    >
+           <Input
+        variant="rounded"
+        size="lg"
+        isDisabled={false}
+        isInvalid={false}
+        isReadOnly={false}
+        className="bg-[#f1f1f1] border-none mb-4"
+      >
+        <InputField placeholder="Search" className="text-sm" />
+        <InputSlot className="mr-4 ">
+          <InputIcon>
+            <Mic size={20} color={"#110626"} />
+          </InputIcon>
+        </InputSlot>
+        <InputSlot className="mr-4">
+          <InputIcon>
+            <Keyboard size={19} color={"#110626"} />
+          </InputIcon>
+        </InputSlot>
+      </Input>
+      <div className="flex flex-col gap-3">
+        {glossary?.map((word, index) => (
+          <Container key={index}>
+            <ThemedText className="truncate w-[70vw]">
+              {word?.title}
+              <ThemedText className="text-sm truncate">
+                {word?.definition}
+              </ThemedText>
             </ThemedText>
-          ),
-        })}
-      </Collapsible>
+
+            <Checkbox
+              size="md"
+              isInvalid={false}
+              isDisabled={false}
+              defaultIsChecked={true}
+            >
+              <CheckboxIndicator>
+                <CheckboxIcon className="text-white " as={CheckIcon} />
+              </CheckboxIndicator>
+            </Checkbox>
+          </Container>
+        ))}
+      </div>
     </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   headerImage: {
-    color: '#808080',
+    color: "#808080",
     bottom: -90,
     left: -35,
-    position: 'absolute',
+    position: "absolute",
   },
   titleContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 8,
   },
 });
