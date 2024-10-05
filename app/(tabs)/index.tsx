@@ -1,10 +1,37 @@
-import { Image, StyleSheet } from "react-native";
+import { Image, Pressable, StyleSheet } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedView } from "@/components/ThemedView";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
-import { ArrowRight, Keyboard, Mic } from "lucide-react-native";
+import { CheckIcon, Keyboard, Mic } from "lucide-react-native";
+import { useDictionary } from "@/stores/Dictionary";
+import { useEffect, useState } from "react";
+import { View } from "react-native";
+import { WordCard } from "@/components/Word";
+import {
+  Checkbox,
+  CheckboxIcon,
+  CheckboxIndicator,
+} from "@/components/ui/checkbox";
 
 export default function HomeScreen() {
+  const { fetchWords, state, bookmarkWord, removeBookmark } = useDictionary();
+  const [filter, setFilter] = useState<string>("");
+
+  useEffect(() => {
+    fetchWords();
+  }, []);
+
+  const filterSearch = (e: any) => {
+    setFilter(e.target.value);
+  };
+
+  const toggleBookmark = (word: string) => {
+    if (state.bookmarks.some((w) => w.word === word)) {
+      removeBookmark(word);
+    } else {
+      bookmarkWord({ word });
+    }
+  };
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#101d25" }}
@@ -24,32 +51,75 @@ export default function HomeScreen() {
         isReadOnly={false}
         className="bg-[#f1f1f1] border-none"
       >
-        <InputField placeholder="Search" className="text-sm" />
-        <InputSlot className="mr-4 ">
-          <InputIcon>
-            <Mic size={20} color={"#110626"} />
-          </InputIcon>
-        </InputSlot>
-        <InputSlot className="mr-4">
-          <InputIcon>
-            <Keyboard size={19} color={"#110626"} />
-          </InputIcon>
-        </InputSlot>
+        {!state.wordInFocus.word ? (
+          <>
+            <InputField
+              placeholder="Search"
+              className="text-sm"
+              value={filter}
+              onChange={filterSearch}
+            />
+            <InputSlot className="mr-4 ">
+              <InputIcon>
+                <Mic size={20} color={"#110626"} />
+              </InputIcon>
+            </InputSlot>
+            <InputSlot className="mr-4">
+              <InputIcon>
+                <Keyboard size={19} color={"#110626"} />
+              </InputIcon>
+            </InputSlot>
+          </>
+        ) : (
+          <View className="flex flex-row w-full items-center justify-between">
+            <View className="flex-1 text-center">
+              <p className="text-xl font-bold">{state.wordInFocus.word}</p>
+            </View>
+            <Pressable
+              className="flex-none mr-6"
+              onPress={() => toggleBookmark(state.wordInFocus.word)}
+            >
+              <Checkbox
+                value=""
+                size="md"
+                isInvalid={false}
+                isDisabled={false}
+                defaultIsChecked={false}
+                isChecked={state.bookmarks.some((word) => {
+                  return word.word === state.wordInFocus.word;
+                })}
+              >
+                <CheckboxIndicator>
+                  <CheckboxIcon className="text-white" as={CheckIcon} />
+                </CheckboxIndicator>
+              </Checkbox>
+            </Pressable>
+          </View>
+        )}
       </Input>
 
-      <div className="bg-[#f1f1f1] flex flex-col p-8 rounded-xl gap-6">
-        <div className="flex flex-col gap-2 text-center">
-          <p className="text-2xl font-bold">Word</p>
-          <p className="text-[15px]">
-            n. (wɜːd): a single unit of language that means something and can be
-            spoken or written
-          </p>
-        </div>
-        <span className="flex justify-end text-right gap-1 text-[#6c00e5]">
-         <span className="text-[15px]"> See more meanings </span>
-         <ArrowRight size={24} color={"#6c00e5"} />
-        </span>
-      </div>
+      {!state.wordInFocus.word ? (
+        state.words
+          .filter((word) =>
+            word.word.toLowerCase().includes(filter.toLowerCase())
+          )
+          .map((word) => (
+            <WordCard
+              key={word.word}
+              word={word.word}
+              meanings={word.meanings}
+            />
+          ))
+      ) : (
+        <>
+          <WordCard
+            key={state.wordInFocus.word + "-focus"}
+            word={state.wordInFocus.word}
+            meanings={state.wordInFocus.meanings}
+            showAllMeanings={true}
+          />
+        </>
+      )}
     </ParallaxScrollView>
   );
 }
