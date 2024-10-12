@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { CheckIcon, Keyboard, Mic } from "lucide-react-native";
@@ -20,10 +20,6 @@ export default function HomeScreen() {
     fetchWords();
   }, []);
 
-  const filterSearch = (e: any) => {
-    setFilter(e.target.value);
-  };
-
   const toggleBookmark = (word: string) => {
     if (state.bookmarks.some((w) => w.word === word)) {
       removeBookmark(word);
@@ -35,13 +31,7 @@ export default function HomeScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#101d25" }}
-      title="Search"
-      headerImage={
-        <Image
-          source={require("@/assets/images/partial-react-logo.png")}
-          style={styles.reactLogo}
-        />
-      }
+      title="Dicionário"
     >
       <Input
         variant="rounded"
@@ -54,55 +44,57 @@ export default function HomeScreen() {
         {!state.wordInFocus.word ? (
           <>
             <InputField
-              placeholder="Search"
+              placeholder="Buscar palavra"
               className="text-sm"
               value={filter}
-              onChange={filterSearch}
+              onChangeText={setFilter}
             />
-            <InputSlot className="mr-4 ">
+            <InputSlot className="mr-5">
               <InputIcon>
                 <Mic size={20} color={"#110626"} />
               </InputIcon>
             </InputSlot>
             <InputSlot className="mr-4">
               <InputIcon>
-                <Keyboard size={19} color={"#110626"} />
+                <Keyboard size={18} color={"#110626"} />
               </InputIcon>
             </InputSlot>
           </>
         ) : (
           <View className="flex flex-row w-full items-center justify-between">
-            <View className="flex-1 text-center">
-              <p className="text-xl font-bold">{state.wordInFocus.word}</p>
+            <View className="flex-1 text-center ml-6">
+              <Text className="text-xl font-bold">
+                {state.wordInFocus.word}
+              </Text>
             </View>
-            <Pressable
-              className="flex-none mr-6"
-              onPress={() => toggleBookmark(state.wordInFocus.word)}
+
+            <Checkbox
+              value=""
+              size="md"
+              isInvalid={false}
+              isDisabled={false}
+              defaultIsChecked={true}
+              isChecked={state.bookmarks.some((word) => {
+                return word.word === state.wordInFocus.word;
+              })}
+              className="mr-6"
+              onChange={() => {
+                toggleBookmark(state.wordInFocus.word);
+              }}
             >
-              <Checkbox
-                value=""
-                size="md"
-                isInvalid={false}
-                isDisabled={false}
-                defaultIsChecked={false}
-                isChecked={state.bookmarks.some((word) => {
-                  return word.word === state.wordInFocus.word;
-                })}
-              >
-                <CheckboxIndicator>
-                  <CheckboxIcon className="text-white" as={CheckIcon} />
-                </CheckboxIndicator>
-              </Checkbox>
-            </Pressable>
+              <CheckboxIndicator>
+                <CheckboxIcon className="text-white bg-black" as={CheckIcon} />
+              </CheckboxIndicator>
+            </Checkbox>
           </View>
         )}
       </Input>
 
       {!state.wordInFocus.word ? (
         state.words
-          .filter((word) =>
-            word.word.toLowerCase().includes(filter.toLowerCase())
-          )
+          .filter((word) => {
+            return word.word.toLowerCase().includes(filter?.toLowerCase());
+          })
           .map((word) => (
             <WordCard
               key={word.word}

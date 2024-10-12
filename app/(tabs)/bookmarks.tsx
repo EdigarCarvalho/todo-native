@@ -61,17 +61,10 @@ export default function BookMarksScreen() {
     });
   };
 
-  const filterSearch = (e: any) => {
-    setFilter(e.target.value);
-  };
-
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#101d25" }}
-      title="Bookmarks"
-      headerImage={
-        <Ionicons size={310} name="code-slash" style={styles.headerImage} />
-      }
+      title="Favoritados"
     >
       <Input
         variant="rounded"
@@ -84,16 +77,16 @@ export default function BookMarksScreen() {
         <InputField
           placeholder="Search"
           className="text-sm"
-          onChange={filterSearch}
+          onChangeText={setFilter}
         />
-        <InputSlot className="mr-4 ">
+        <InputSlot className="mr-5">
           <InputIcon>
             <Mic size={20} color={"#110626"} />
           </InputIcon>
         </InputSlot>
         <InputSlot className="mr-4">
           <InputIcon>
-            <Keyboard size={19} color={"#110626"} />
+            <Keyboard size={18} color={"#110626"} />
           </InputIcon>
         </InputSlot>
       </Input>
@@ -124,7 +117,11 @@ export default function BookMarksScreen() {
                       <Text className="text-[#4B33E1] text-sm">
                         {word?.word}
                       </Text>
-                      <Text className="truncate text-xs text-[#0D0D25]">
+                      <Text
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                        className="text-xs text-[#0D0D25]"
+                      >
                         {" . "}
                         {word?.meanings[0]}
                       </Text>
@@ -132,24 +129,24 @@ export default function BookMarksScreen() {
                   )}
                 </Pressable>
                 {!shouldShowFull && (
-                  <Pressable
-                    onPress={() => {
+                  <Checkbox
+                    size="md"
+                    value=""
+                    isInvalid={false}
+                    isDisabled={false}
+                    defaultIsChecked={true}
+                    isChecked={!timers[word.word]}
+                    onChange={() => {
                       onToggleBookmark(word.word);
                     }}
                   >
-                    <Checkbox
-                      size="md"
-                      value=""
-                      isInvalid={false}
-                      isDisabled={false}
-                      defaultIsChecked={true}
-                      isChecked={!timers[word.word]}
-                    >
-                      <CheckboxIndicator>
-                        <CheckboxIcon className="text-white" as={CheckIcon} />
-                      </CheckboxIndicator>
-                    </Checkbox>
-                  </Pressable>
+                    <CheckboxIndicator>
+                      <CheckboxIcon
+                        className="text-white bg-black"
+                        as={CheckIcon}
+                      />
+                    </CheckboxIndicator>
+                  </Checkbox>
                 )}
               </Container>
             );

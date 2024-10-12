@@ -1,5 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
@@ -9,9 +9,9 @@ import { ArrowRight } from "lucide-react-native";
 
 const Container = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="bg-[#f1f1f1] p-4 rounded-lg flex justify-between">
+    <View className="bg-[#f1f1f1] p-4 rounded-lg flex flex-row items-center justify-between">
       {children}
-    </div>
+    </View>
   );
 };
 
@@ -19,29 +19,26 @@ export default function SettingsScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#101d25" }}
-      title="Settings"
-      headerImage={
-        <Ionicons size={310} name="code-slash" style={styles.headerImage} />
-      }
+      title="Configurações"
     >
-      <div className="flex flex-col gap-3">
+      <View className="flex flex-col gap-3">
         <Container>
-          <ThemedText>Show suggestions</ThemedText>
+          <ThemedText>Mostrar sugestões</ThemedText>
           <Switch />
         </Container>
         <Container>
-          <ThemedText>Show keyboard</ThemedText>
+          <ThemedText>Mostrar teclado</ThemedText>
           <Switch />
         </Container>
         <Container>
-          <ThemedText>Remove ads</ThemedText>
-          <ArrowRight size={24} color={'#6c00e5'}/>
+          <ThemedText>Remover ads</ThemedText>
+          <ArrowRight size={24} color={"#6c00e5"} />
         </Container>
         <Container>
-          <ThemedText>Terms of use</ThemedText>
-          <ArrowRight size={24} color={'#6c00e5'} />
+          <ThemedText>Termos de uso</ThemedText>
+          <ArrowRight size={24} color={"#6c00e5"} />
         </Container>
-      </div>
+      </View>
     </ParallaxScrollView>
   );
 }

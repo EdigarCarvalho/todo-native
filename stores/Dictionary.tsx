@@ -74,9 +74,12 @@ const dictionaryReducer = (
         (word) => word.word === action.payload.word
       );
 
+      const bookmarks = [...state.bookmarks, word!];
+      bookmarks.sort((a, b) => a.word.localeCompare(b.word));
+
       return {
         ...state,
-        bookmarks: [...state.bookmarks, word!],
+        bookmarks,
       };
     case REMOVE_BOOKMARK:
       return {
@@ -102,6 +105,7 @@ export const DictionaryProvider = ({ children }: { children: any }) => {
   // Action to fetch words (this is mocked; replace with real API call)
   const fetchWords = () => {
     const fetchedWords = dict as { word: string; meanings: string[] }[];
+    fetchedWords.sort((a, b) => a.word.localeCompare(b.word));
     dispatch({ type: FETCH_WORDS, payload: fetchedWords });
   };
 

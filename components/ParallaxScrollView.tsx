@@ -13,16 +13,14 @@ import { ThemedText } from "./ThemedText";
 const HEADER_HEIGHT = 250;
 
 type Props = PropsWithChildren<{
-  headerImage: ReactElement;
   headerBackgroundColor: { dark: string; light: string };
-  title: string
+  title: string;
 }>;
 
 export default function ParallaxScrollView({
   children,
-  headerImage,
   headerBackgroundColor,
-  title = ''
+  title = "",
 }: Props) {
   const colorScheme = useColorScheme() ?? "light";
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
@@ -51,15 +49,22 @@ export default function ParallaxScrollView({
 
   return (
     <ThemedView style={styles.container}>
-      <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16} style={{backgroundColor: '#f9f9f9'}}>
+      <Animated.ScrollView
+        ref={scrollRef}
+        scrollEventThrottle={16}
+        style={{ backgroundColor: "#f9f9f9" }}
+      >
         <Animated.View
           style={[
             styles.header,
-            { backgroundColor: headerBackgroundColor[colorScheme] },
+            {
+              backgroundColor: headerBackgroundColor[colorScheme],
+              paddingTop: 25,
+            },
             headerAnimatedStyle,
           ]}
         >
-          <ThemedText style={{color: '#f1f1f1'}} type="subtitle">
+          <ThemedText style={{ color: "#f1f1f1" }} type="subtitle">
             {title}
           </ThemedText>
         </Animated.View>
@@ -87,6 +92,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     gap: 16,
     overflow: "hidden",
-    backgroundColor: '#f9f9f9'
+    backgroundColor: "#f9f9f9",
   },
 });
