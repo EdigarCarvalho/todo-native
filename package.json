@@ -24,6 +24,7 @@
     "@gluestack-ui/slider": "^0.1.32",
     "@gluestack-ui/switch": "^0.1.22",
     "@gluestack-ui/toast": "^1.0.7",
+    "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/native": "^6.0.2",
     "babel-plugin-module-resolver": "^5.0.2",
     "expo": "~51.0.28",

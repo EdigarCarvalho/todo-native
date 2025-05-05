@@ -1,20 +1,21 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { StyleSheet, View, Text } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedText } from "@/components/ThemedText";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { Switch } from "@/components/ui/switch";
-import { ArrowLeft, ArrowRight } from "lucide-react-native";
+import { ArrowLeft } from "lucide-react-native";
 import {
   Slider,
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
 } from "@/components/ui/slider";
+import { useDictionary } from "@/stores/Dictionary";
+import { ScalableText } from "@/components/FontSizeProvider";
 
 export default function SettingsScreen() {
-  const [darkMode, setDarkMode] = useState(true);
-  const [fontSize, setFontSize] = useState(3);
+  const { state, updateSettings } = useDictionary();
+  const { darkMode, fontSize } = state.settings;
+
 
   return (
     <ParallaxScrollView
@@ -32,29 +33,43 @@ export default function SettingsScreen() {
     >
       <View className="flex flex-col gap-2 bg-[#E7E4D8] p-4 pt-8">
         <ArrowLeft size={24} color={"#212121"} />
-        <Text className="text-2xl font-bold ">{"Configurações"}</Text>
+        <ScalableText className="text-2xl font-bold">Configurações</ScalableText>
       </View>
       <View className="flex flex-col gap-6 px-4 py-6">
-        <Text className="text-gray-500 text-base font-medium">Geral</Text>
+        <ScalableText className="text-gray-500 text-base font-medium">Geral</ScalableText>
 
         <View className="flex flex-row justify-between items-center">
-          <Text className="text-gray-800 text-lg">Modo Escuro</Text>
+          <ScalableText className="text-gray-800 ">Modo Escuro</ScalableText>
           <Switch
-            checked={darkMode}
-            onCheckedChange={setDarkMode}
-            className="0 data-[state=checked]:bg-amber-900"
+            checked={Boolean(darkMode)}
+            onCheckedChange={() => {
+              updateSettings({ darkMode: !darkMode});
+            }}
+            className="data-[state=checked]:bg-amber-900"
           />
         </View>
 
         <View className="flex flex-col gap-2">
-          <Text className="text-gray-800 text-lg">Tamanho da fonte</Text>
-          <Slider minValue={1} maxValue={5} value={fontSize} onChange={setFontSize}>
+          <ScalableText className="text-gray-800 ">Tamanho da fonte</ScalableText>
+          <Slider
+            minValue={1}
+            maxValue={5}
+            value={fontSize}
+            onChange={(value) => {
+              updateSettings({ fontSize: value });
+            }}
+            step={1}
+          >
             <SliderTrack>
               <SliderFilledTrack />
             </SliderTrack>
             <SliderThumb />
           </Slider>
-         
+          
+          <View className="flex flex-row justify-between mt-1">
+            <ScalableText className="text-xs">Pequeno</ScalableText>
+            <ScalableText className="text-xs">Grande</ScalableText>
+          </View>
         </View>
       </View>
     </ParallaxScrollView>

@@ -1,28 +1,8 @@
-import React, { createContext, useReducer, useContext } from "react";
+import React, { createContext, useReducer, useContext, useEffect } from "react";
 import dict from "../constants/Words.json";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// Create a context for the dictionary
-const DictionaryContext = createContext<{
-  state: State;
-  fetchWords: () => void;
-  bookmarkWord: (word: any) => void;
-  removeBookmark: (wordName: string) => void;
-  setWordInFocus: (word: { word: string; meanings: string[] }) => void;
-}>({
-  state: {
-    words: [],
-    bookmarks: [],
-    wordInFocus: {
-      word: "",
-      meanings: [""],
-    },
-  },
-  fetchWords: () => {},
-  bookmarkWord: () => {},
-  removeBookmark: () => {},
-  setWordInFocus: () => {},
-});
-
+// Add settings to state type
 type State = {
   words: {
     word: string;
@@ -36,15 +16,23 @@ type State = {
     word: string;
     meanings: string[];
   };
+  settings: {
+    darkMode: boolean;
+    fontSize: number;
+  };
 };
 
-// Initial state for the store
+// Initial state
 const initialState: State = {
   words: [],
   bookmarks: [],
   wordInFocus: {
     word: "",
     meanings: [],
+  },
+  settings: {
+    darkMode: true,
+    fontSize: 3,
   },
 };
 
@@ -53,8 +41,27 @@ const FETCH_WORDS = "FETCH_WORDS";
 const BOOKMARK_WORD = "BOOKMARK_WORD";
 const REMOVE_BOOKMARK = "REMOVE_BOOKMARK";
 const SET_WORD_IN_FOCUS = "SET_WORD_IN_FOCUS";
+const UPDATE_SETTINGS = "UPDATE_SETTINGS";
+const LOAD_STATE = "LOAD_STATE"; 
 
-// Reducer function to manage state changes
+// Update context type
+const DictionaryContext = createContext<{
+  state: State;
+  fetchWords: () => void;
+  bookmarkWord: (word: any) => void;
+  removeBookmark: (wordName: string) => void;
+  setWordInFocus: (word: { word: string; meanings: string[] }) => void;
+  updateSettings: (settings: Partial<State["settings"]>) => void;
+}>({
+  state: initialState,
+  fetchWords: () => {},
+  bookmarkWord: () => {},
+  removeBookmark: () => {},
+  setWordInFocus: () => {},
+  updateSettings: () => {},
+});
+
+// Update reducer
 const dictionaryReducer = (
   state: State,
   action: { type: string; payload: any }
@@ -67,7 +74,7 @@ const dictionaryReducer = (
       };
     case BOOKMARK_WORD:
       if (state.bookmarks.find((word) => word.word === action.payload.word)) {
-        return state; // Word already bookmarked
+        return state;
       }
 
       const word = state.words.find(
@@ -93,34 +100,92 @@ const dictionaryReducer = (
         ...state,
         wordInFocus: action.payload,
       };
+    case UPDATE_SETTINGS:
+      const newSettings = {
+        ...state.settings,
+        ...action.payload,
+      };
+      // Save settings to AsyncStorage
+      AsyncStorage.setItem('dictionary_settings', JSON.stringify(newSettings));
+      return {
+        ...state,
+        settings: newSettings,
+      };
+    case LOAD_STATE:
+      return {
+        ...state,
+        ...action.payload,
+      };
     default:
       return state;
   }
 };
 
-// DictionaryProvider component to wrap the app and provide the store
-export const DictionaryProvider = ({ children }: { children: any }) => {
+// Updated provider with settings
+export const DictionaryProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(dictionaryReducer, initialState);
 
-  // Action to fetch words (this is mocked; replace with real API call)
+  // Load saved state on component mount
+  useEffect(() => {
+    const loadSavedState = async () => {
+      try {
+        // Load bookmarks
+        const savedBookmarks = await AsyncStorage.getItem('dictionary_bookmarks');
+        let bookmarks = [];
+        if (savedBookmarks) {
+          bookmarks = JSON.parse(savedBookmarks);
+        }
+
+        // Load settings
+        const savedSettings = await AsyncStorage.getItem('dictionary_settings');
+        let settings = initialState.settings;
+        if (savedSettings) {
+          settings = JSON.parse(savedSettings);
+        }
+
+        dispatch({ 
+          type: LOAD_STATE, 
+          payload: { 
+            bookmarks, 
+            settings 
+          } 
+        });
+      } catch (error) {
+        console.error('Error loading saved state:', error);
+      }
+    };
+
+    loadSavedState();
+  }, []);
+
+  // Save bookmarks whenever they change
+  useEffect(() => {
+    if (state.bookmarks.length > 0) {
+      AsyncStorage.setItem('dictionary_bookmarks', JSON.stringify(state.bookmarks));
+    }
+  }, [state.bookmarks]);
+
   const fetchWords = () => {
     const fetchedWords = dict as { word: string; meanings: string[] }[];
     fetchedWords.sort((a, b) => a.word.localeCompare(b.word));
     dispatch({ type: FETCH_WORDS, payload: fetchedWords });
   };
 
-  // Action to bookmark a word
   const bookmarkWord = (word: { word: string }) => {
     dispatch({ type: BOOKMARK_WORD, payload: word });
   };
 
-  // Action to remove a bookmark
   const removeBookmark = (wordName: string) => {
     dispatch({ type: REMOVE_BOOKMARK, payload: wordName });
   };
 
   const setWordInFocus = (word: { word: string; meanings: string[] }) => {
     dispatch({ type: SET_WORD_IN_FOCUS, payload: word });
+  };
+
+  // New function to update settings
+  const updateSettings = (settings: Partial<State["settings"]>) => {
+    dispatch({ type: UPDATE_SETTINGS, payload: settings });
   };
 
   return (
@@ -131,6 +196,7 @@ export const DictionaryProvider = ({ children }: { children: any }) => {
         bookmarkWord,
         removeBookmark,
         setWordInFocus,
+        updateSettings,
       }}
     >
       {children}
@@ -138,7 +204,6 @@ export const DictionaryProvider = ({ children }: { children: any }) => {
   );
 };
 
-// Custom hook to use the DictionaryContext in components
 export const useDictionary = () => {
   return useContext(DictionaryContext);
 };
