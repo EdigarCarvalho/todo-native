@@ -1,4 +1,4 @@
-import type { PropsWithChildren, ReactElement } from "react";
+import type { CSSProperties, PropsWithChildren, ReactElement } from "react";
 import { StyleSheet, useColorScheme } from "react-native";
 import Animated, {
   interpolate,
@@ -15,16 +15,23 @@ const HEADER_HEIGHT = 250;
 type Props = PropsWithChildren<{
   headerBackgroundColor: { dark: string; light: string };
   title: string;
+  customCss?: {
+    container?: CSSProperties;
+    header?: CSSProperties;
+    content?: CSSProperties;
+  };
 }>;
 
 export default function ParallaxScrollView({
   children,
   headerBackgroundColor,
   title = "",
+  customCss = {},
 }: Props) {
   const colorScheme = useColorScheme() ?? "light";
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
+  const styles = getStyles(customCss);
 
   const headerAnimatedStyle = useAnimatedStyle(() => {
     return {
@@ -75,24 +82,40 @@ export default function ParallaxScrollView({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    height: 0,
-    overflow: "hidden",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  content: {
-    flex: 1,
-    padding: 32,
-    paddingRight: 20,
-    paddingLeft: 20,
-    gap: 16,
-    overflow: "hidden",
-    backgroundColor: "#f9f9f9",
-  },
-});
+
+
+const getStyles = (customCss: {
+  container?: object;
+  header?: object;
+  content?: object;
+}) => {
+
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      ...(customCss?.container || {}),
+    },
+    header: {
+      height: 0,
+      overflow: "hidden",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      ...(customCss?.header || {}),
+    },
+    content: {
+      flex: 1,
+      padding: 32,
+      paddingRight: 20,
+      paddingLeft: 20,
+      gap: 16,
+      overflow: "hidden",
+      backgroundColor: "#f9f9f9",
+      ...(customCss?.content || {}),
+    },
+  })
+}
+
+
+
+
