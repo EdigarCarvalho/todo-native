@@ -1,7 +1,7 @@
 import { StyleSheet, Text } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
-import { CheckIcon, Keyboard, Mic } from "lucide-react-native";
+import { CheckIcon, Keyboard, Mic, Search } from "lucide-react-native";
 import { useDictionary } from "@/stores/Dictionary";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
@@ -30,35 +30,36 @@ export default function HomeScreen() {
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: "#A1CEDC", dark: "#101d25" }}
-      title="Dicionário"
+      headerBackgroundColor={{ light: "inherit", dark:"inherit" }}
+      title=""
     >
       <Input
         variant="rounded"
-        size="lg"
+        size="xl"
         isDisabled={false}
         isInvalid={false}
         isReadOnly={false}
-        className="bg-[#f1f1f1] border-none"
+        className="bg-[#E7E4D8] border-none sticky"
       >
         {!state.wordInFocus.word ? (
           <>
             <InputField
-              placeholder="Buscar palavra"
-              className="text-sm"
+              placeholder="Pesquise uma palavra"
+              className="text-sm  placeholder:text-[#474747] font-normal"
               value={filter}
               onChangeText={setFilter}
+
             />
-            <InputSlot className="mr-5">
+            <InputSlot className="mr-5 mt-1">
               <InputIcon>
-                <Mic size={20} color={"#110626"} />
+                <Search size={20} color={"#110626"} />
               </InputIcon>
             </InputSlot>
-            <InputSlot className="mr-4">
+            {/* <InputSlot className="mr-4">
               <InputIcon>
                 <Keyboard size={18} color={"#110626"} />
               </InputIcon>
-            </InputSlot>
+            </InputSlot> */}
           </>
         ) : (
           <View className="flex flex-row w-full items-center justify-between">
