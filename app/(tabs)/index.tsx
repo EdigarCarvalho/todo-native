@@ -1,47 +1,50 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
-import { Search } from "lucide-react-native";
+import { ChevronDownIcon, ChevronUpIcon, Search } from "lucide-react-native";
 import { useDictionary } from "@/stores/Dictionary";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
 import {
   Accordion,
   AccordionContent,
+  AccordionIcon,
   AccordionItem,
   AccordionTitleText,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Divider } from "@/components/ui/divider";
 
 export default function HomeScreen() {
   const { fetchData, state, setWordInFocus } = useDictionary();
   const [filter, setFilter] = useState<string>("");
-  
+
   useEffect(() => {
     fetchData();
   }, []);
 
   // Filter words based on search input
-  const getFilteredWords = (categoryId) => {
+  const getFilteredWords = (categoryId: string) => {
     const words = state.wordsByCategory[categoryId] || [];
     if (!filter) return words;
-    
-    return words.filter(word => 
-      word.word.toLowerCase().includes(filter.toLowerCase()) || 
-      word.meaning.toLowerCase().includes(filter.toLowerCase())
+
+    return words.filter(
+      (word) =>
+        word.word.toLowerCase().includes(filter.toLowerCase()) ||
+        word.meaning.toLowerCase().includes(filter.toLowerCase())
     );
   };
 
   // Check if any category has words matching the filter
   const hasFilteredWords = () => {
-    return state.categories.some(category => 
-      getFilteredWords(category.id.toString()).length > 0
+    return state.categories.some(
+      (category) => getFilteredWords(category.id.toString()).length > 0
     );
   };
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: "inherit", dark:"inherit" }}
+      headerBackgroundColor={{ light: "inherit", dark: "inherit" }}
       title=""
     >
       <Input
@@ -73,8 +76,8 @@ export default function HomeScreen() {
                 {state.wordInFocus.word}
               </Text>
             </View>
-            <TouchableOpacity 
-              className="mr-5 pr-2" 
+            <TouchableOpacity
+              className="mr-5 pr-2"
               onPress={() => setWordInFocus(null)}
             >
               <Text>Voltar</Text>
@@ -82,62 +85,99 @@ export default function HomeScreen() {
           </View>
         )}
       </Input>
-      
+
       {!state.wordInFocus ? (
-        <View className="mt-4 px-4">
+        <View className="mt-4">
           {state.categories.length > 0 ? (
             state.categories.map((category) => {
               const filteredWords = getFilteredWords(category.id.toString());
-              
+
               // Only show categories with matching words when filtering
-              if (filter && filteredWords.length === 0) return null;
-              
+              if ( filteredWords.length === 0) return null;
+
               return (
-                <Accordion key={category.id} type="single" className="mb-3">
+                <Accordion
+                  key={category.id}
+                  type="single"
+                  variant="unfilled"
+                  className=""
+                >
                   <AccordionItem value={category.id.toString()}>
                     <AccordionTrigger>
-                      <AccordionTitleText>{category.name}</AccordionTitleText>
+                      {({ isExpanded }) => {
+                        return (
+                          <>
+                            <AccordionTitleText>
+                              {category.name}
+                            </AccordionTitleText>
+                            {isExpanded ? (
+                              <AccordionIcon
+                                as={ChevronUpIcon}
+                                className="ml-3"
+                              />
+                            ) : (
+                              <AccordionIcon
+                                as={ChevronDownIcon}
+                                className="ml-3"
+                              />
+                            )}
+                          </>
+                        );
+                      }}
                     </AccordionTrigger>
                     <AccordionContent>
                       {filteredWords.map((word) => (
                         <TouchableOpacity
                           key={word.id}
-                          className="py-2 border-b border-gray-200"
+                          className="py-2 "
                           onPress={() => setWordInFocus(word)}
                         >
-                          <View className="flex flex-col">
-                            <Text className="font-bold text-base">{word.word}</Text>
-                            <Text className="text-sm text-gray-600">{word.meaning}</Text>
+                          <View className="flex flex-col text-[#A30122]">
+                            <Text className="font-bold text-base text-[#A30122]">
+                              {word.word}
+                            </Text>
+                            <Text className="text-sm text-[#474747]">
+                              {word.meaning}
+                            </Text>
                           </View>
                         </TouchableOpacity>
                       ))}
                     </AccordionContent>
                   </AccordionItem>
+                  <Divider />
                 </Accordion>
               );
             })
           ) : (
-            <Text className="text-center py-4">Nenhuma categoria encontrada</Text>
+            <Text className="text-center py-4">
+              Nenhuma categoria encontrada
+            </Text>
           )}
-          
+
           {filter && !hasFilteredWords() && (
-            <Text className="text-center py-4">Nenhuma palavra encontrada para "{filter}"</Text>
+            <Text className="text-center py-4">
+              Nenhuma palavra encontrada para "{filter}"
+            </Text>
           )}
         </View>
       ) : (
         <View className="p-4">
           <Text className="text-lg mt-2">{state.wordInFocus.meaning}</Text>
-          
-          {state.wordInFocus.attachments && state.wordInFocus.attachments.length > 0 && (
-            <View className="mt-4">
-              <Text className="font-bold mb-2">Anexos:</Text>
-              {state.wordInFocus.attachments.map((attachment) => (
-                <View key={attachment.id} className="mb-2 p-2 bg-gray-100 rounded">
-                  <Text>{attachment.source}</Text>
-                </View>
-              ))}
-            </View>
-          )}
+
+          {state.wordInFocus.attachments &&
+            state.wordInFocus.attachments.length > 0 && (
+              <View className="mt-4">
+                <Text className="font-bold mb-2">Anexos:</Text>
+                {state.wordInFocus.attachments.map((attachment) => (
+                  <View
+                    key={attachment.id}
+                    className="mb-2 p-2 bg-gray-100 rounded"
+                  >
+                    <Text>{attachment.source}</Text>
+                  </View>
+                ))}
+              </View>
+            )}
         </View>
       )}
     </ParallaxScrollView>
