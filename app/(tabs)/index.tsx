@@ -1,7 +1,7 @@
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, Image } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
-import { ChevronDownIcon, ChevronUpIcon, Search } from "lucide-react-native";
+import { ArrowLeft, ChevronDownIcon, ChevronUpIcon, Search } from "lucide-react-native";
 import { useDictionary } from "@/stores/Dictionary";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
@@ -77,10 +77,11 @@ export default function HomeScreen() {
               </Text>
             </View>
             <TouchableOpacity
-              className="mr-5 pr-2"
+              className="mr-5 pr-2 flex  gap-1 flex-row items-center justify-center"
               onPress={() => setWordInFocus(null)}
             >
-              <Text>Voltar</Text>
+              <ArrowLeft size={17}  />
+              <Text className="flex">Voltar</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -171,9 +172,17 @@ export default function HomeScreen() {
                 {state.wordInFocus.attachments.map((attachment) => (
                   <View
                     key={attachment.id}
-                    className="mb-2 p-2 bg-gray-100 rounded"
+                    className="mb-2 p-2 flex flex-col items-center bg-gray-100 rounded text-center"
                   >
                     <Text>{attachment.source}</Text>
+                    <Image 
+                      source={{ uri: attachment.url }} 
+                      className="w-full min-h-10 h-full max-h-40 mb-2"
+                      resizeMode="contain"
+                      alt={`Attachment ${attachment.id}`}
+                    />
+                    <Text className="text-[8px] max-w-full text-center">Fonte: {attachment.url}</Text>
+
                   </View>
                 ))}
               </View>
