@@ -1,7 +1,8 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { Album, House, Settings } from "lucide-react-native";
+import { CogSvg, MenuSvg, TextSvg } from "@/components/customIcons";
+import { View } from "react-native";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -9,10 +10,11 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#2ae8a0",
+        tabBarActiveTintColor: "#E7E4D8",
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: "#101d25",
+          backgroundColor: "#E7E4D8",
+          height: 74,
         },
       }}
     >
@@ -21,7 +23,18 @@ export default function TabLayout() {
         options={{
           title: "",
           tabBarIcon: ({ color, focused }) => (
-            <House size={24} color={focused ? color : "#f1f1f1"} />
+            <View className={` flex flex-col justify-center items-center`}>
+              <View
+                className={`${focused ? "bg-[#A30122]" : ""} px-2 py-1 rounded-xl flex flex-col justify-center items-center`}
+              >
+                <MenuSvg size={26} color={focused ? color : "#474747"} />
+              </View>
+              <span
+                className={`text-xs font-semibold ${focused ? "text-[#212121]]" : "text-[#474747]"} `}
+              >
+                Dicionário
+              </span>
+            </View>
           ),
         }}
       />
@@ -30,7 +43,18 @@ export default function TabLayout() {
         options={{
           title: "",
           tabBarIcon: ({ color, focused }) => (
-            <Album size={24} color={focused ? color : "#f1f1f1"} />
+            <View className={` flex flex-col justify-center items-center`}>
+              <View
+                className={`${focused ? "bg-[#A30122]" : ""} px-2 py-1 rounded-xl flex flex-col justify-center items-center`}
+              >
+                <TextSvg size={24} color={focused ? color : "#474747"} />
+              </View>
+              <span
+                className={`text-xs font-semibold ${focused ? "text-[#212121]]" : "text-[#474747]"} `}
+              >
+                Textos
+              </span>
+            </View>
           ),
         }}
       />
@@ -40,7 +64,18 @@ export default function TabLayout() {
           title: "",
 
           tabBarIcon: ({ color, focused }) => (
-            <Settings size={24} color={focused ? color : "#f1f1f1"} />
+            <View className={` flex flex-col justify-center items-center`}>
+              <View
+                className={`${focused ? "bg-[#A30122]" : ""} px-2 py-1 rounded-xl flex flex-col justify-center items-center`}
+              >
+                <CogSvg size={24} color={focused ? color : "#474747"} />
+              </View>
+              <span
+                className={`text-xs font-semibold ${focused ? "text-[#212121]]" : "text-[#474747]"} `}
+              >
+                Configurações
+              </span>
+            </View>
           ),
         }}
       />
