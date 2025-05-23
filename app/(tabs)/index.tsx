@@ -1,7 +1,12 @@
 import { StyleSheet, Text, TouchableOpacity, Image } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
-import { ArrowLeft, ChevronDownIcon, ChevronUpIcon, Search } from "lucide-react-native";
+import {
+  ArrowLeft,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  Search,
+} from "lucide-react-native";
 import { useDictionary } from "@/stores/Dictionary";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
@@ -80,7 +85,7 @@ export default function HomeScreen() {
               className="mr-5 pr-2 flex  gap-1 flex-row items-center justify-center"
               onPress={() => setWordInFocus(null)}
             >
-              <ArrowLeft size={17}  />
+              <ArrowLeft size={17} />
               <Text className="flex">Voltar</Text>
             </TouchableOpacity>
           </View>
@@ -94,7 +99,7 @@ export default function HomeScreen() {
               const filteredWords = getFilteredWords(category.id.toString());
 
               // Only show categories with matching words when filtering
-              if ( filteredWords.length === 0) return null;
+              if (filteredWords.length === 0) return null;
 
               return (
                 <Accordion
@@ -174,15 +179,23 @@ export default function HomeScreen() {
                     key={attachment.id}
                     className="mb-2 p-2 flex flex-col items-center bg-gray-100 rounded text-center"
                   >
-                    <Text>{attachment.source}</Text>
-                    <Image 
-                      source={{ uri: attachment.url }} 
-                      className="w-full min-h-10 h-full max-h-40 mb-2"
+                    <Text className="mb-2 font-medium">
+                      {attachment.source}
+                    </Text>
+                    <Image
+                      source={{ uri: attachment.url }}
+                      style={{
+                        width: "100%",
+                        maxWidth: 300,
+                        height: 200,
+                        borderRadius: 8,
+                      }}
                       resizeMode="contain"
                       alt={`Attachment ${attachment.id}`}
                     />
-                    <Text className="text-[8px] max-w-full text-center">Fonte: {attachment.url}</Text>
-
+                    <Text className="text-[8px] max-w-full text-center mt-2 text-gray-600 px-1">
+                      Fonte: {attachment.url}
+                    </Text>
                   </View>
                 ))}
               </View>
