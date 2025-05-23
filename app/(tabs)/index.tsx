@@ -1,31 +1,42 @@
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
-import { CheckIcon, Keyboard, Mic, Search } from "lucide-react-native";
+import { Search } from "lucide-react-native";
 import { useDictionary } from "@/stores/Dictionary";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
-import { WordCard } from "@/components/WordCardOld";
 import {
-  Checkbox,
-  CheckboxIcon,
-  CheckboxIndicator,
-} from "@/components/ui/checkbox";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTitleText,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default function HomeScreen() {
-  const { fetchWords, state, bookmarkWord, removeBookmark } = useDictionary();
+  const { fetchData, state, setWordInFocus } = useDictionary();
   const [filter, setFilter] = useState<string>("");
-
+  
   useEffect(() => {
-    fetchWords();
+    fetchData();
   }, []);
 
-  const toggleBookmark = (word: string) => {
-    if (state.bookmarks.some((w) => w.word === word)) {
-      removeBookmark(word);
-    } else {
-      bookmarkWord({ word });
-    }
+  // Filter words based on search input
+  const getFilteredWords = (categoryId) => {
+    const words = state.wordsByCategory[categoryId] || [];
+    if (!filter) return words;
+    
+    return words.filter(word => 
+      word.word.toLowerCase().includes(filter.toLowerCase()) || 
+      word.meaning.toLowerCase().includes(filter.toLowerCase())
+    );
+  };
+
+  // Check if any category has words matching the filter
+  const hasFilteredWords = () => {
+    return state.categories.some(category => 
+      getFilteredWords(category.id.toString()).length > 0
+    );
   };
 
   return (
@@ -41,25 +52,19 @@ export default function HomeScreen() {
         isReadOnly={false}
         className="bg-[#E7E4D8] border-none sticky"
       >
-        {!state.wordInFocus.word ? (
+        {!state.wordInFocus ? (
           <>
             <InputField
               placeholder="Pesquise uma palavra"
-              className="text-sm  placeholder:text-[#474747] font-normal"
+              className="text-sm placeholder:text-[#474747] font-normal"
               value={filter}
               onChangeText={setFilter}
-
             />
             <InputSlot className="mr-5 mt-1">
               <InputIcon>
                 <Search size={20} color={"#110626"} />
               </InputIcon>
             </InputSlot>
-            {/* <InputSlot className="mr-4">
-              <InputIcon>
-                <Keyboard size={18} color={"#110626"} />
-              </InputIcon>
-            </InputSlot> */}
           </>
         ) : (
           <View className="flex flex-row w-full items-center justify-between">
@@ -68,51 +73,73 @@ export default function HomeScreen() {
                 {state.wordInFocus.word}
               </Text>
             </View>
-
-            <Checkbox
-              value=""
-              size="md"
-              isInvalid={false}
-              isDisabled={false}
-              defaultIsChecked={true}
-              isChecked={state.bookmarks.some((word) => {
-                return word.word === state.wordInFocus.word;
-              })}
-              className="mr-6"
-              onChange={() => {
-                toggleBookmark(state.wordInFocus.word);
-              }}
+            <TouchableOpacity 
+              className="mr-5 pr-2" 
+              onPress={() => setWordInFocus(null)}
             >
-              <CheckboxIndicator>
-                <CheckboxIcon className="text-white bg-black" as={CheckIcon} />
-              </CheckboxIndicator>
-            </Checkbox>
+              <Text>Voltar</Text>
+            </TouchableOpacity>
           </View>
         )}
       </Input>
-
-      {/* {!state.wordInFocus.word ? (
-        state.words
-          .filter((word) => {
-            return word.word.toLowerCase().includes(filter?.toLowerCase());
-          })
-          .map((word) => (
-            <WordCard
-              key={word.word}
-              word={word.word}
-              meanings={word.meanings}
-            />
-          ))
+      
+      {!state.wordInFocus ? (
+        <View className="mt-4 px-4">
+          {state.categories.length > 0 ? (
+            state.categories.map((category) => {
+              const filteredWords = getFilteredWords(category.id.toString());
+              
+              // Only show categories with matching words when filtering
+              if (filter && filteredWords.length === 0) return null;
+              
+              return (
+                <Accordion key={category.id} type="single" className="mb-3">
+                  <AccordionItem value={category.id.toString()}>
+                    <AccordionTrigger>
+                      <AccordionTitleText>{category.name}</AccordionTitleText>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      {filteredWords.map((word) => (
+                        <TouchableOpacity
+                          key={word.id}
+                          className="py-2 border-b border-gray-200"
+                          onPress={() => setWordInFocus(word)}
+                        >
+                          <View className="flex flex-col">
+                            <Text className="font-bold text-base">{word.word}</Text>
+                            <Text className="text-sm text-gray-600">{word.meaning}</Text>
+                          </View>
+                        </TouchableOpacity>
+                      ))}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              );
+            })
+          ) : (
+            <Text className="text-center py-4">Nenhuma categoria encontrada</Text>
+          )}
+          
+          {filter && !hasFilteredWords() && (
+            <Text className="text-center py-4">Nenhuma palavra encontrada para "{filter}"</Text>
+          )}
+        </View>
       ) : (
-        <>
-          <WordCard
-            key={state.wordInFocus.word + "-focus"}
-            word={state.wordInFocus.word}
-            meanings={state.wordInFocus.meanings}
-            showAllMeanings={true}
-          />
-        </>
-      )} */}
+        <View className="p-4">
+          <Text className="text-lg mt-2">{state.wordInFocus.meaning}</Text>
+          
+          {state.wordInFocus.attachments && state.wordInFocus.attachments.length > 0 && (
+            <View className="mt-4">
+              <Text className="font-bold mb-2">Anexos:</Text>
+              {state.wordInFocus.attachments.map((attachment) => (
+                <View key={attachment.id} className="mb-2 p-2 bg-gray-100 rounded">
+                  <Text>{attachment.source}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+      )}
     </ParallaxScrollView>
   );
 }
