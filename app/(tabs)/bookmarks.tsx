@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/checkbox";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { useDictionary } from "@/stores/Dictionary";
-import { WordCard } from "@/components/Word";
+import { WordCard } from "@/components/WordCardOld";
 
 const Container = ({ children }: { children: ReactNode }) => {
   return (
@@ -90,7 +90,7 @@ export default function BookMarksScreen() {
           </InputIcon>
         </InputSlot>
       </Input>
-      <View className="flex flex-col gap-3">
+      {/* <View className="flex flex-col gap-3">
         {state.bookmarks
           .filter(
             (word) =>
@@ -151,7 +151,7 @@ export default function BookMarksScreen() {
               </Container>
             );
           })}
-      </View>
+      </View> */}
     </ParallaxScrollView>
   );
 }

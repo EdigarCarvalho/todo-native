@@ -11,7 +11,7 @@ type Props = {
   disableToggleSeeAll?: boolean;
 };
 
-export function WordCard({
+export function WordCardOld({
   meanings,
   word,
   showAllMeanings,

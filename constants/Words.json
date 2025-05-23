@@ -1,191 +1,38 @@
-[
-  {
-    "word": "Bola",
-    "meanings": [
-      "s. Objeto esférico utilizado em jogos e esportes.",
-      "s. Qualquer coisa de forma arredondada.",
-      "s. (Brasil, informal) Gíria para algo positivo ou excelente (\"Isso é uma bola!\").",
-      "s. (Brasil, gíria) Dinheiro, fortuna.",
-      "s. Objeto de cera ou gordura que pode se formar no ouvido.",
-      "s. (Brasil, gíria) Mentira ou história falsa."
-    ]
-  },
-  {
-    "word": "Banco",
-    "meanings": [
-      "s. Instituição financeira que guarda e empresta dinheiro.",
-      "s. Assento sem encosto ou com encosto simples.",
-      "s. Local elevado no fundo de um rio ou mar.",
-      "s. Conjunto de dados ou informações organizadas (\"banco de dados\").",
-      "s. Grupo de réus ou testemunhas em um tribunal."
-    ]
-  },
-  {
-    "word": "Cabeça",
-    "meanings": [
-      "s. Parte superior do corpo humano ou de animais, onde se localizam o cérebro, olhos, nariz, boca e ouvidos.",
-      "s. Inteligência ou capacidade de raciocínio (\"Ele tem uma boa cabeça\").",
-      "s. Chefe ou líder de um grupo ou organização (\"Ele é a cabeça do projeto\").",
-      "s. (Informal) Pessoa excêntrica ou diferente."
-    ]
-  },
-  {
-    "word": "Caminho",
-    "meanings": [
-      "s. Via ou estrada por onde se caminha.",
-      "s. Direção que se segue para chegar a um destino.",
-      "s. Curso de vida ou de ações tomadas (\"Ele escolheu um caminho diferente na vida\").",
-      "s. Procedimento ou método para atingir um objetivo."
-    ]
-  },
-  {
-    "word": "Chave",
-    "meanings": [
-      "s. Instrumento que abre ou fecha fechaduras.",
-      "s. Solução de um problema ou mistério (\"A chave do enigma\").",
-      "s. Objeto ou conceito que permite acesso a algo (\"Chave de acesso\").",
-      "s. Símbolo musical que indica o tom de uma partitura (\"Chave de sol\").",
-      "s. Pessoa ou coisa fundamental em determinado contexto (\"Ele é a chave do sucesso\")."
-    ]
-  },
-  {
-    "word": "Livro",
-    "meanings": [
-      "s. Conjunto de folhas escritas ou impressas, unidas de forma que formem um volume.",
-      "s. Obra literária ou científica em qualquer formato.",
-      "s. Registro oficial de informações ou acontecimentos (\"Livro de atas\").",
-      "s. Qualquer coisa que proporciona aprendizado ou sabedoria (\"A vida é um livro\")."
-    ]
-  },
-  {
-    "word": "Mão",
-    "meanings": [
-      "s. Parte do corpo que vai do punho até a ponta dos dedos.",
-      "s. Capacidade ou destreza para realizar algo (\"Ele tem mão para pintura\").",
-      "s. Ação ou assistência que se oferece a alguém (\"Dê-me uma mão com isso\").",
-      "s. Lado de direção no trânsito (\"Mão inglesa\").",
-      "s. (Jogo) Série de cartas ou jogada feita por um jogador."
-    ]
-  },
-  {
-    "word": "Ponto",
-    "meanings": [
-      "s. Marca ou sinal pequeno e redondo.",
-      "s. Nota ou avaliação escolar.",
-      "s. Local exato de um mapa ou de um espaço.",
-      "s. Objetivo final de uma ação ou discurso (\"Chegar ao ponto\").",
-      "s. Momento exato de tempo (\"Chegou no ponto\").",
-      "s. Instrumento utilizado por atores para lembrar suas falas no teatro."
-    ]
-  },
-  {
-    "word": "Mesa",
-    "meanings": [
-      "s. Móvel com tampo plano usado para refeições, trabalho ou outros propósitos.",
-      "s. Conjunto de pessoas reunidas para uma discussão ou jogo.",
-      "(Eleitoral) Grupo de pessoas que administram uma seção de votação.",
-      "(Eletrônica) Aparelho de controle de áudio ou luz em um evento."
-    ]
-  },
-  {
-    "word": "Luz",
-    "meanings": [
-      "s. Radiação visível que ilumina o ambiente.",
-      "s. Fonte de energia elétrica (\"A conta de luz\").",
-      "s. Clareza de ideias ou entendimento (\"Ele teve uma luz\").",
-      "s. Conhecimento ou sabedoria (\"A luz da ciência\").",
-      "s. Inspiração ou guia espiritual."
-    ]
-  },
-  {
-    "word": "Quente",
-    "meanings": [
-      "adj. Que possui temperatura elevada.",
-      "(Informal) Muito agitado ou movimentado (\"O debate ficou quente\").",
-      "Atual ou relevante no momento (\"Notícia quente\").",
-      "(Gíria) Atraente ou sexy."
-    ]
-  },
-  {
-    "word": "Bicho",
-    "meanings": [
-      "s. Qualquer animal, especialmente de pequeno porte.",
-      "s. Ser vivo em geral, especialmente um ser humano (\"Ele é um bicho do mato\").",
-      "(Informal) Pessoa esperta ou ardilosa.",
-      "Inseto ou criatura indesejável."
-    ]
-  },
-  {
-    "word": "Doce",
-    "meanings": [
-      "adj. Que tem sabor de açúcar.",
-      "s. Produto feito com açúcar, como sobremesa ou guloseima.",
-      "adj. Agradável ou gentil (\"Ele tem uma personalidade doce\").",
-      "adj. Suave ou brando (\"Voz doce\")."
-    ]
-  },
-  {
-    "word": "Barra",
-    "meanings": [
-      "s. Peça de metal ou outro material em formato alongado.",
-      "s. Limite ou entrada de um porto.",
-      "s. Dificuldade ou obstáculo (\"Segurar a barra\").",
-      "s. Grupo de torcedores em eventos esportivos (\"A barra organizada\")."
-    ]
-  },
-  {
-    "word": "Jogo",
-    "meanings": [
-      "s. Atividade recreativa ou esportiva que envolve regras.",
-      "s. Conjunto de peças ou cartas usadas em uma atividade recreativa.",
-      "s. Situação ou contexto estratégico (\"O jogo político\").",
-      "s. Brincadeira ou passatempo.",
-      "s. Conjunto de elementos que formam um todo (\"Jogo de talheres\")."
-    ]
-  },
-  {
-    "word": "Carro",
-    "meanings": [
-      "s. Veículo automotor utilizado para transporte de pessoas.",
-      "s. Carrinho de mão ou utensílio para carregar objetos.",
-      "s. Carruagem ou carroça.",
-      "s. Vagão de trem ou bonde."
-    ]
-  },
-  {
-    "word": "Vela",
-    "meanings": [
-      "s. Cilindro de cera com pavio que se acende para iluminar.",
-      "s. Parte do barco que capta o vento para impulsioná-lo.",
-      "s. Ato de permanecer acordado em vigília.",
-      "(Esportes) Modalidade esportiva relacionada ao uso de barcos à vela."
-    ]
-  },
-  {
-    "word": "Leve",
-    "meanings": [
-      "adj. Que tem pouco peso.",
-      "adj. Suave, brando (\"Vento leve\").",
-      "adj. Sem gravidade ou importância (\"Uma discussão leve\").",
-      "adj. Ágil ou rápido."
-    ]
-  },
-  {
-    "word": "Frio",
-    "meanings": [
-      "adj. Que tem temperatura baixa.",
-      "adj. Insensível, indiferente (\"Ele tem um comportamento frio\").",
-      "adj. Situação desfavorável ou negativa (\"Estou num frio financeiro\").",
-      "s. Falta de calor humano ou emocional."
-    ]
-  },
-  {
-    "word": "Palha",
-    "meanings": [
-      "s. Material vegetal seco, especialmente usado em coberturas e cestos.",
-      "s. Algo de pouca importância ou valor (\"Isso é uma palha\").",
-      "s. Parte do cigarro feita de papel que envolve o fumo.",
-      "s. Brincadeira ou piada boba (\"Fazer palha\")."
-    ]
-  }
-]
+{
+  "21": [
+    {
+      "id": 2,
+      "word": "Eitaaa",
+      "meaning": "lollmao.com",
+      "attachments": [
+        {
+          "id": 3,
+          "source": "google.com",
+          "url": "https://quuqisybwrwhiincjshd.supabase.co/storage/v1/object/public/attachments/file-21866305.png"
+        },
+        {
+          "id": 4,
+          "source": "Uma foto de sla",
+          "url": "https://quuqisybwrwhiincjshd.supabase.co/storage/v1/object/public/attachments/file-3667281173.png"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "word": "Aoba",
+      "meaning": "Quer dizer \"aoba\"",
+      "attachments": [
+        {
+          "id": 5,
+          "source": "desc",
+          "url": "https://quuqisybwrwhiincjshd.supabase.co/storage/v1/object/public/attachments/file-3937347226.jpg"
+        },
+        {
+          "id": 2,
+          "source": "another source",
+          "url": "https://quuqisybwrwhiincjshd.supabase.co/storage/v1/object/public/attachments/file-809563499.png"
+        }
+      ]
+    }
+  ]
+}

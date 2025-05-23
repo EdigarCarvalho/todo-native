@@ -5,7 +5,7 @@ import { CheckIcon, Keyboard, Mic, Search } from "lucide-react-native";
 import { useDictionary } from "@/stores/Dictionary";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
-import { WordCard } from "@/components/Word";
+import { WordCard } from "@/components/WordCardOld";
 import {
   Checkbox,
   CheckboxIcon,
@@ -91,7 +91,7 @@ export default function HomeScreen() {
         )}
       </Input>
 
-      {!state.wordInFocus.word ? (
+      {/* {!state.wordInFocus.word ? (
         state.words
           .filter((word) => {
             return word.word.toLowerCase().includes(filter?.toLowerCase());
@@ -112,7 +112,7 @@ export default function HomeScreen() {
             showAllMeanings={true}
           />
         </>
-      )}
+      )} */}
     </ParallaxScrollView>
   );
 }
