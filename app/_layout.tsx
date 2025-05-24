@@ -14,6 +14,7 @@ import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { DictionaryProvider, useDictionary } from "@/stores/Dictionary";
+import { TextsProvider } from "@/stores/TextsStore";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -51,9 +52,11 @@ function AppContent() {
 export default function RootLayout() {
   return (
     <DictionaryProvider>
-      <FontSizeProvider>
-        <AppContent />
-      </FontSizeProvider>
+      <TextsProvider>
+        <FontSizeProvider>
+          <AppContent />
+        </FontSizeProvider>
+      </TextsProvider>
     </DictionaryProvider>
   );
 }
