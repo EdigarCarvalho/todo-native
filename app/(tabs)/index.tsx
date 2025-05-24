@@ -6,12 +6,10 @@ import {
   ActivityIndicator,
 } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import {
   ArrowLeft,
   ChevronDownIcon,
-  ChevronUpIcon,
-  Search,
+  ChevronUpIcon
 } from "lucide-react-native";
 import { useDictionary } from "@/stores/Dictionary";
 import { useEffect, useState } from "react";
@@ -25,6 +23,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Divider } from "@/components/ui/divider";
+import { SearchInput } from "@/components/SearchInput";
 
 export default function HomeScreen() {
   const { fetchData, state, setWordInFocus } = useDictionary();
@@ -58,45 +57,14 @@ export default function HomeScreen() {
       headerBackgroundColor={{ light: "inherit", dark: "inherit" }}
       title=""
     >
-      <Input
-        variant="rounded"
-        size="xl"
-        isDisabled={false}
-        isInvalid={false}
-        isReadOnly={false}
-        className="bg-[#E7E4D8] border-none sticky"
-      >
-        {!state.wordInFocus ? (
-          <>
-            <InputField
-              placeholder="Pesquise uma palavra"
-              className="text-sm placeholder:text-[#474747] font-normal"
-              value={filter}
-              onChangeText={setFilter}
-            />
-            <InputSlot className="mr-5 mt-1">
-              <InputIcon>
-                <Search size={20} color={"#110626"} />
-              </InputIcon>
-            </InputSlot>
-          </>
-        ) : (
-          <View className="flex flex-row w-full items-center justify-between">
-            <View className="flex-1 text-center ml-6">
-              <Text className="text-xl font-bold">
-                {state.wordInFocus.word}
-              </Text>
-            </View>
-            <TouchableOpacity
-              className="mr-5 pr-2 flex  gap-1 flex-row items-center justify-center"
-              onPress={() => setWordInFocus(null)}
-            >
-              <ArrowLeft size={17} />
-              <Text className="flex">Voltar</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </Input>
+      <SearchInput
+        value={filter}
+        onChangeValue={setFilter}
+        CustomInputContent={
+          <CustomInputContent setWordInFocus={setWordInFocus} state={state} />
+        }
+        condition={!!state?.wordInFocus}
+      />
 
       {state.isLoading ? (
         <View className="py-10 flex justify-center items-center">
@@ -256,6 +224,31 @@ function SelectedWord({ state }: SelectedWordProps) {
             ))}
           </View>
         )}
+    </View>
+  );
+}
+
+interface CustomInputContentProps {
+  setWordInFocus: any;
+  state: any;
+}
+
+function CustomInputContent({
+  setWordInFocus,
+  state,
+}: CustomInputContentProps) {
+  return (
+    <View className="flex flex-row w-full items-center justify-between">
+      <View className="flex-1 text-center ml-6">
+        <Text className="text-xl font-bold">{state.wordInFocus.word}</Text>
+      </View>
+      <TouchableOpacity
+        className="mr-5 pr-2 flex  gap-1 flex-row items-center justify-center"
+        onPress={() => setWordInFocus(null)}
+      >
+        <ArrowLeft size={17} />
+        <Text className="flex">Voltar</Text>
+      </TouchableOpacity>
     </View>
   );
 }
