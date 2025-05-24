@@ -39,7 +39,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="bookmarks"
+        name="texts"
         options={{
           title: "",
           tabBarIcon: ({ color, focused }) => (
