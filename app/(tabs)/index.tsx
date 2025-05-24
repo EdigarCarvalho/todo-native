@@ -1,4 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import {
@@ -92,8 +98,22 @@ export default function HomeScreen() {
         )}
       </Input>
 
-      {!state.wordInFocus ? (
+      {state.isLoading ? (
+        <View className="py-10 flex justify-center items-center">
+          <ActivityIndicator size="large" color="#A30122" />
+          <Text className="mt-2 text-center">
+            Carregando dados do dicionário...
+          </Text>
+        </View>
+      ) : !state.wordInFocus ? (
         <View className="mt-4">
+          {state.lastApiFetch && (
+            <Text className="text-xs text-center text-gray-500 mb-2">
+              Última atualização:{" "}
+              {new Date(state.lastApiFetch).toLocaleString()}
+            </Text>
+          )}
+
           {state.categories.length > 0 ? (
             state.categories.map((category) => {
               const filteredWords = getFilteredWords(category.id.toString());
@@ -167,40 +187,7 @@ export default function HomeScreen() {
           )}
         </View>
       ) : (
-        <View className="p-4">
-          <Text className="text-lg mt-2">{state.wordInFocus.meaning}</Text>
-
-          {state.wordInFocus.attachments &&
-            state.wordInFocus.attachments.length > 0 && (
-              <View className="mt-4">
-                <Text className="font-bold mb-2">Anexos:</Text>
-                {state.wordInFocus.attachments.map((attachment) => (
-                  <View
-                    key={attachment.id}
-                    className="mb-2 p-2 flex flex-col items-center bg-gray-100 rounded text-center"
-                  >
-                    <Text className="mb-2 font-medium">
-                      {attachment.source}
-                    </Text>
-                    <Image
-                      source={{ uri: attachment.url }}
-                      style={{
-                        width: "100%",
-                        maxWidth: 300,
-                        height: 200,
-                        borderRadius: 8,
-                      }}
-                      resizeMode="contain"
-                      alt={`Attachment ${attachment.id}`}
-                    />
-                    <Text className="text-[8px] max-w-full text-center mt-2 text-gray-600 px-1">
-                      Fonte: {attachment.url}
-                    </Text>
-                  </View>
-                ))}
-              </View>
-            )}
-        </View>
+        <SelectedWord state={state} />
       )}
     </ParallaxScrollView>
   );
@@ -227,3 +214,48 @@ const styles = StyleSheet.create({
     color: "#000",
   },
 });
+
+interface SelectedWordProps {
+  state: any;
+}
+
+function SelectedWord({ state }: SelectedWordProps) {
+  return (
+    <View className="py-1 px-2">
+      <View className="py-4 px-3 bg-[#FBF0E8] border-[#A30122] border-[1px] rounded-xl">
+        <Text className="text-base">
+          <strong>Significado:</strong> {state.wordInFocus.meaning}
+        </Text>
+      </View>
+
+      {state.wordInFocus.attachments &&
+        state.wordInFocus.attachments.length > 0 && (
+          <View className="mt-4 py-4 px-3 bg-[#FBF0E8] border-[#A30122] border-[1px] rounded-xl">
+            <Text className="font-bold mb-2">Anexos:</Text>
+            {state.wordInFocus.attachments.map((attachment) => (
+              <View
+                key={attachment.id}
+                className="mb-2 p-2 flex flex-col items-center bg-gray-100 rounded text-center"
+              >
+                <Text className="mb-2 font-medium">{attachment.source}</Text>
+                <Image
+                  source={{ uri: attachment.url }}
+                  style={{
+                    width: "100%",
+                    maxWidth: 300,
+                    height: 200,
+                    borderRadius: 8,
+                  }}
+                  resizeMode="contain"
+                  alt={`Attachment ${attachment.id}`}
+                />
+                <Text className="text-[8px] max-w-full text-center mt-2 text-gray-600 px-1">
+                  Fonte: {attachment.url}
+                </Text>
+              </View>
+            ))}
+          </View>
+        )}
+    </View>
+  );
+}

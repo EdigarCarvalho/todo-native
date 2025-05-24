@@ -3,6 +3,8 @@ import wordsData from "../constants/Words.json";
 import categoriesData from "../constants/Categories.json"; 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+const BASE_URL = "http://localhost:3000"; // Replace with your actual API base URL  
+
 // Define types based on your JSON structure
 type Attachment = {
   id: number;
@@ -22,7 +24,7 @@ type Category = {
   name: string;
 };
 
-// Updated state type without bookmarks
+// Updated state type with API fetch tracking
 type State = {
   categories: Category[];
   wordsByCategory: Record<string, Word[]>;
@@ -32,6 +34,8 @@ type State = {
     darkMode: boolean;
     fontSize: number;
   };
+  lastApiFetch: string | null;
+  isLoading: boolean;
 };
 
 // Initial state
@@ -44,25 +48,29 @@ const initialState: State = {
     darkMode: true,
     fontSize: 3,
   },
+  lastApiFetch: null,
+  isLoading: false,
 };
 
-// Define action types (removed bookmark-related ones)
+// Define action types
 const FETCH_DATA = "FETCH_DATA";
 const SET_ACTIVE_CATEGORY = "SET_ACTIVE_CATEGORY";
 const SET_WORD_IN_FOCUS = "SET_WORD_IN_FOCUS";
 const UPDATE_SETTINGS = "UPDATE_SETTINGS";
 const LOAD_STATE = "LOAD_STATE";
+const SET_LOADING = "SET_LOADING";
+const UPDATE_LAST_API_FETCH = "UPDATE_LAST_API_FETCH";
 
 // Updated context type
 const DictionaryContext = createContext<{
   state: State;
-  fetchData: () => void;
+  fetchData: () => Promise<void>;
   setActiveCategory: (categoryId: number) => void;
   setWordInFocus: (word: Word | null) => void;
   updateSettings: (settings: Partial<State["settings"]>) => void;
 }>({
   state: initialState,
-  fetchData: () => {},
+  fetchData: async () => {},
   setActiveCategory: () => {},
   setWordInFocus: () => {},
   updateSettings: () => {},
@@ -108,12 +116,30 @@ const dictionaryReducer = (
         ...state,
         ...action.payload,
       };
+    case SET_LOADING:
+      return {
+        ...state,
+        isLoading: action.payload,
+      };
+    case UPDATE_LAST_API_FETCH:
+      return {
+        ...state,
+        lastApiFetch: action.payload,
+      };
     default:
       return state;
   }
 };
 
-// Updated provider without bookmarks
+// Storage keys
+const STORAGE_KEYS = {
+  SETTINGS: "dictionary_settings",
+  CATEGORIES: "dictionary_categories",
+  WORDS: "dictionary_words",
+  LAST_FETCH: "dictionary_last_fetch",
+};
+
+// Updated provider with API and caching support
 export const DictionaryProvider = ({
   children,
 }: {
@@ -126,16 +152,20 @@ export const DictionaryProvider = ({
     const loadSavedState = async () => {
       try {
         // Load settings
-        const savedSettings = await AsyncStorage.getItem("dictionary_settings");
+        const savedSettings = await AsyncStorage.getItem(STORAGE_KEYS.SETTINGS);
         let settings = initialState.settings;
         if (savedSettings) {
           settings = JSON.parse(savedSettings);
         }
 
+        // Load last API fetch date
+        const lastApiFetch = await AsyncStorage.getItem(STORAGE_KEYS.LAST_FETCH);
+
         dispatch({
           type: LOAD_STATE,
           payload: {
             settings,
+            lastApiFetch
           },
         });
       } catch (error) {
@@ -146,17 +176,124 @@ export const DictionaryProvider = ({
     loadSavedState();
   }, []);
 
-  const fetchData = () => {
-    const categories = categoriesData as Category[];
-    const wordsByCategory = wordsData as Record<string, Word[]>;
+  // Check if we should try API fetch today
+  const shouldFetchFromApi = () => {
+    if (!state.lastApiFetch) return true;
     
-    dispatch({ 
-      type: FETCH_DATA, 
-      payload: { 
-        categories,
-        wordsByCategory 
-      } 
-    });
+    const lastFetch = new Date(state.lastApiFetch);
+    const today = new Date();
+    
+    // Return true if the last fetch was not today
+    return lastFetch.getDate() !== today.getDate() || 
+           lastFetch.getMonth() !== today.getMonth() || 
+           lastFetch.getFullYear() !== today.getFullYear();
+  };
+
+  // Save data to local storage
+  const saveDataToStorage = async (categories: Category[], wordsByCategory: Record<string, Word[]>) => {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEYS.CATEGORIES, JSON.stringify(categories));
+      await AsyncStorage.setItem(STORAGE_KEYS.WORDS, JSON.stringify(wordsByCategory));
+      
+      // Update last fetch date
+      const now = new Date().toISOString();
+      await AsyncStorage.setItem(STORAGE_KEYS.LAST_FETCH, now);
+      dispatch({ type: UPDATE_LAST_API_FETCH, payload: now });
+    } catch (error) {
+      console.error("Error saving data to storage:", error);
+    }
+  };
+
+  // Load data from local storage
+  const loadDataFromStorage = async () => {
+    try {
+      const savedCategories = await AsyncStorage.getItem(STORAGE_KEYS.CATEGORIES);
+      const savedWords = await AsyncStorage.getItem(STORAGE_KEYS.WORDS);
+      
+      if (savedCategories && savedWords) {
+        return {
+          categories: JSON.parse(savedCategories),
+          wordsByCategory: JSON.parse(savedWords)
+        };
+      }
+      return null;
+    } catch (error) {
+      console.error("Error loading data from storage:", error);
+      return null;
+    }
+  };
+
+  // Attempt to fetch from API
+  const fetchFromApi = async () => {
+    try {
+      // Replace with your actual API endpoint
+      const categoriesResponse = await fetch(BASE_URL + '/category/all');
+      const wordsResponse = await fetch(BASE_URL + '/word/all');
+      
+      if (!categoriesResponse.ok || !wordsResponse.ok) {
+        throw new Error('API response was not ok');
+      }
+      
+      const categories = await categoriesResponse.json();
+      const wordsByCategory = await wordsResponse.json();
+      
+      // Save successful API data to storage
+      await saveDataToStorage(categories?.categories, wordsByCategory?.data);
+      
+      return { categories, wordsByCategory };
+    } catch (error) {
+      console.error("Error fetching from API:", error);
+      return null;
+    }
+  };
+
+  // Main fetch data function with fallback logic
+  const fetchData = async () => {
+    dispatch({ type: SET_LOADING, payload: true });
+    
+    try {
+      let data = null;
+      
+      // Step 1: Try API if we should fetch today
+      if (shouldFetchFromApi()) {
+        console.log("Attempting to fetch from API...");
+        data = await fetchFromApi();
+      }
+      
+      // Step 2: If API failed or we shouldn't fetch today, try local storage
+      if (!data) {
+        console.log("Falling back to stored data...");
+        data = await loadDataFromStorage();
+      }
+      
+      // Step 3: If local storage has no data, use bundled JSON
+      if (!data) {
+        console.log("Using bundled JSON data...");
+        data = {
+          categories: categoriesData as Category[],
+          wordsByCategory: wordsData as Record<string, Word[]>
+        };
+      }
+      
+      // Dispatch data to state
+      dispatch({ 
+        type: FETCH_DATA, 
+        payload: data
+      });
+    } catch (error) {
+      console.error("Error in fetchData:", error);
+      
+      // Last resort: use bundled JSON
+      dispatch({ 
+        type: FETCH_DATA, 
+        payload: { 
+          categories: categoriesData as Category[],
+          wordsByCategory: wordsData as Record<string, Word[]>
+        } 
+      });
+    } finally {
+      dispatch({ type: SET_LOADING, payload: false });
+    }
   };
 
   const setActiveCategory = (categoryId: number) => {
