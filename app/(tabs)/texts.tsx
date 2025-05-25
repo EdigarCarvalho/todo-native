@@ -49,11 +49,13 @@ export default function TextsScreen() {
         condition={!!state?.textInFocus}
       />
 
-      <View className="px-2 pt-1">
-        <ThemedText style={{ color: "#212121" }} type="title">
-          Textos
-        </ThemedText>
-      </View>
+      {!state.textInFocus && (
+        <View className="px-2 pt-1">
+          <ThemedText style={{ color: "#212121" }} type="title">
+            Textos
+          </ThemedText>
+        </View>
+      )}
 
       {state.isLoading ? (
         <View className="py-10 flex justify-center items-center">

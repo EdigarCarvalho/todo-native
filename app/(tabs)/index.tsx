@@ -63,11 +63,13 @@ export default function HomeScreen() {
         condition={!!state?.wordInFocus}
       />
 
-      <View className="px-2 pt-1">
-        <ThemedText style={{ color: "#212121" }} type="title">
-          Dicionário
-        </ThemedText>
-      </View>
+      {!state.wordInFocus && (
+        <View className="px-2 pt-1">
+          <ThemedText style={{ color: "#212121" }} type="title">
+            Dicionário
+          </ThemedText>
+        </View>
+      )}
 
       {state.isLoading ? (
         <View className="py-10 flex justify-center items-center">
