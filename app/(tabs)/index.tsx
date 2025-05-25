@@ -6,11 +6,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
-import {
-  ArrowLeft,
-  ChevronDownIcon,
-  ChevronUpIcon
-} from "lucide-react-native";
+import { ArrowLeft, ChevronDownIcon, ChevronUpIcon } from "lucide-react-native";
 import { useDictionary } from "@/stores/Dictionary";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
@@ -24,6 +20,7 @@ import {
 } from "@/components/ui/accordion";
 import { Divider } from "@/components/ui/divider";
 import { SearchInput } from "@/components/SearchInput";
+import { ThemedText } from "@/components/ThemedText";
 
 export default function HomeScreen() {
   const { fetchData, state, setWordInFocus } = useDictionary();
@@ -66,6 +63,12 @@ export default function HomeScreen() {
         condition={!!state?.wordInFocus}
       />
 
+      <View className="px-2 pt-1">
+        <ThemedText style={{ color: "#212121" }} type="title">
+          Dicionário
+        </ThemedText>
+      </View>
+
       {state.isLoading ? (
         <View className="py-10 flex justify-center items-center">
           <ActivityIndicator size="large" color="#A30122" />
@@ -74,7 +77,7 @@ export default function HomeScreen() {
           </Text>
         </View>
       ) : !state.wordInFocus ? (
-        <View className="mt-4">
+        <View className="mt-1">
           {state.lastApiFetch && (
             <Text className="text-xs text-center text-gray-500 mb-2">
               Última atualização:{" "}
