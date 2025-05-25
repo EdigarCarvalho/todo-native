@@ -63,7 +63,6 @@ export default function SettingsScreen() {
               updateSettings({ fontSize: value });
             }}
             step={1}
-
           >
             <SliderTrack>
               <SliderFilledTrack />
