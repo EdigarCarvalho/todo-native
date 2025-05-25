@@ -45,7 +45,11 @@ export default function SettingsScreen() {
             onCheckedChange={() => {
               updateSettings({ darkMode: !darkMode});
             }}
-            className="data-[state=checked]:bg-amber-900"
+            className="data-[state=checked]:bg-[#5A2E0A]"
+            trackColor={{ 
+              false: '#E5D5C8', 
+              true: '#E5D5C8', 
+            }}
           />
         </View>
 
@@ -59,6 +63,7 @@ export default function SettingsScreen() {
               updateSettings({ fontSize: value });
             }}
             step={1}
+
           >
             <SliderTrack>
               <SliderFilledTrack />
