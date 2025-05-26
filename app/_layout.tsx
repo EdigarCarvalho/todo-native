@@ -7,7 +7,7 @@ import "@/global.css";
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { FontSizeProvider } from "@/components/FontSizeProvider";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Slot, Stack, useRouter, useSegments } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
@@ -15,9 +15,33 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { DictionaryProvider, useDictionary } from "@/stores/Dictionary";
 import { TextsProvider } from "@/stores/TextsStore";
+import { AppConfigProvider, useAppConfig } from "@/stores/AppConfigStore";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+// App route guard to check app type and redirect accordingly
+function AppRouteGuard({ children }: { children: React.ReactNode }) {
+  const segments = useSegments();
+  const router = useRouter();
+  const { state, isAdmin } = useAppConfig();
+  const isAuthGroup = segments[0] === "(auth)";
+
+  useEffect(() => {
+    if (state.isLoading) return;
+
+    // Check if we're in admin mode and not in auth group
+    if (isAdmin() && !isAuthGroup) {
+      // Redirect to auth if in admin mode
+      router.replace("/(auth)/signin");
+    } else if (!isAdmin() && isAuthGroup) {
+      // Redirect to main app if in user mode but trying to access auth
+      router.replace("/(tabs)");
+    }
+  }, [state.appType, isAuthGroup, state.isLoading]);
+
+  return <>{children}</>;
+}
 
 function AppContent() {
   const { state } = useDictionary();
@@ -40,10 +64,7 @@ function AppContent() {
   return (
     <GluestackUIProvider mode={colorScheme as "light" | "dark"}>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
+        <Slot />
       </ThemeProvider>
     </GluestackUIProvider>
   );
@@ -51,12 +72,16 @@ function AppContent() {
 
 export default function RootLayout() {
   return (
-    <DictionaryProvider>
-      <TextsProvider>
-        <FontSizeProvider>
-          <AppContent />
-        </FontSizeProvider>
-      </TextsProvider>
-    </DictionaryProvider>
+    <AppConfigProvider>
+      <DictionaryProvider>
+        <TextsProvider>
+          <FontSizeProvider>
+            <AppRouteGuard>
+              <AppContent />
+            </AppRouteGuard>
+          </FontSizeProvider>
+        </TextsProvider>
+      </DictionaryProvider>
+    </AppConfigProvider>
   );
 }

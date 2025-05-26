@@ -1209,6 +1209,15 @@
     "@react-native-aria/focus" "^0.2.9"
     "@react-native-aria/interactions" "0.2.16"
 
+"@gluestack-ui/button@^1.0.14":
+  version "1.0.14"
+  resolved "https://registry.npmjs.org/@gluestack-ui/button/-/button-1.0.14.tgz"
+  integrity sha512-Rqv5PY18jzeVACBwsVxXlyDbHjBiSXGVqY29VO6KHZGMMokCPW6MXYXT8ZpriLxMc1DRkgTtpTVYZCJBFaYTbg==
+  dependencies:
+    "@gluestack-ui/utils" "0.1.15"
+    "@react-native-aria/focus" "^0.2.9"
+    "@react-native-aria/interactions" "0.2.16"
+
 "@gluestack-ui/checkbox@^0.1.32":
   version "0.1.32"
   resolved "https://registry.npmjs.org/@gluestack-ui/checkbox/-/checkbox-0.1.32.tgz"
@@ -1342,7 +1351,7 @@
     "@gluestack-ui/utils" "^0.1.9"
     "@react-native-aria/focus" "^0.2.7"
 
-"@gluestack-ui/utils@^0.1.12", "@gluestack-ui/utils@^0.1.13", "@gluestack-ui/utils@^0.1.14", "@gluestack-ui/utils@^0.1.15", "@gluestack-ui/utils@^0.1.9":
+"@gluestack-ui/utils@^0.1.12", "@gluestack-ui/utils@^0.1.13", "@gluestack-ui/utils@^0.1.14", "@gluestack-ui/utils@^0.1.15", "@gluestack-ui/utils@^0.1.9", "@gluestack-ui/utils@0.1.15":
   version "0.1.15"
   resolved "https://registry.npmjs.org/@gluestack-ui/utils/-/utils-0.1.15.tgz"
   integrity sha512-LRBMv+tr+bV4falMYS2zSt94PxL0vpvUN6F9d6oTqOYKhkiAkU6k2ROfNlT323m0CoTQto1LkJhPxULisQ2oeQ==
