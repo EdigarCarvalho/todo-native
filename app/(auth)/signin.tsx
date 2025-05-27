@@ -3,7 +3,7 @@ import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 import { Link, router } from "expo-router";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Button, ButtonText } from "@/components/ui/button";
-import { useAppConfig } from "@/stores/AppConfigStore"
+import { useAppConfig } from "@/stores/AppConfigStore";
 import { EyeIcon, EyeOffIcon } from "lucide-react-native";
 
 export default function SignIn() {
@@ -15,7 +15,7 @@ export default function SignIn() {
   const handleLogin = async () => {
     // In a real app, you would validate and authenticate here
     console.log("Login with:", email, password);
-    
+
     // For demo purposes, just navigate to the main app
     router.replace("/(tabs)");
   };
@@ -30,15 +30,15 @@ export default function SignIn() {
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Image
-          source={require("@/assets/images/icon.png")}
+          source={require("@/assets/images/logo.png")}
           style={styles.logo}
+          alt="DICIONÁRIO KRIKATI logo"
         />
-        <Text style={styles.title}>DICIONÁRIO KRIKATI</Text>
       </View>
 
       <View style={styles.formContainer}>
-        <Text style={styles.subtitle}>Login Administrativo</Text>
-        
+        {/* <Text style={styles.subtitle}>Login Administrativo</Text> */}
+
         <Input className="mb-4 border-[#4B2C0B]">
           <InputField
             placeholder="E-mail"
@@ -58,7 +58,10 @@ export default function SignIn() {
             autoCapitalize="none"
           />
           <InputSlot onPress={() => setShowPassword(!showPassword)}>
-            <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} className="text-[#4B2C0B]" />
+            <InputIcon
+              as={showPassword ? EyeIcon : EyeOffIcon}
+              className="text-[#4B2C0B]"
+            />
           </InputSlot>
         </Input>
 
@@ -66,10 +69,7 @@ export default function SignIn() {
           <Text style={styles.forgotPasswordText}>Recuperar senha</Text>
         </Pressable>
 
-        <Button
-          className="bg-[#B34700] mt-6 rounded-md"
-          onPress={handleLogin}
-        >
+        <Button className="bg-[#B34700] mt-6 rounded-md" onPress={handleLogin}>
           <ButtonText className="font-bold">ENTRAR</ButtonText>
         </Button>
 
@@ -99,16 +99,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFF9F0",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     paddingVertical: 40,
+    flexDirection: "column",
+    height: "100%",
+    gap: 40,
   },
   titleContainer: {
     alignItems: "center",
     marginTop: 20,
   },
   logo: {
-    width: 80,
-    height: 80,
+    width: 312.9921875,
+    height: 115,
     marginBottom: 10,
   },
   title: {

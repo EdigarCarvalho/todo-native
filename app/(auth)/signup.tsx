@@ -31,14 +31,14 @@ export default function SignUp() {
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Image
-          source={require("@/assets/images/icon.png")}
+          source={require("@/assets/images/logo.png")}
           style={styles.logo}
+          alt="DICIONÁRIO KRIKATI logo"
         />
-        <Text style={styles.title}>DICIONÁRIO KRIKATI</Text>
       </View>
 
       <View style={styles.formContainer}>
-        <Text style={styles.subtitle}>Cadastro Administrativo</Text>
+        {/* <Text style={styles.subtitle}>Cadastro Administrativo</Text> */}
         
         <Input className="mb-4 border-[#4B2C0B]">
           <InputField
@@ -106,14 +106,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 40,
+    flexDirection: "column",
+    gap: 40,
   },
   titleContainer: {
     alignItems: "center",
     marginTop: 20,
   },
   logo: {
-    width: 80,
-    height: 80,
+    width: 312.9921875,
+    height: 115,
     marginBottom: 10,
   },
   title: {

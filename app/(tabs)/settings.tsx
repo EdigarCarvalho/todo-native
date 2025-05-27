@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ReactNode } from "react";
 import { Switch } from "@/components/ui/switch";
@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/slider";
 import { useDictionary } from "@/stores/Dictionary";
 import { ScalableText } from "@/components/FontSizeProvider";
+import { router } from "expo-router";
 
 export default function SettingsScreen() {
   const { state, updateSettings } = useDictionary();
@@ -32,7 +33,9 @@ export default function SettingsScreen() {
       }}
     >
       <View className="flex flex-col gap-2 bg-[#E7E4D8] p-4 pt-8">
-        <ArrowLeft size={24} color={"#212121"} />
+        <TouchableOpacity onPress={() => router.back()}>
+          <ArrowLeft size={24} color={"#212121"} />
+        </TouchableOpacity>
         <ScalableText className="text-2xl font-bold">Configurações</ScalableText>
       </View>
       <View className="flex flex-col gap-6 px-4 py-6">
