@@ -68,12 +68,14 @@ const DictionaryContext = createContext<{
   setActiveCategory: (categoryId: number) => void;
   setWordInFocus: (word: Word | null) => void;
   updateSettings: (settings: Partial<State["settings"]>) => void;
+  refreshCategories: () => Promise<void>;
 }>({
   state: initialState,
   fetchData: async () => {},
   setActiveCategory: () => {},
   setWordInFocus: () => {},
   updateSettings: () => {},
+  refreshCategories: async () => {},
 });
 
 // Updated reducer
@@ -87,7 +89,7 @@ const dictionaryReducer = (
         ...state,
         categories: action.payload.categories,
         wordsByCategory: action.payload.wordsByCategory,
-        activeCategory: action.payload.categories[0]?.id || 0
+        activeCategory: action.payload.categories[0]?.id || state.activeCategory || 0
       };
     case SET_ACTIVE_CATEGORY:
       return {
@@ -226,7 +228,6 @@ export const DictionaryProvider = ({
   // Attempt to fetch from API
   const fetchFromApi = async () => {
     try {
-      // Replace with your actual API endpoint
       const categoriesResponse = await fetch(BASE_URL + '/category/all');
       const wordsResponse = await fetch(BASE_URL + '/word/all');
       
@@ -234,11 +235,15 @@ export const DictionaryProvider = ({
         throw new Error('API response was not ok');
       }
       
-      const categories = await categoriesResponse.json();
-      const wordsByCategory = await wordsResponse.json();
+      const categoriesData = await categoriesResponse.json();
+      const wordsData = await wordsResponse.json();
+      
+      // Handle different possible response structures
+      const categories = categoriesData?.categories || categoriesData || [];
+      const wordsByCategory = wordsData?.data || wordsData || {};
       
       // Save successful API data to storage
-      await saveDataToStorage(categories?.categories, wordsByCategory?.data);
+      await saveDataToStorage(categories, wordsByCategory);
       
       return { categories, wordsByCategory };
     } catch (error) {
@@ -309,6 +314,36 @@ export const DictionaryProvider = ({
     dispatch({ type: UPDATE_SETTINGS, payload: settings });
   };
 
+  // Updated method to refresh only categories
+  const refreshCategories = async () => {
+    try {
+      const categoriesResponse = await fetch(BASE_URL + '/category/all');
+      
+      if (categoriesResponse.ok) {
+        const categoriesData = await categoriesResponse.json();
+        const categories = categoriesData?.categories || categoriesData || [];
+        
+        // Update categories while keeping existing words
+        dispatch({ 
+          type: FETCH_DATA, 
+          payload: {
+            categories: categories,
+            wordsByCategory: state.wordsByCategory
+          }
+        });
+        
+        // Also update storage
+        await AsyncStorage.setItem(STORAGE_KEYS.CATEGORIES, JSON.stringify(categories));
+        
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Error refreshing categories:", error);
+      return false;
+    }
+  };
+
   return (
     <DictionaryContext.Provider
       value={{
@@ -317,6 +352,7 @@ export const DictionaryProvider = ({
         setActiveCategory,
         setWordInFocus,
         updateSettings,
+        refreshCategories,
       }}
     >
       {children}

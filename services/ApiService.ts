@@ -148,7 +148,18 @@ class ApiService {
         headers: this.getHeaders(),
       });
 
-      return this.handleResponse<Category[]>(response);
+      const result = await this.handleResponse<any>(response);
+      
+      // Handle different response structures
+      if (result.success) {
+        const categories = result.data?.categories || result.data || [];
+        return {
+          success: true,
+          data: categories
+        };
+      }
+      
+      return result;
     } catch (error) {
       return {
         success: false,
@@ -159,14 +170,18 @@ class ApiService {
 
   async createCategory(name: string): Promise<ApiResponse<{ message: string }>> {
     try {
+      console.log("Creating category:", name);
       const response = await fetch(`${this.baseUrl}/category/new`, {
         method: 'POST',
         headers: this.getHeaders(true),
         body: JSON.stringify({ name }),
       });
 
-      return this.handleResponse<{ message: string }>(response);
+      const result = await this.handleResponse<{ message: string }>(response);
+      console.log("Create category result:", result);
+      return result;
     } catch (error) {
+      console.error("Create category error:", error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Network error',
@@ -176,14 +191,18 @@ class ApiService {
 
   async updateCategory(id: number, name: string): Promise<ApiResponse<{ message: string }>> {
     try {
+      console.log("Updating category:", id, name);
       const response = await fetch(`${this.baseUrl}/category/${id}`, {
         method: 'PUT',
         headers: this.getHeaders(true),
         body: JSON.stringify({ name }),
       });
 
-      return this.handleResponse<{ message: string }>(response);
+      const result = await this.handleResponse<{ message: string }>(response);
+      console.log("Update category result:", result);
+      return result;
     } catch (error) {
+      console.error("Update category error:", error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Network error',

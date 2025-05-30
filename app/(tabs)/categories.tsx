@@ -33,7 +33,7 @@ interface Category {
 }
 
 export default function CategoriesScreen() {
-  const { state, fetchData } = useDictionary();
+  const { state, fetchData, refreshCategories } = useDictionary();
   const [filter, setFilter] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
@@ -110,9 +110,15 @@ export default function CategoriesScreen() {
           ),
         });
         
-        // Refresh data
-        await fetchData();
+        // Close modal first
         closeModal();
+        
+        // Then refresh data - try refreshCategories first, fallback to full fetchData
+        const refreshSuccess = await refreshCategories();
+        if (!refreshSuccess) {
+          console.log("Refresh categories failed, falling back to full fetch");
+          await fetchData();
+        }
       } else {
         toast.show({
           placement: "top",
