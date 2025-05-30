@@ -64,12 +64,12 @@ export default function TextsScreen() {
         </View>
       ) : !state.textInFocus ? (
         <View className="mt-2">
-          {state.lastApiFetch && (
+          {/* {state.lastApiFetch && (
             <Text className="text-xs text-center text-gray-500 mb-2">
               Última atualização:{" "}
               {new Date(state.lastApiFetch).toLocaleString()}
             </Text>
-          )}
+          )} */}
 
           {filteredTexts.length > 0 ? (
             <View className="px-1">

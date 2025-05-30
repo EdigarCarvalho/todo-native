@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, Pressable, StyleSheet, Image, Alert } from "react-native";
+import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 import { Link, router } from "expo-router";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Button, ButtonText } from "@/components/ui/button";
 import { useAppConfig } from "@/stores/AppConfigStore";
 import { EyeIcon, EyeOffIcon } from "lucide-react-native";
 import { useAuth } from "@/stores/AuthStore";
+import { useToast, Toast, ToastTitle, ToastDescription } from "@/components/ui/toast";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -13,6 +14,7 @@ export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const { setAppType } = useAppConfig();
   const authContext = useAuth();
+  const toast = useToast();
   
   console.log("=== SIGNIN COMPONENT ===");
   console.log("Auth context:", authContext);
@@ -25,7 +27,17 @@ export default function SignIn() {
     
     if (!email.trim() || !password.trim()) {
       console.log("Validation failed: empty fields");
-      Alert.alert("Erro", "Por favor, preencha todos os campos");
+      toast.show({
+        placement: "top",
+        render: ({ id }) => {
+          return (
+            <Toast nativeID={`toast-${id}`} action="error" variant="solid">
+              <ToastTitle>Erro</ToastTitle>
+              <ToastDescription>Por favor, preencha todos os campos</ToastDescription>
+            </Toast>
+          );
+        },
+      });
       return;
     }
 
@@ -36,17 +48,47 @@ export default function SignIn() {
       console.log("Login result:", success);
       
       if (success) {
-        console.log("Login successful, setting app type and navigating...");
-        // Set admin mode since this is admin login
-        await setAppType("admin");
-        router.replace("/(tabs)");
+        console.log("Login successful, navigating to tabs...");
+        toast.show({
+          placement: "top",
+          render: ({ id }) => {
+            return (
+              <Toast nativeID={`toast-${id}`} action="success" variant="solid">
+                <ToastTitle>Sucesso</ToastTitle>
+                <ToastDescription>Login realizado com sucesso!</ToastDescription>
+              </Toast>
+            );
+          },
+        });
+        // Don't set app type here - let the existing app type persist
+        // The AppRouteGuard will handle the navigation
       } else {
-        console.log("Login failed, showing alert");
-        Alert.alert("Erro de Login", authContext.state.error || "Credenciais inválidas");
+        console.log("Login failed, showing toast");
+        toast.show({
+          placement: "top",
+          render: ({ id }) => {
+            return (
+              <Toast nativeID={`toast-${id}`} action="error" variant="solid">
+                <ToastTitle>Erro de Login</ToastTitle>
+                <ToastDescription>{authContext.state.error || "Credenciais inválidas"}</ToastDescription>
+              </Toast>
+            );
+          },
+        });
       }
     } catch (error) {
       console.error("Handle login error:", error);
-      Alert.alert("Erro", "Erro de conexão. Tente novamente.");
+      toast.show({
+        placement: "top",
+        render: ({ id }) => {
+          return (
+            <Toast nativeID={`toast-${id}`} action="error" variant="solid">
+              <ToastTitle>Erro</ToastTitle>
+              <ToastDescription>Erro de conexão. Tente novamente.</ToastDescription>
+            </Toast>
+          );
+        },
+      });
     }
   };
 

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, Pressable, StyleSheet, Image, Alert } from "react-native";
+import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 import { Link, router } from "expo-router";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Button, ButtonText } from "@/components/ui/button";
 import { useAppConfig } from "@/stores/AppConfigStore";
 import { EyeIcon, EyeOffIcon } from "lucide-react-native";
 import { useAuth } from "@/stores/AuthStore";
+import { useToast, Toast, ToastTitle, ToastDescription } from "@/components/ui/toast";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -14,6 +15,7 @@ export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const { setAppType } = useAppConfig();
   const authContext = useAuth();
+  const toast = useToast();
   
   console.log("=== SIGNUP COMPONENT ===");
   console.log("Auth context:", authContext);
@@ -26,13 +28,33 @@ export default function SignUp() {
     
     if (!name.trim() || !email.trim() || !password.trim()) {
       console.log("Validation failed: empty fields");
-      Alert.alert("Erro", "Por favor, preencha todos os campos");
+      toast.show({
+        placement: "top",
+        render: ({ id }) => {
+          return (
+            <Toast nativeID={`toast-${id}`} action="error" variant="solid">
+              <ToastTitle>Erro</ToastTitle>
+              <ToastDescription>Por favor, preencha todos os campos</ToastDescription>
+            </Toast>
+          );
+        },
+      });
       return;
     }
 
     if (password.length < 6) {
       console.log("Validation failed: password too short");
-      Alert.alert("Erro", "A senha deve ter pelo menos 6 caracteres");
+      toast.show({
+        placement: "top",
+        render: ({ id }) => {
+          return (
+            <Toast nativeID={`toast-${id}`} action="error" variant="solid">
+              <ToastTitle>Erro</ToastTitle>
+              <ToastDescription>A senha deve ter pelo menos 6 caracteres</ToastDescription>
+            </Toast>
+          );
+        },
+      });
       return;
     }
 
@@ -43,19 +65,47 @@ export default function SignUp() {
       console.log("Register result:", success);
       
       if (success) {
-        console.log("Registration successful, setting app type...");
-        // Set admin mode since this is admin registration
-        await setAppType("admin");
-        Alert.alert("Sucesso", "Cadastro realizado com sucesso!", [
-          { text: "OK", onPress: () => router.replace("/(tabs)") }
-        ]);
+        console.log("Registration successful");
+        toast.show({
+          placement: "top",
+          render: ({ id }) => {
+            return (
+              <Toast nativeID={`toast-${id}`} action="success" variant="solid">
+                <ToastTitle>Sucesso</ToastTitle>
+                <ToastDescription>Cadastro realizado com sucesso!</ToastDescription>
+              </Toast>
+            );
+          },
+        });
+        // Don't set app type here - let the existing app type persist
+        // The AppRouteGuard will handle the navigation
       } else {
-        console.log("Registration failed, showing alert");
-        Alert.alert("Erro de Cadastro", authContext.state.error || "Falha no cadastro");
+        console.log("Registration failed, showing toast");
+        toast.show({
+          placement: "top",
+          render: ({ id }) => {
+            return (
+              <Toast nativeID={`toast-${id}`} action="error" variant="solid">
+                <ToastTitle>Erro de Cadastro</ToastTitle>
+                <ToastDescription>{authContext.state.error || "Falha no cadastro"}</ToastDescription>
+              </Toast>
+            );
+          },
+        });
       }
     } catch (error) {
       console.error("Handle signup error:", error);
-      Alert.alert("Erro", "Erro de conexão. Tente novamente.");
+      toast.show({
+        placement: "top",
+        render: ({ id }) => {
+          return (
+            <Toast nativeID={`toast-${id}`} action="error" variant="solid">
+              <ToastTitle>Erro</ToastTitle>
+              <ToastDescription>Erro de conexão. Tente novamente.</ToastDescription>
+            </Toast>
+          );
+        },
+      });
     }
   };
 

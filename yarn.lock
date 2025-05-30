@@ -1245,11 +1245,6 @@
     "@gluestack-ui/utils" "^0.1.14"
     "@react-native-aria/focus" "^0.2.9"
 
-"@gluestack-ui/hooks@0.1.11":
-  version "0.1.11"
-  resolved "https://registry.npmjs.org/@gluestack-ui/hooks/-/hooks-0.1.11.tgz"
-  integrity sha512-bcBsF7bTo//JD6L9ekJu0rZs83qYD/pE/Uj3ih3OYEtGU0LDoYiGkBMmDRpVMcVv8bE3TCKivnhHaT/heafInA==
-
 "@gluestack-ui/hooks@0.1.13":
   version "0.1.13"
   resolved "https://registry.npmjs.org/@gluestack-ui/hooks/-/hooks-0.1.13.tgz"
@@ -1281,14 +1276,14 @@
     patch-package "8.0.0"
     tailwind-variants "0.1.20"
 
-"@gluestack-ui/overlay@^0.1.12", "@gluestack-ui/overlay@^0.1.15", "@gluestack-ui/overlay@^0.1.7":
-  version "0.1.15"
-  resolved "https://registry.npmjs.org/@gluestack-ui/overlay/-/overlay-0.1.15.tgz"
-  integrity sha512-yHInyJ/sH84X/3chun/tT+YfMIEX/680F31cMHQ5KsHRN4LwF3jOghUkS4592q3Wf32Zmqx0JwTrN8q6wOBT9A==
+"@gluestack-ui/overlay@^0.1.15", "@gluestack-ui/overlay@^0.1.16", "@gluestack-ui/overlay@^0.1.20":
+  version "0.1.22"
+  resolved "https://registry.npmjs.org/@gluestack-ui/overlay/-/overlay-0.1.22.tgz"
+  integrity sha512-ttlSjO/ysN9NuTq5JPoVwOAU8aKMaj738xTCxOVgBRr1+kbBUVpmBnygVlC6PvHvJF1A00a0ZTzw48CIVL5aNw==
   dependencies:
     "@react-native-aria/focus" "^0.2.9"
-    "@react-native-aria/interactions" "0.2.13"
-    "@react-native-aria/overlays" "^0.3.12"
+    "@react-native-aria/interactions" "0.2.16"
+    "@react-native-aria/overlays" "^0.3.15"
 
 "@gluestack-ui/provider@^0.1.19":
   version "0.1.19"
@@ -1299,12 +1294,12 @@
     tsconfig "7"
     typescript "^5.6.3"
 
-"@gluestack-ui/react-native-aria@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.npmjs.org/@gluestack-ui/react-native-aria/-/react-native-aria-0.1.5.tgz"
-  integrity sha512-6IaE4fcBaGMu3kSDKAoo1wE5qXcoKDX5YA14zzYzXN2d67/K9NYSjpoo/GbxDWZVl45X6Z9QLS/SBP7SmsPO+Q==
+"@gluestack-ui/react-native-aria@^0.1.6":
+  version "0.1.7"
+  resolved "https://registry.npmjs.org/@gluestack-ui/react-native-aria/-/react-native-aria-0.1.7.tgz"
+  integrity sha512-mdK/M6RQafAYiHyJnDNjaE9+ttr9eg48f2InmO3rvcrjsdaLcu/vwHlwrO9N3xYcb3wb9z2+YZ4OIgtymFNTOw==
   dependencies:
-    "@react-native-aria/focus" "^0.2.7"
+    "@react-native-aria/focus" "^0.2.9"
 
 "@gluestack-ui/slider@^0.1.32":
   version "0.1.32"
@@ -1330,28 +1325,28 @@
     "@react-native-aria/interactions" "0.2.13"
     "@react-stately/toggle" "^3.4.4"
 
-"@gluestack-ui/toast@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.npmjs.org/@gluestack-ui/toast/-/toast-1.0.7.tgz"
-  integrity sha512-mmeJftStDsoRHYX+CXxR8lxiCKtQhiSyIAvqvhdDWTqf8Nz9JnCCQKj1zrV2pSnC89Bt+3msfE54cATuU1JF0w==
+"@gluestack-ui/toast@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.npmjs.org/@gluestack-ui/toast/-/toast-1.0.9.tgz"
+  integrity sha512-aMlPczeoH/PZTMnhV29fqqW1Xc/9QmYEsR0bU9BfLyAGM9UMjW3vGe4yZSgxX7xjQ9C7+KO5WnTH0FmPoAbVtg==
   dependencies:
-    "@gluestack-ui/hooks" "0.1.11"
-    "@gluestack-ui/overlay" "^0.1.12"
-    "@gluestack-ui/transitions" "^0.1.10"
-    "@gluestack-ui/utils" "^0.1.12"
+    "@gluestack-ui/hooks" "0.1.13"
+    "@gluestack-ui/overlay" "^0.1.20"
+    "@gluestack-ui/transitions" "^0.1.11"
+    "@gluestack-ui/utils" "^0.1.14"
     "@react-native-aria/focus" "^0.2.9"
 
-"@gluestack-ui/transitions@^0.1.10":
-  version "0.1.10"
-  resolved "https://registry.npmjs.org/@gluestack-ui/transitions/-/transitions-0.1.10.tgz"
-  integrity sha512-oOwYAmbebAowDCDZyRdGwhK2of46b642OZQxBBkln/BX7YEvY4PhQIfup0HUCG9YA5IzlQnw0iwqREbaVNKIgA==
+"@gluestack-ui/transitions@^0.1.11":
+  version "0.1.11"
+  resolved "https://registry.npmjs.org/@gluestack-ui/transitions/-/transitions-0.1.11.tgz"
+  integrity sha512-GuCprzasuU8GKXm1GUmaVJ1Njiq72pQ4Ni0g+rg6kRQ7hyR0K4d0wdHRyFldHKmfLcQkM3i70rvYq/468hLKLw==
   dependencies:
-    "@gluestack-ui/overlay" "^0.1.7"
-    "@gluestack-ui/react-native-aria" "^0.1.5"
-    "@gluestack-ui/utils" "^0.1.9"
-    "@react-native-aria/focus" "^0.2.7"
+    "@gluestack-ui/overlay" "^0.1.16"
+    "@gluestack-ui/react-native-aria" "^0.1.6"
+    "@gluestack-ui/utils" "^0.1.14"
+    "@react-native-aria/focus" "^0.2.9"
 
-"@gluestack-ui/utils@^0.1.12", "@gluestack-ui/utils@^0.1.13", "@gluestack-ui/utils@^0.1.14", "@gluestack-ui/utils@^0.1.15", "@gluestack-ui/utils@^0.1.9", "@gluestack-ui/utils@0.1.15":
+"@gluestack-ui/utils@^0.1.12", "@gluestack-ui/utils@^0.1.13", "@gluestack-ui/utils@^0.1.14", "@gluestack-ui/utils@^0.1.15", "@gluestack-ui/utils@0.1.15":
   version "0.1.15"
   resolved "https://registry.npmjs.org/@gluestack-ui/utils/-/utils-0.1.15.tgz"
   integrity sha512-LRBMv+tr+bV4falMYS2zSt94PxL0vpvUN6F9d6oTqOYKhkiAkU6k2ROfNlT323m0CoTQto1LkJhPxULisQ2oeQ==
@@ -1375,10 +1370,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@internationalized/date@^3.8.0":
-  version "3.8.0"
-  resolved "https://registry.npmjs.org/@internationalized/date/-/date-3.8.0.tgz"
-  integrity sha512-J51AJ0fEL68hE4CwGPa6E0PO6JDaVLd8aln48xFCSy7CZkZc96dGEGmLs2OEEbBxcsVZtfrqkXJwI2/MSG8yKw==
+"@internationalized/date@^3.8.1":
+  version "3.8.1"
+  resolved "https://registry.npmjs.org/@internationalized/date/-/date-3.8.1.tgz"
+  integrity sha512-PgVE6B6eIZtzf9Gu5HvJxRK3ufUFz9DhspELuhW/N0GuMGMTLvPQNRkHP2hTuP9lblOk+f+1xi96sPiPXANXAA==
   dependencies:
     "@swc/helpers" "^0.5.0"
 
@@ -1390,10 +1385,10 @@
     "@swc/helpers" "^0.5.0"
     intl-messageformat "^10.1.0"
 
-"@internationalized/number@^3.6.1":
-  version "3.6.1"
-  resolved "https://registry.npmjs.org/@internationalized/number/-/number-3.6.1.tgz"
-  integrity sha512-UVsb4bCwbL944E0SX50CHFtWEeZ2uB5VozZ5yDXJdq6iPZsZO5p+bjVMZh2GxHf4Bs/7xtDCcPwEa2NU9DaG/g==
+"@internationalized/number@^3.6.2":
+  version "3.6.2"
+  resolved "https://registry.npmjs.org/@internationalized/number/-/number-3.6.2.tgz"
+  integrity sha512-E5QTOlMg9wo5OrKdHD6edo1JJlIoOsylh0+mbf0evi1tHJwMZfJSaBpGtnJV9N7w3jeiioox9EG/EWRWPh82vg==
   dependencies:
     "@swc/helpers" "^0.5.0"
 
@@ -1696,6 +1691,18 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@legendapp/motion@^2.4.0":
+  version "2.4.0"
+  resolved "https://registry.npmjs.org/@legendapp/motion/-/motion-2.4.0.tgz"
+  integrity sha512-AAYpRLGvxGD5hIGl9sVHyoUufr66zoH82PuxYcKiPSMdCBI3jwZFWh6CuHjV1leRKVIRk2py1rSvIVabG8eqcw==
+  dependencies:
+    "@legendapp/tools" "2.0.1"
+
+"@legendapp/tools@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@legendapp/tools/-/tools-2.0.1.tgz"
+  integrity sha512-Kxt0HWvWElRK6oybHRzcYxdgaKGwuaiRNreS7usW7QuHXRIHaH4yMcW2YNRG4DHE5fpefv+Bno/BohQcCE4FaA==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
@@ -1757,40 +1764,40 @@
     "@react-stately/toggle" "^3.2.1"
     "@react-types/checkbox" "^3.2.1"
 
-"@react-aria/focus@^3.18.3", "@react-aria/focus@^3.2.3":
-  version "3.18.3"
-  resolved "https://registry.npmjs.org/@react-aria/focus/-/focus-3.18.3.tgz"
-  integrity sha512-WKUElg+5zS0D3xlVn8MntNnkzJql2J6MuzAMP8Sv5WTgFDse/XGR842dsxPTIyKKdrWVCRegCuwa4m3n/GzgJw==
+"@react-aria/focus@^3.18.3", "@react-aria/focus@^3.2.3", "@react-aria/focus@^3.20.3":
+  version "3.20.3"
+  resolved "https://registry.npmjs.org/@react-aria/focus/-/focus-3.20.3.tgz"
+  integrity sha512-rR5uZUMSY4xLHmpK/I8bP1V6vUNHFo33gTvrvNUsAKKqvMfa7R2nu5A6v97dr5g6tVH6xzpdkPsOJCWh90H2cw==
   dependencies:
-    "@react-aria/interactions" "^3.22.3"
-    "@react-aria/utils" "^3.25.3"
-    "@react-types/shared" "^3.25.0"
+    "@react-aria/interactions" "^3.25.1"
+    "@react-aria/utils" "^3.29.0"
+    "@react-types/shared" "^3.29.1"
     "@swc/helpers" "^0.5.0"
     clsx "^2.0.0"
 
-"@react-aria/i18n@^3.12.3", "@react-aria/i18n@^3.12.8":
-  version "3.12.8"
-  resolved "https://registry.npmjs.org/@react-aria/i18n/-/i18n-3.12.8.tgz"
-  integrity sha512-V/Nau9WuwTwxfFffQL4URyKyY2HhRlu9zmzkF2Hw/j5KmEQemD+9jfaLueG2CJu85lYL06JrZXUdnhZgKnqMkA==
+"@react-aria/i18n@^3.12.8", "@react-aria/i18n@^3.12.9":
+  version "3.12.9"
+  resolved "https://registry.npmjs.org/@react-aria/i18n/-/i18n-3.12.9.tgz"
+  integrity sha512-Fim0FLfY05kcpIILdOtqcw58c3sksvmVY8kICSwKCuSek4wYfwJdU28p/sRptw4adJhqN8Cbssvkf/J8zL2GgA==
   dependencies:
-    "@internationalized/date" "^3.8.0"
+    "@internationalized/date" "^3.8.1"
     "@internationalized/message" "^3.1.7"
-    "@internationalized/number" "^3.6.1"
+    "@internationalized/number" "^3.6.2"
     "@internationalized/string" "^3.2.6"
     "@react-aria/ssr" "^3.9.8"
-    "@react-aria/utils" "^3.28.2"
-    "@react-types/shared" "^3.29.0"
+    "@react-aria/utils" "^3.29.0"
+    "@react-types/shared" "^3.29.1"
     "@swc/helpers" "^0.5.0"
 
-"@react-aria/interactions@^3.22.3", "@react-aria/interactions@^3.25.0", "@react-aria/interactions@^3.3.2":
-  version "3.25.0"
-  resolved "https://registry.npmjs.org/@react-aria/interactions/-/interactions-3.25.0.tgz"
-  integrity sha512-GgIsDLlO8rDU/nFn6DfsbP9rfnzhm8QFjZkB9K9+r+MTSCn7bMntiWQgMM+5O6BiA8d7C7x4zuN4bZtc0RBdXQ==
+"@react-aria/interactions@^3.22.3", "@react-aria/interactions@^3.25.0", "@react-aria/interactions@^3.25.1", "@react-aria/interactions@^3.3.2":
+  version "3.25.1"
+  resolved "https://registry.npmjs.org/@react-aria/interactions/-/interactions-3.25.1.tgz"
+  integrity sha512-ntLrlgqkmZupbbjekz3fE/n3eQH2vhncx8gUp0+N+GttKWevx7jos11JUBjnJwb1RSOPgRUFcrluOqBp0VgcfQ==
   dependencies:
     "@react-aria/ssr" "^3.9.8"
-    "@react-aria/utils" "^3.28.2"
+    "@react-aria/utils" "^3.29.0"
     "@react-stately/flags" "^3.1.1"
-    "@react-types/shared" "^3.29.0"
+    "@react-types/shared" "^3.29.1"
     "@swc/helpers" "^0.5.0"
 
 "@react-aria/label@^3.1.1", "@react-aria/label@^3.7.17":
@@ -1803,20 +1810,20 @@
     "@swc/helpers" "^0.5.0"
 
 "@react-aria/overlays@^3.7.0":
-  version "3.23.3"
-  resolved "https://registry.npmjs.org/@react-aria/overlays/-/overlays-3.23.3.tgz"
-  integrity sha512-vRW4DL466a27BBIP6dQqmmei4nX/nsur6DyF0Hmd46ygwOdvdA+5MwvXZUz9yUamB79UeS9BMQZuBVwhjoMwBQ==
+  version "3.27.1"
+  resolved "https://registry.npmjs.org/@react-aria/overlays/-/overlays-3.27.1.tgz"
+  integrity sha512-wepzwNLkgem6kVlLm6yk7zNIMAt0KPy8vAWlxdfpXWD/hBI30ULl71gL/BxRa5EYG1GMvlOwNti3whzy9lm3eQ==
   dependencies:
-    "@react-aria/focus" "^3.18.3"
-    "@react-aria/i18n" "^3.12.3"
-    "@react-aria/interactions" "^3.22.3"
-    "@react-aria/ssr" "^3.9.6"
-    "@react-aria/utils" "^3.25.3"
-    "@react-aria/visually-hidden" "^3.8.16"
-    "@react-stately/overlays" "^3.6.11"
-    "@react-types/button" "^3.10.0"
-    "@react-types/overlays" "^3.8.10"
-    "@react-types/shared" "^3.25.0"
+    "@react-aria/focus" "^3.20.3"
+    "@react-aria/i18n" "^3.12.9"
+    "@react-aria/interactions" "^3.25.1"
+    "@react-aria/ssr" "^3.9.8"
+    "@react-aria/utils" "^3.29.0"
+    "@react-aria/visually-hidden" "^3.8.23"
+    "@react-stately/overlays" "^3.6.16"
+    "@react-types/button" "^3.12.1"
+    "@react-types/overlays" "^3.8.15"
+    "@react-types/shared" "^3.29.1"
     "@swc/helpers" "^0.5.0"
 
 "@react-aria/slider@^3.0.1":
@@ -1833,7 +1840,7 @@
     "@react-types/slider" "^3.7.10"
     "@swc/helpers" "^0.5.0"
 
-"@react-aria/ssr@^3.0.1", "@react-aria/ssr@^3.9.6", "@react-aria/ssr@^3.9.8":
+"@react-aria/ssr@^3.0.1", "@react-aria/ssr@^3.9.8":
   version "3.9.8"
   resolved "https://registry.npmjs.org/@react-aria/ssr/-/ssr-3.9.8.tgz"
   integrity sha512-lQDE/c9uTfBSDOjaZUJS8xP2jCKVk4zjQeIlCH90xaLhHDgbpCdns3xvFpJJujfj3nI4Ll9K7A+ONUBDCASOuw==
@@ -1853,26 +1860,26 @@
     "@react-types/shared" "^3.25.0"
     "@swc/helpers" "^0.5.0"
 
-"@react-aria/utils@^3.25.3", "@react-aria/utils@^3.28.2", "@react-aria/utils@^3.3.0", "@react-aria/utils@^3.6.0":
-  version "3.28.2"
-  resolved "https://registry.npmjs.org/@react-aria/utils/-/utils-3.28.2.tgz"
-  integrity sha512-J8CcLbvnQgiBn54eeEvQQbIOfBF3A1QizxMw9P4cl9MkeR03ug7RnjTIdJY/n2p7t59kLeAB3tqiczhcj+Oi5w==
+"@react-aria/utils@^3.25.3", "@react-aria/utils@^3.28.2", "@react-aria/utils@^3.29.0", "@react-aria/utils@^3.3.0", "@react-aria/utils@^3.6.0":
+  version "3.29.0"
+  resolved "https://registry.npmjs.org/@react-aria/utils/-/utils-3.29.0.tgz"
+  integrity sha512-jSOrZimCuT1iKNVlhjIxDkAhgF7HSp3pqyT6qjg/ZoA0wfqCi/okmrMPiWSAKBnkgX93N8GYTLT3CIEO6WZe9Q==
   dependencies:
     "@react-aria/ssr" "^3.9.8"
     "@react-stately/flags" "^3.1.1"
     "@react-stately/utils" "^3.10.6"
-    "@react-types/shared" "^3.29.0"
+    "@react-types/shared" "^3.29.1"
     "@swc/helpers" "^0.5.0"
     clsx "^2.0.0"
 
-"@react-aria/visually-hidden@^3.8.1", "@react-aria/visually-hidden@^3.8.16", "@react-aria/visually-hidden@^3.8.6":
-  version "3.8.16"
-  resolved "https://registry.npmjs.org/@react-aria/visually-hidden/-/visually-hidden-3.8.16.tgz"
-  integrity sha512-3zThVIzEprez4A/GajOut6/JQ4WCu2ROHGZ1xH1+2GFjBJQaTfPBIjg6UIwaT7sgHRQIik8QidogLqXHbp81yA==
+"@react-aria/visually-hidden@^3.8.1", "@react-aria/visually-hidden@^3.8.23", "@react-aria/visually-hidden@^3.8.6":
+  version "3.8.23"
+  resolved "https://registry.npmjs.org/@react-aria/visually-hidden/-/visually-hidden-3.8.23.tgz"
+  integrity sha512-D37GHtAcxCck8BtCiGTNDniGqtldJuN0cRlW1PJ684zM4CdmkSPqKbt5IUKUfqheS9Vt7HxYsj1VREDW+0kaGA==
   dependencies:
-    "@react-aria/interactions" "^3.22.3"
-    "@react-aria/utils" "^3.25.3"
-    "@react-types/shared" "^3.25.0"
+    "@react-aria/interactions" "^3.25.1"
+    "@react-aria/utils" "^3.29.0"
+    "@react-types/shared" "^3.29.1"
     "@swc/helpers" "^0.5.0"
 
 "@react-native-aria/accordion@^0.0.2":
@@ -1891,7 +1898,7 @@
     "@react-native-aria/utils" "0.2.11"
     "@react-stately/toggle" "^3.2.1"
 
-"@react-native-aria/focus@^0.2.7", "@react-native-aria/focus@^0.2.9":
+"@react-native-aria/focus@^0.2.9":
   version "0.2.9"
   resolved "https://registry.npmjs.org/@react-native-aria/focus/-/focus-0.2.9.tgz"
   integrity sha512-zVgOIzKwnsyyurUxlZnzUKB2ekK/cmK64sQJIKKUlkJKVxd2EAFf7Sjz/NVEoMhTODN3qGRASTv9bMk/pBzzVA==
@@ -1916,14 +1923,14 @@
     "@react-aria/utils" "^3.6.0"
     "@react-native-aria/utils" "0.2.12"
 
-"@react-native-aria/overlays@^0.3.12":
-  version "0.3.14"
-  resolved "https://registry.npmjs.org/@react-native-aria/overlays/-/overlays-0.3.14.tgz"
-  integrity sha512-a8MIB2aBw5yitNB0szNqKQlm4ngOozHGVmXTbslejGIX2+3YQUg8e7J4ouT7ZgK2iIr2gIB3YrstHDM6mvKVmw==
+"@react-native-aria/overlays@^0.3.15":
+  version "0.3.15"
+  resolved "https://registry.npmjs.org/@react-native-aria/overlays/-/overlays-0.3.15.tgz"
+  integrity sha512-ialIMsXmiQe6A2cWv4O62nJs8raAEkC27BYUu0Z6BEWbhYn+3MhrujxFzsozJ6bwDZgsfNOqtfwk1ScXJxXjkQ==
   dependencies:
     "@react-aria/interactions" "^3.3.2"
     "@react-aria/overlays" "^3.7.0"
-    "@react-native-aria/utils" "0.2.11"
+    "@react-native-aria/utils" "0.2.12"
     "@react-stately/overlays" "^3.1.1"
     "@react-types/overlays" "^3.4.0"
     dom-helpers "^5.0.0"
@@ -2396,13 +2403,13 @@
     "@react-types/shared" "^3.25.0"
     "@swc/helpers" "^0.5.0"
 
-"@react-stately/overlays@^3.1.1", "@react-stately/overlays@^3.6.11":
-  version "3.6.11"
-  resolved "https://registry.npmjs.org/@react-stately/overlays/-/overlays-3.6.11.tgz"
-  integrity sha512-usuxitwOx4FbmOW7Og4VM8R8ZjerbHZLLbFaxZW7pWLs7Ypway1YhJ3SWcyNTYK7NEk4o602kSoU6MSev1Vgag==
+"@react-stately/overlays@^3.1.1", "@react-stately/overlays@^3.6.16":
+  version "3.6.16"
+  resolved "https://registry.npmjs.org/@react-stately/overlays/-/overlays-3.6.16.tgz"
+  integrity sha512-+Ve/TBlUNg3otVC4ZfCq1a8q8FwC7xNebWkVOCGviTqiYodPCGqBwR9Z1xonuFLF/HuQYqALHHTOZtxceU+nVQ==
   dependencies:
-    "@react-stately/utils" "^3.10.4"
-    "@react-types/overlays" "^3.8.10"
+    "@react-stately/utils" "^3.10.6"
+    "@react-types/overlays" "^3.8.15"
     "@swc/helpers" "^0.5.0"
 
 "@react-stately/slider@^3.0.1", "@react-stately/slider@^3.2.4", "@react-stately/slider@^3.6.3":
@@ -2431,12 +2438,12 @@
   dependencies:
     "@swc/helpers" "^0.5.0"
 
-"@react-types/button@^3.10.0":
-  version "3.10.0"
-  resolved "https://registry.npmjs.org/@react-types/button/-/button-3.10.0.tgz"
-  integrity sha512-rAyU+N9VaHLBdZop4zasn8IDwf9I5Q1EzHUKMtzIFf5aUlMUW+K460zI/l8UESWRSWAXK9/WPSXGxfcoCEjvAA==
+"@react-types/button@^3.12.1":
+  version "3.12.1"
+  resolved "https://registry.npmjs.org/@react-types/button/-/button-3.12.1.tgz"
+  integrity sha512-z87stl4llWTi4C5qhUK1PKcEsG59uF/ZQpkRhMzX0KfgXobJY6yiIrry2xrpnlTPIVST6K1+kARhhSDOZ8zhLw==
   dependencies:
-    "@react-types/shared" "^3.25.0"
+    "@react-types/shared" "^3.29.1"
 
 "@react-types/checkbox@^3.2.1", "@react-types/checkbox@^3.8.4":
   version "3.8.4"
@@ -2445,17 +2452,17 @@
   dependencies:
     "@react-types/shared" "^3.25.0"
 
-"@react-types/overlays@^3.4.0", "@react-types/overlays@^3.8.10":
-  version "3.8.10"
-  resolved "https://registry.npmjs.org/@react-types/overlays/-/overlays-3.8.10.tgz"
-  integrity sha512-IcnB+VYfAJazRjWhBKZTmVMh3KTp/B1rRbcKkPx6t8djP9UQhKcohP7lAALxjJ56Jjz/GFC6rWyUcnYH0NFVRA==
+"@react-types/overlays@^3.4.0", "@react-types/overlays@^3.8.15":
+  version "3.8.15"
+  resolved "https://registry.npmjs.org/@react-types/overlays/-/overlays-3.8.15.tgz"
+  integrity sha512-ppDfezvVYOJDHLZmTSmIXajxAo30l2a1jjy4G65uBYy8J8kTZU7mcfQql5Pii1TwybcNMsayf2WtPItiWmJnOA==
   dependencies:
-    "@react-types/shared" "^3.25.0"
+    "@react-types/shared" "^3.29.1"
 
-"@react-types/shared@^3.25.0", "@react-types/shared@^3.29.0":
-  version "3.29.0"
-  resolved "https://registry.npmjs.org/@react-types/shared/-/shared-3.29.0.tgz"
-  integrity sha512-IDQYu/AHgZimObzCFdNl1LpZvQW/xcfLt3v20sorl5qRucDVj4S9os98sVTZ4IRIBjmS+MkjqpR5E70xan7ooA==
+"@react-types/shared@^3.25.0", "@react-types/shared@^3.29.0", "@react-types/shared@^3.29.1":
+  version "3.29.1"
+  resolved "https://registry.npmjs.org/@react-types/shared/-/shared-3.29.1.tgz"
+  integrity sha512-KtM+cDf2CXoUX439rfEhbnEdAgFZX20UP2A35ypNIawR7/PFFPjQDWyA2EnClCcW/dLWJDEPX2U8+EJff8xqmQ==
 
 "@react-types/slider@^3.7.10":
   version "3.7.10"

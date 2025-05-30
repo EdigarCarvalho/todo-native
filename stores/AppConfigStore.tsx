@@ -10,10 +10,10 @@ type State = {
   isLoading: boolean;
 };
 
-// Initial state - default to user mode
+// Initial state - default to admin mode for authentication flow
 const initialState: State = {
   appType: "admin",
-  isLoading: false,
+  isLoading: true, // Start as loading to prevent premature redirects
 };
 
 // Define action types

@@ -16,7 +16,7 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { DictionaryProvider, useDictionary } from "@/stores/Dictionary";
 import { TextsProvider } from "@/stores/TextsStore";
 import { AppConfigProvider, useAppConfig } from "@/stores/AppConfigStore";
-import { AuthProvider } from "@/stores/AuthStore";
+import { AuthProvider, useAuth } from "@/stores/AuthStore";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -25,21 +25,30 @@ SplashScreen.preventAutoHideAsync();
 function AppRouteGuard({ children }: { children: React.ReactNode }) {
   const segments = useSegments();
   const router = useRouter();
-  const { state, isAdmin } = useAppConfig();
+  const { state: appConfigState, isAdmin } = useAppConfig();
+  const { state: authState } = useAuth();
   const isAuthGroup = segments[0] === "(auth)";
 
   useEffect(() => {
-    if (state.isLoading) return;
+    if (appConfigState.isLoading || authState.isLoading) return;
 
-    // Check if we're in admin mode and not in auth group
-    if (isAdmin() && !isAuthGroup) {
-      // Redirect to auth if in admin mode
+    // If user is authenticated, don't redirect to auth pages
+    if (authState.isAuthenticated) {
+      if (isAuthGroup) {
+        // Redirect authenticated user away from auth pages
+        router.replace("/(tabs)");
+      }
+      return;
+    }
+
+    // If user is not authenticated and in admin mode, redirect to auth
+    if (isAdmin() && !isAuthGroup && !authState.isAuthenticated) {
       router.replace("/(auth)/signin");
     } else if (!isAdmin() && isAuthGroup) {
       // Redirect to main app if in user mode but trying to access auth
       router.replace("/(tabs)");
     }
-  }, [state.appType, isAuthGroup, state.isLoading]);
+  }, [appConfigState.appType, authState.isAuthenticated, isAuthGroup, appConfigState.isLoading, authState.isLoading]);
 
   return <>{children}</>;
 }

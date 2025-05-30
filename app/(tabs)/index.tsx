@@ -80,12 +80,12 @@ export default function HomeScreen() {
         </View>
       ) : !state.wordInFocus ? (
         <View className="mt-1">
-          {state.lastApiFetch && (
+          {/* {state.lastApiFetch && (
             <Text className="text-xs text-center text-gray-500 mb-2">
               Última atualização:{" "}
               {new Date(state.lastApiFetch).toLocaleString()}
             </Text>
-          )}
+          )} */}
 
           {state.categories.length > 0 ? (
             state.categories.map((category) => {
