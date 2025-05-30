@@ -2,8 +2,9 @@ import React, { createContext, useReducer, useContext, useEffect } from "react";
 import wordsData from "../constants/Words.json";
 import categoriesData from "../constants/Categories.json"; 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import apiService from "../services/ApiService";
 
-const BASE_URL = "http://localhost:3000"; // Replace with your actual API base URL  
+export const BASE_URL = "http://localhost:3000"; // Replace with your actual API base URL  
 
 // Define types based on your JSON structure
 type Attachment = {
@@ -226,19 +227,19 @@ export const DictionaryProvider = ({
   // Attempt to fetch from API
   const fetchFromApi = async () => {
     try {
-      // Replace with your actual API endpoint
-      const categoriesResponse = await fetch(BASE_URL + '/category/all');
-      const wordsResponse = await fetch(BASE_URL + '/word/all');
+      // Use the API service
+      const categoriesResult = await apiService.getCategories();
+      const wordsResult = await apiService.getWords();
       
-      if (!categoriesResponse.ok || !wordsResponse.ok) {
+      if (!categoriesResult.success || !wordsResult.success) {
         throw new Error('API response was not ok');
       }
       
-      const categories = await categoriesResponse.json();
-      const wordsByCategory = await wordsResponse.json();
+      const categories = categoriesResult.data || [];
+      const wordsByCategory = wordsResult.data?.data || {};
       
       // Save successful API data to storage
-      await saveDataToStorage(categories?.categories, wordsByCategory?.data);
+      await saveDataToStorage(categories, wordsByCategory);
       
       return { categories, wordsByCategory };
     } catch (error) {

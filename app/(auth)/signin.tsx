@@ -1,23 +1,38 @@
 import React, { useState } from "react";
-import { View, Text, Pressable, StyleSheet, Image } from "react-native";
+import { View, Text, Pressable, StyleSheet, Image, Alert } from "react-native";
 import { Link, router } from "expo-router";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Button, ButtonText } from "@/components/ui/button";
 import { useAppConfig } from "@/stores/AppConfigStore";
 import { EyeIcon, EyeOffIcon } from "lucide-react-native";
+import { useAuth } from "@/stores/AuthStore";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { setAppType } = useAppConfig();
+  const { login, state: authState } = useAuth();
 
   const handleLogin = async () => {
-    // In a real app, you would validate and authenticate here
-    console.log("Login with:", email, password);
+    if (!email.trim() || !password.trim()) {
+      Alert.alert("Erro", "Por favor, preencha todos os campos");
+      return;
+    }
 
-    // For demo purposes, just navigate to the main app
-    router.replace("/(tabs)");
+    try {
+      const success = await login(email.trim(), password);
+      
+      if (success) {
+        // Set admin mode since this is admin login
+        await setAppType("admin");
+        router.replace("/(tabs)");
+      } else {
+        Alert.alert("Erro de Login", authState.error || "Credenciais inválidas");
+      }
+    } catch (error) {
+      Alert.alert("Erro", "Erro de conexão. Tente novamente.");
+    }
   };
 
   // For demo purposes - switch to user mode
@@ -67,8 +82,14 @@ export default function SignIn() {
           <Text style={styles.forgotPasswordText}>Recuperar senha</Text>
         </Pressable>
 
-        <Button className="bg-[#B34700] rounded-md" onPress={handleLogin}>
-          <ButtonText className="font-bold">ENTRAR</ButtonText>
+        <Button 
+          className="bg-[#B34700] rounded-md" 
+          onPress={handleLogin}
+          disabled={authState.isLoading}
+        >
+          <ButtonText className="font-bold">
+            {authState.isLoading ? "ENTRANDO..." : "ENTRAR"}
+          </ButtonText>
         </Button>
 
         <Link href="/signup" asChild>

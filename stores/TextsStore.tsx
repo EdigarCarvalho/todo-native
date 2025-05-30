@@ -1,8 +1,7 @@
 import React, { createContext, useReducer, useContext, useEffect } from "react";
 import textsData from "../constants/Texts.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const BASE_URL = "http://localhost:3000"; // Replace with your actual API base URL  
+import apiService from "../services/ApiService";
 
 // Define type based on your JSON structure
 type Text = {
@@ -163,14 +162,14 @@ export const TextsProvider = ({
   // Attempt to fetch from API
   const fetchFromApi = async () => {
     try {
-      // Replace with your actual API endpoint
-      const textsResponse = await fetch(BASE_URL + '/texts/all');
+      // Use the API service
+      const textsResult = await apiService.getTexts();
       
-      if (!textsResponse.ok) {
+      if (!textsResult.success) {
         throw new Error('API response was not ok');
       }
       
-      const texts = await textsResponse.json();
+      const texts = textsResult.data || [];
       
       // Save successful API data to storage
       await saveDataToStorage(texts);

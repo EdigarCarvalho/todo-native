@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, Pressable, StyleSheet, Image } from "react-native";
+import { View, Text, Pressable, StyleSheet, Image, Alert } from "react-native";
 import { Link, router } from "expo-router";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { Button, ButtonText } from "@/components/ui/button";
 import { useAppConfig } from "@/stores/AppConfigStore";
 import { EyeIcon, EyeOffIcon } from "lucide-react-native";
+import { useAuth } from "@/stores/AuthStore";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -12,13 +13,34 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { setAppType } = useAppConfig();
+  const { register, state: authState } = useAuth();
 
   const handleSignUp = async () => {
-    // In a real app, you would validate and register here
-    console.log("Sign up with:", name, email, password);
-    
-    // For demo purposes, just navigate to the main app
-    router.replace("/(tabs)");
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      Alert.alert("Erro", "Por favor, preencha todos os campos");
+      return;
+    }
+
+    if (password.length < 6) {
+      Alert.alert("Erro", "A senha deve ter pelo menos 6 caracteres");
+      return;
+    }
+
+    try {
+      const success = await register(name.trim(), email.trim(), password);
+      
+      if (success) {
+        // Set admin mode since this is admin registration
+        await setAppType("admin");
+        Alert.alert("Sucesso", "Cadastro realizado com sucesso!", [
+          { text: "OK", onPress: () => router.replace("/(tabs)") }
+        ]);
+      } else {
+        Alert.alert("Erro de Cadastro", authState.error || "Falha no cadastro");
+      }
+    } catch (error) {
+      Alert.alert("Erro", "Erro de conexão. Tente novamente.");
+    }
   };
 
   // For demo purposes - switch to user mode
@@ -71,8 +93,11 @@ export default function SignUp() {
         <Button
           className="bg-[#B34700] mt-4 rounded-md"
           onPress={handleSignUp}
+          disabled={authState.isLoading}
         >
-          <ButtonText className="font-bold">CADASTRAR</ButtonText>
+          <ButtonText className="font-bold">
+            {authState.isLoading ? "CADASTRANDO..." : "CADASTRAR"}
+          </ButtonText>
         </Button>
 
         <Link href="/signin" asChild>
