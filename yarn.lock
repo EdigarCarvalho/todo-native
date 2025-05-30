@@ -1269,6 +1269,19 @@
     "@react-native-aria/focus" "^0.2.9"
     "@react-native-aria/interactions" "0.2.13"
 
+"@gluestack-ui/modal@^0.1.41":
+  version "0.1.41"
+  resolved "https://registry.npmjs.org/@gluestack-ui/modal/-/modal-0.1.41.tgz"
+  integrity sha512-pEO5h6TxEpYyU/CEhRD/pAkuBsDfqnFUe51AxK7w6FLjBuTKA5P0wsQ1pfcovJeykkpreG+MiUvNPIo3MW/Lfw==
+  dependencies:
+    "@gluestack-ui/hooks" "0.1.13"
+    "@gluestack-ui/overlay" "^0.1.22"
+    "@gluestack-ui/utils" "^0.1.15"
+    "@react-native-aria/dialog" "^0.0.5"
+    "@react-native-aria/focus" "^0.2.9"
+    "@react-native-aria/interactions" "0.2.16"
+    "@react-native-aria/overlays" "^0.3.15"
+
 "@gluestack-ui/nativewind-utils@^1.0.24":
   version "1.0.24"
   dependencies:
@@ -1276,7 +1289,7 @@
     patch-package "8.0.0"
     tailwind-variants "0.1.20"
 
-"@gluestack-ui/overlay@^0.1.15", "@gluestack-ui/overlay@^0.1.16", "@gluestack-ui/overlay@^0.1.20":
+"@gluestack-ui/overlay@^0.1.15", "@gluestack-ui/overlay@^0.1.16", "@gluestack-ui/overlay@^0.1.20", "@gluestack-ui/overlay@^0.1.22":
   version "0.1.22"
   resolved "https://registry.npmjs.org/@gluestack-ui/overlay/-/overlay-0.1.22.tgz"
   integrity sha512-ttlSjO/ysN9NuTq5JPoVwOAU8aKMaj738xTCxOVgBRr1+kbBUVpmBnygVlC6PvHvJF1A00a0ZTzw48CIVL5aNw==
@@ -1764,6 +1777,18 @@
     "@react-stately/toggle" "^3.2.1"
     "@react-types/checkbox" "^3.2.1"
 
+"@react-aria/dialog@*":
+  version "3.5.25"
+  resolved "https://registry.npmjs.org/@react-aria/dialog/-/dialog-3.5.25.tgz"
+  integrity sha512-hVP/TvjUnPgckg4qibc/TDH54O+BzW95hxApxBw1INyViRm95PxdCQDqBdQ/ZW7Gv6J2aUBCGihX7kINPf70ow==
+  dependencies:
+    "@react-aria/interactions" "^3.25.1"
+    "@react-aria/overlays" "^3.27.1"
+    "@react-aria/utils" "^3.29.0"
+    "@react-types/dialog" "^3.5.18"
+    "@react-types/shared" "^3.29.1"
+    "@swc/helpers" "^0.5.0"
+
 "@react-aria/focus@^3.18.3", "@react-aria/focus@^3.2.3", "@react-aria/focus@^3.20.3":
   version "3.20.3"
   resolved "https://registry.npmjs.org/@react-aria/focus/-/focus-3.20.3.tgz"
@@ -1809,7 +1834,7 @@
     "@react-types/shared" "^3.29.0"
     "@swc/helpers" "^0.5.0"
 
-"@react-aria/overlays@^3.7.0":
+"@react-aria/overlays@^3.27.1", "@react-aria/overlays@^3.7.0":
   version "3.27.1"
   resolved "https://registry.npmjs.org/@react-aria/overlays/-/overlays-3.27.1.tgz"
   integrity sha512-wepzwNLkgem6kVlLm6yk7zNIMAt0KPy8vAWlxdfpXWD/hBI30ULl71gL/BxRa5EYG1GMvlOwNti3whzy9lm3eQ==
@@ -1897,6 +1922,16 @@
     "@react-native-aria/toggle" "^0.2.8"
     "@react-native-aria/utils" "0.2.11"
     "@react-stately/toggle" "^3.2.1"
+
+"@react-native-aria/dialog@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.npmjs.org/@react-native-aria/dialog/-/dialog-0.0.5.tgz"
+  integrity sha512-ZThiWyymf3WiA2EdjStV32pTL3RjAb7H/CL0Zsd1wKNuw1lU9HX6h4UIUpt0MZhcFCUnZjCovNtU9IRwbbdj/Q==
+  dependencies:
+    "@react-aria/dialog" "*"
+    "@react-native-aria/utils" "0.2.12"
+    "@react-types/dialog" "*"
+    "@react-types/shared" "*"
 
 "@react-native-aria/focus@^0.2.9":
   version "0.2.9"
@@ -2452,6 +2487,14 @@
   dependencies:
     "@react-types/shared" "^3.25.0"
 
+"@react-types/dialog@*", "@react-types/dialog@^3.5.18":
+  version "3.5.18"
+  resolved "https://registry.npmjs.org/@react-types/dialog/-/dialog-3.5.18.tgz"
+  integrity sha512-g18CzT5xmiX/numpS6MrOGEGln8Xp9rr+zO70Dg+jM4GBOjXZp3BeclYQr9uisxGaj2uFLnORv9gNMMKxLNF6A==
+  dependencies:
+    "@react-types/overlays" "^3.8.15"
+    "@react-types/shared" "^3.29.1"
+
 "@react-types/overlays@^3.4.0", "@react-types/overlays@^3.8.15":
   version "3.8.15"
   resolved "https://registry.npmjs.org/@react-types/overlays/-/overlays-3.8.15.tgz"
@@ -2459,7 +2502,7 @@
   dependencies:
     "@react-types/shared" "^3.29.1"
 
-"@react-types/shared@^3.25.0", "@react-types/shared@^3.29.0", "@react-types/shared@^3.29.1":
+"@react-types/shared@*", "@react-types/shared@^3.25.0", "@react-types/shared@^3.29.0", "@react-types/shared@^3.29.1":
   version "3.29.1"
   resolved "https://registry.npmjs.org/@react-types/shared/-/shared-3.29.1.tgz"
   integrity sha512-KtM+cDf2CXoUX439rfEhbnEdAgFZX20UP2A35ypNIawR7/PFFPjQDWyA2EnClCcW/dLWJDEPX2U8+EJff8xqmQ==
