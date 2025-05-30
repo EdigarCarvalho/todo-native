@@ -16,6 +16,7 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { DictionaryProvider, useDictionary } from "@/stores/Dictionary";
 import { TextsProvider } from "@/stores/TextsStore";
 import { AppConfigProvider, useAppConfig } from "@/stores/AppConfigStore";
+import { AuthProvider } from "@/stores/AuthStore";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -72,16 +73,20 @@ function AppContent() {
 
 export default function RootLayout() {
   return (
-    <AppConfigProvider>
-      <DictionaryProvider>
-        <TextsProvider>
-          <FontSizeProvider>
-            <AppRouteGuard>
-              <AppContent />
-            </AppRouteGuard>
-          </FontSizeProvider>
-        </TextsProvider>
-      </DictionaryProvider>
-    </AppConfigProvider>
+    <GluestackUIProvider mode="light">
+      <AppConfigProvider>
+        <AuthProvider>
+          <DictionaryProvider>
+            <TextsProvider>
+              <FontSizeProvider>
+                <AppRouteGuard>
+                  <AppContent />
+                </AppRouteGuard>
+              </FontSizeProvider>
+            </TextsProvider>
+          </DictionaryProvider>
+        </AuthProvider>
+      </AppConfigProvider>
+    </GluestackUIProvider>
   );
 }

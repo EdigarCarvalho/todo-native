@@ -117,7 +117,12 @@ export const AuthProvider = ({
     dispatch({ type: SET_LOADING, payload: true });
 
     try {
-      const result = await apiService.login({ email, password });
+      
+        console.log("Attempting to login with email:", email);
+        
+        const result = await apiService.login({ email, password });
+
+
 
       if (result.success && result.data?.token) {
         const token = result.data.token;

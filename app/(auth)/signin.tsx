@@ -12,25 +12,40 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { setAppType } = useAppConfig();
-  const { login, state: authState } = useAuth();
+  const authContext = useAuth();
+  
+  console.log("=== SIGNIN COMPONENT ===");
+  console.log("Auth context:", authContext);
+  console.log("Auth state:", authContext.state);
 
   const handleLogin = async () => {
+    console.log("=== HANDLE LOGIN CALLED ===");
+    console.log("Email:", email);
+    console.log("Password:", password);
+    
     if (!email.trim() || !password.trim()) {
+      console.log("Validation failed: empty fields");
       Alert.alert("Erro", "Por favor, preencha todos os campos");
       return;
     }
 
     try {
-      const success = await login(email.trim(), password);
+      console.log("Calling login function...");
+      const success = await authContext.login(email.trim(), password);
+      
+      console.log("Login result:", success);
       
       if (success) {
+        console.log("Login successful, setting app type and navigating...");
         // Set admin mode since this is admin login
         await setAppType("admin");
         router.replace("/(tabs)");
       } else {
-        Alert.alert("Erro de Login", authState.error || "Credenciais inválidas");
+        console.log("Login failed, showing alert");
+        Alert.alert("Erro de Login", authContext.state.error || "Credenciais inválidas");
       }
     } catch (error) {
+      console.error("Handle login error:", error);
       Alert.alert("Erro", "Erro de conexão. Tente novamente.");
     }
   };
@@ -85,10 +100,10 @@ export default function SignIn() {
         <Button 
           className="bg-[#B34700] rounded-md" 
           onPress={handleLogin}
-          disabled={authState.isLoading}
+          disabled={authContext.state.isLoading}
         >
           <ButtonText className="font-bold">
-            {authState.isLoading ? "ENTRANDO..." : "ENTRAR"}
+            {authContext.state.isLoading ? "ENTRANDO..." : "ENTRAR"}
           </ButtonText>
         </Button>
 

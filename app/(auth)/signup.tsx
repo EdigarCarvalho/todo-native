@@ -13,32 +13,48 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { setAppType } = useAppConfig();
-  const { register, state: authState } = useAuth();
+  const authContext = useAuth();
+  
+  console.log("=== SIGNUP COMPONENT ===");
+  console.log("Auth context:", authContext);
 
   const handleSignUp = async () => {
+    console.log("=== HANDLE SIGNUP CALLED ===");
+    console.log("Name:", name);
+    console.log("Email:", email);
+    console.log("Password:", password);
+    
     if (!name.trim() || !email.trim() || !password.trim()) {
+      console.log("Validation failed: empty fields");
       Alert.alert("Erro", "Por favor, preencha todos os campos");
       return;
     }
 
     if (password.length < 6) {
+      console.log("Validation failed: password too short");
       Alert.alert("Erro", "A senha deve ter pelo menos 6 caracteres");
       return;
     }
 
     try {
-      const success = await register(name.trim(), email.trim(), password);
+      console.log("Calling register function...");
+      const success = await authContext.register(name.trim(), email.trim(), password);
+      
+      console.log("Register result:", success);
       
       if (success) {
+        console.log("Registration successful, setting app type...");
         // Set admin mode since this is admin registration
         await setAppType("admin");
         Alert.alert("Sucesso", "Cadastro realizado com sucesso!", [
           { text: "OK", onPress: () => router.replace("/(tabs)") }
         ]);
       } else {
-        Alert.alert("Erro de Cadastro", authState.error || "Falha no cadastro");
+        console.log("Registration failed, showing alert");
+        Alert.alert("Erro de Cadastro", authContext.state.error || "Falha no cadastro");
       }
     } catch (error) {
+      console.error("Handle signup error:", error);
       Alert.alert("Erro", "Erro de conexão. Tente novamente.");
     }
   };
@@ -93,10 +109,10 @@ export default function SignUp() {
         <Button
           className="bg-[#B34700] mt-4 rounded-md"
           onPress={handleSignUp}
-          disabled={authState.isLoading}
+          disabled={authContext.state.isLoading}
         >
           <ButtonText className="font-bold">
-            {authState.isLoading ? "CADASTRANDO..." : "CADASTRAR"}
+            {authContext.state.isLoading ? "CADASTRANDO..." : "CADASTRAR"}
           </ButtonText>
         </Button>
 

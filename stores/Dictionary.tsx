@@ -2,7 +2,6 @@ import React, { createContext, useReducer, useContext, useEffect } from "react";
 import wordsData from "../constants/Words.json";
 import categoriesData from "../constants/Categories.json"; 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import apiService from "../services/ApiService";
 
 export const BASE_URL = "http://localhost:3000"; // Replace with your actual API base URL  
 
@@ -227,19 +226,19 @@ export const DictionaryProvider = ({
   // Attempt to fetch from API
   const fetchFromApi = async () => {
     try {
-      // Use the API service
-      const categoriesResult = await apiService.getCategories();
-      const wordsResult = await apiService.getWords();
+      // Replace with your actual API endpoint
+      const categoriesResponse = await fetch(BASE_URL + '/category/all');
+      const wordsResponse = await fetch(BASE_URL + '/word/all');
       
-      if (!categoriesResult.success || !wordsResult.success) {
+      if (!categoriesResponse.ok || !wordsResponse.ok) {
         throw new Error('API response was not ok');
       }
       
-      const categories = categoriesResult.data || [];
-      const wordsByCategory = wordsResult.data?.data || {};
+      const categories = await categoriesResponse.json();
+      const wordsByCategory = await wordsResponse.json();
       
       // Save successful API data to storage
-      await saveDataToStorage(categories, wordsByCategory);
+      await saveDataToStorage(categories?.categories, wordsByCategory?.data);
       
       return { categories, wordsByCategory };
     } catch (error) {
