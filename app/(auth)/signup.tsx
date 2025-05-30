@@ -40,17 +40,15 @@ export default function SignUp() {
       <View style={styles.formContainer}>
         {/* <Text style={styles.subtitle}>Cadastro Administrativo</Text> */}
         
-        <Input className="mb-4 border-[#4B2C0B]">
+        <Input className="mb-4 border-[#4B2C0B] border-2" label="Nome">
           <InputField
-            placeholder="Nome"
             value={name}
             onChangeText={setName}
           />
         </Input>
 
-        <Input className="mb-4 border-[#4B2C0B]">
+        <Input className="mb-4   border-[#4B2C0B] border-2" label="E-mail">
           <InputField
-            placeholder="E-mail"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -58,15 +56,14 @@ export default function SignUp() {
           />
         </Input>
 
-        <Input className="mb-4 border-[#4B2C0B]">
+        <Input className="mb-4  border-[#4B2C0B] border-2" label="Senha">
           <InputField
-            placeholder="Senha"
             value={password}
             onChangeText={setPassword}
             secureTextEntry={!showPassword}
             autoCapitalize="none"
           />
-          <InputSlot onPress={() => setShowPassword(!showPassword)}>
+          <InputSlot onPress={() => setShowPassword(!showPassword)} className="mr-2">
             <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} className="text-[#4B2C0B]" />
           </InputSlot>
         </Input>
@@ -132,8 +129,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   formContainer: {
-    width: "80%",
-    maxWidth: 320,
+    width: "90%",
+    maxWidth: 370,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 14
   },
   linkContainer: {
     marginTop: 20,

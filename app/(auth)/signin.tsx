@@ -39,9 +39,8 @@ export default function SignIn() {
       <View style={styles.formContainer}>
         {/* <Text style={styles.subtitle}>Login Administrativo</Text> */}
 
-        <Input className="mb-4 border-[#4B2C0B]">
+        <Input className="mb-6 border-[#4B2C0B] border-2" label="E-mail">
           <InputField
-            placeholder="E-mail"
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -49,15 +48,14 @@ export default function SignIn() {
           />
         </Input>
 
-        <Input className="mb-2 border-[#4B2C0B]">
+        <Input className="mb-2 border-[#4B2C0B] border-2" label="Senha">
           <InputField
-            placeholder="Senha"
             value={password}
             onChangeText={setPassword}
             secureTextEntry={!showPassword}
             autoCapitalize="none"
           />
-          <InputSlot onPress={() => setShowPassword(!showPassword)}>
+         <InputSlot onPress={() => setShowPassword(!showPassword)} className="mr-2">
             <InputIcon
               as={showPassword ? EyeIcon : EyeOffIcon}
               className="text-[#4B2C0B]"
@@ -69,7 +67,7 @@ export default function SignIn() {
           <Text style={styles.forgotPasswordText}>Recuperar senha</Text>
         </Pressable>
 
-        <Button className="bg-[#B34700] mt-6 rounded-md" onPress={handleLogin}>
+        <Button className="bg-[#B34700] rounded-md" onPress={handleLogin}>
           <ButtonText className="font-bold">ENTRAR</ButtonText>
         </Button>
 
@@ -128,12 +126,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   formContainer: {
-    width: "80%",
-    maxWidth: 320,
+    width: "90%",
+    maxWidth: 370,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 14
   },
   forgotPassword: {
     alignSelf: "flex-end",
-    marginTop: 4,
+    marginTop: -8,
+    marginBottom: 4,
   },
   forgotPasswordText: {
     color: "#4B2C0B",

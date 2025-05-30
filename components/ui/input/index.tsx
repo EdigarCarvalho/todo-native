@@ -91,7 +91,7 @@ const UIInput = createInput({
 });
 
 const inputStyle = tva({
-  base: "border-background-300 flex-row overflow-hidden content-center data-[hover=true]:border-outline-400 data-[focus=true]:border-primary-700 data-[focus=true]:hover:border-primary-700 data-[disabled=true]:opacity-40 data-[disabled=true]:hover:border-background-300 items-center",
+  base: "border-background-300  border-[#4B2C0B] border-2 flex-row overflow-hidden content-center data-[hover=true]:border-outline-400 data-[focus=true]:border-primary-700 data-[focus=true]:hover:border-primary-700 data-[disabled=true]:opacity-40 data-[disabled=true]:hover:border-background-300 items-center",
 
   variants: {
     size: {
@@ -178,20 +178,38 @@ cssInterop(UIInput.Icon, {
 });
 
 type IInputProps = React.ComponentProps<typeof UIInput> &
-  VariantProps<typeof inputStyle> & { className?: string };
-const Input = React.forwardRef<React.ElementRef<typeof UIInput>, IInputProps>(
-  ({ className, variant = "outline", size = "md", ...props }, ref) => {
-    return (
-      <UIInput
-        ref={ref}
-        {...props}
-        className={inputStyle({ variant, size, class: className })}
-        context={{ variant, size }}
-      />
-    );
-  }
-);
-
+  VariantProps<typeof inputStyle> & { 
+    className?: string;
+    label?: string;
+  };
+  const Input = React.forwardRef<React.ElementRef<typeof UIInput>, IInputProps>(
+    ({ className, variant = "outline", size = "lg", label, ...props }, ref) => {
+      if (label) {
+        return (
+          <div className="relative">
+            <UIInput
+              ref={ref}
+              {...props}
+              className={inputStyle({ variant, size, class: className })}
+              context={{ variant, size }}
+            />
+            <span className="absolute -top-3 left-4 px-2 bg-white text-[#4B2C0B] font-medium text-sm">
+              {label}
+            </span>
+          </div>
+        );
+      }
+      
+      return (
+        <UIInput
+          ref={ref}
+          {...props}
+          className={inputStyle({ variant, size, class: className })}
+          context={{ variant, size }}
+        />
+      );
+    }
+  );
 type IInputIconProps = React.ComponentProps<typeof UIInput.Icon> & {
   className?: string;
   children?: any;
