@@ -9,7 +9,7 @@ import { FolderOpen } from "lucide-react-native";
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const { state } = useAuth();
-  const isAdmin = state?.isAuthenticated || false;
+  const isAdmin = Boolean(state?.isAuthenticated);
 
   console.log(state);
   
