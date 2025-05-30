@@ -9,6 +9,7 @@ import {
     onChangeValue: React.Dispatch<React.SetStateAction<string>>;
     CustomInputContent?: React.ReactNode;
     condition?: boolean;
+    placeholder?: string;
   }
   
   export function SearchInput({
@@ -16,6 +17,7 @@ import {
     onChangeValue,
     condition,
     CustomInputContent,
+    placeholder = "Pesquise uma palavra",
   }: SearchInputProps) {
     return (
       <Input
@@ -29,7 +31,7 @@ import {
         {!condition || !CustomInputContent ? (
           <>
             <InputField
-              placeholder="Pesquise uma palavra"
+              placeholder={placeholder}
               className="text-sm placeholder:text-[#474747] font-normal"
               value={value}
               onChangeText={onChangeValue}
@@ -46,4 +48,3 @@ import {
       </Input>
     );
   }
-  

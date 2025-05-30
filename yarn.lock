@@ -1209,6 +1209,19 @@
     "@react-native-aria/focus" "^0.2.9"
     "@react-native-aria/interactions" "0.2.16"
 
+"@gluestack-ui/actionsheet@^0.2.53":
+  version "0.2.53"
+  resolved "https://registry.npmjs.org/@gluestack-ui/actionsheet/-/actionsheet-0.2.53.tgz"
+  integrity sha512-93qHvq6BHezJ7wt2lce4OQ38wXCGsDtglj5nlmwo2T41vj4ubOtDVoSUhXT+hfH0EmRr0TxFNeFqIgesO46qVw==
+  dependencies:
+    "@gluestack-ui/hooks" "0.1.13"
+    "@gluestack-ui/overlay" "^0.1.22"
+    "@gluestack-ui/transitions" "^0.1.11"
+    "@gluestack-ui/utils" "^0.1.15"
+    "@react-native-aria/dialog" "^0.0.5"
+    "@react-native-aria/focus" "^0.2.9"
+    "@react-native-aria/interactions" "0.2.16"
+
 "@gluestack-ui/button@^1.0.14":
   version "1.0.14"
   resolved "https://registry.npmjs.org/@gluestack-ui/button/-/button-1.0.14.tgz"
@@ -1312,6 +1325,16 @@
   resolved "https://registry.npmjs.org/@gluestack-ui/react-native-aria/-/react-native-aria-0.1.7.tgz"
   integrity sha512-mdK/M6RQafAYiHyJnDNjaE9+ttr9eg48f2InmO3rvcrjsdaLcu/vwHlwrO9N3xYcb3wb9z2+YZ4OIgtymFNTOw==
   dependencies:
+    "@react-native-aria/focus" "^0.2.9"
+
+"@gluestack-ui/select@^0.1.31":
+  version "0.1.31"
+  resolved "https://registry.npmjs.org/@gluestack-ui/select/-/select-0.1.31.tgz"
+  integrity sha512-d8vfdCK4VFBYEDYMCTRYcZCWvYaf7UWMJGg2uMnutHA8Y4sDXjKR5P821xKdh75QVkmZRZm1MdzSWFvXUzAlgg==
+  dependencies:
+    "@gluestack-ui/form-control" "^0.1.19"
+    "@gluestack-ui/hooks" "0.1.13"
+    "@gluestack-ui/utils" "^0.1.14"
     "@react-native-aria/focus" "^0.2.9"
 
 "@gluestack-ui/slider@^0.1.32":

@@ -43,6 +43,7 @@ export default function TextsScreen() {
       <SearchInput
         value={filter}
         onChangeValue={setFilter}
+        placeholder="Pesquise um texto"
         CustomInputContent={
           <CustomInputContent setTextInFocus={setTextInFocus} state={state} />
         }

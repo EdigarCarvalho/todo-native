@@ -156,6 +156,7 @@ export default function CategoriesScreen() {
         <SearchInput
           value={filter}
           onChangeValue={setFilter}
+          placeholder="Pesquise uma categoria"
           CustomInputContent={
             <View className="flex flex-row w-full items-center justify-center">
               <Text className="text-lg font-medium">Pesquise uma categoria</Text>
@@ -257,7 +258,7 @@ export default function CategoriesScreen() {
         </ModalContent>
       </Modal>
       <TouchableOpacity
-          className="absolute bottom-6 right-6 w-14 h-14 bg-[#DC6803] rounded-full flex items-center justify-center shadow-lg"
+          className="absolute bottom-6 right-6 w-14 h-14 bg-[#DC6803] rounded-2xl flex items-center justify-center shadow-lg"
           onPress={openAddModal}
           style={styles.floatingButton}
         >
