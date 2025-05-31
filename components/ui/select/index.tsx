@@ -222,7 +222,7 @@ const SelectInput = React.forwardRef<
         },
       })}
       ref={ref}
-      placeholder="Selecione uma categoria"
+      // placeholder="Selecione uma categoria"
       {...props}
     />
   );

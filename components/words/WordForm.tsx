@@ -206,8 +206,8 @@ export function WordForm({
               >
                 <SelectInput 
                   value={selectedCategory ? 
-                    categories.find(cat => cat.id.toString() === selectedCategory)?.name || "Selecione uma categoria"
-                    : "Selecione uma categoria"
+                    categories.find(cat => cat.id.toString() === selectedCategory)?.name || ""
+                    : ""
                   }
                   editable={false}
                 />

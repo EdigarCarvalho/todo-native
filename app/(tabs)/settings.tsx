@@ -2,7 +2,7 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ReactNode } from "react";
 import { Switch } from "@/components/ui/switch";
-import { ArrowLeft } from "lucide-react-native";
+import { ArrowLeft, LogOut } from "lucide-react-native";
 import {
   Slider,
   SliderFilledTrack,
@@ -12,11 +12,23 @@ import {
 import { useDictionary } from "@/stores/Dictionary";
 import { ScalableText } from "@/components/FontSizeProvider";
 import { router } from "expo-router";
+import { useAuth } from "@/stores/AuthStore";
 
 export default function SettingsScreen() {
   const { state, updateSettings } = useDictionary();
+  const { state: authState, logout } = useAuth();
   const { darkMode, fontSize } = state.settings;
+  
+  const isAdmin = Boolean(authState?.isAuthenticated);
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // Navigation will be handled by AppRouteGuard
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   return (
     <ParallaxScrollView
@@ -79,6 +91,22 @@ export default function SettingsScreen() {
             <ScalableText className="text-xs">Grande</ScalableText>
           </View>
         </View>
+
+        {isAdmin && (
+          <>
+            <ScalableText className="text-gray-500 text-base font-medium mt-4">Conta</ScalableText>
+            
+            <TouchableOpacity 
+              onPress={handleLogout}
+              className="flex flex-row items-center justify-between py-3 px-4 bg-red-50 rounded-lg border border-red-200"
+            >
+              <View className="flex flex-row items-center gap-3">
+                <LogOut size={20} color="#DC2626" />
+                <ScalableText className="text-red-600 font-medium">Sair da conta</ScalableText>
+              </View>
+            </TouchableOpacity>
+          </>
+        )}
       </View>
     </ParallaxScrollView>
   );
