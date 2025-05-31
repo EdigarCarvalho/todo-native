@@ -3,7 +3,7 @@ import { BASE_URL } from '../stores/Dictionary';
 // Types
 export interface ApiResponse<T = any> {
   success: boolean;
-  data?: T;
+  data?: T | any;
   error?: string;
 }
 

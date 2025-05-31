@@ -164,12 +164,15 @@ export const TextsProvider = ({
     try {
       // Use the API service
       const textsResult = await apiService.getTexts();
+
+      console.log(textsResult);
       
-      if (!textsResult.success) {
+      
+      if (!textsResult.success && !((textsResult?.data?.data?.length || 0) > 0)) {
         throw new Error('API response was not ok');
       }
       
-      const texts = textsResult.data || [];
+      const texts = textsResult?.data?.data || textsResult?.data || [];
       
       // Save successful API data to storage
       await saveDataToStorage(texts);
