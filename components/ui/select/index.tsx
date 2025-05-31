@@ -88,6 +88,20 @@ const selectInputStyle = tva({
   },
 });
 
+// Novo estilo customizado para os itens do select
+const selectItemStyle = tva({
+  base: 'bg-orange-100 border-b border-orange-200 px-4 py-3 data-[hover=true]:bg-orange-200 data-[focus=true]:bg-orange-200 data-[pressed=true]:bg-orange-200',
+});
+
+const selectItemTextStyle = tva({
+  base: 'text-amber-800 font-medium text-base',
+});
+
+// Estilo para o conteúdo do actionsheet
+const selectContentStyle = tva({
+  base: 'bg-white rounded-t-xl max-h-[70vh]',
+});
+
 const UISelect = createSelect(
   {
     Root: View,
@@ -131,22 +145,40 @@ cssInterop(PrimitiveIcon, {
 });
 
 type ISelectProps = VariantProps<typeof selectStyle> &
-  React.ComponentProps<typeof UISelect> & { className?: string };
+  React.ComponentProps<typeof UISelect> & {
+    className?: string;
+    label?: string;
+  };
 
 const Select = React.forwardRef<
-  React.ComponentRef<typeof UISelect>,
+  React.ElementRef<typeof UISelect>,
   ISelectProps
->(function Select({ className, ...props }, ref) {
-  return (
-    <UISelect
-      className={selectStyle({
-        class: className,
-      })}
-      ref={ref}
-      {...props}
-    />
-  );
-});
+>(
+  ({ className, label, ...props }, ref) => {
+    if (label) {
+      return (
+        <div className="relative">
+          <UISelect
+            ref={ref}
+            {...props}
+            className={selectStyle({ class: props?.className })}
+          />
+          <span className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] text-[#4B2C0B] font-medium text-sm">
+            {label}
+          </span>
+        </div>
+      );
+    }
+
+    return (
+      <UISelect
+        ref={ref}
+        {...props}
+        className={selectStyle({ class: props?.className })}
+      />
+    );
+  }
+);
 
 type ISelectTriggerProps = VariantProps<typeof selectTriggerStyle> &
   React.ComponentProps<typeof UISelect.Trigger> & { className?: string };
@@ -240,18 +272,68 @@ const SelectIcon = React.forwardRef<
   );
 });
 
+// Componentes customizados para seguir o estilo da imagem
+type ISelectContentProps = VariantProps<typeof selectContentStyle> &
+  React.ComponentProps<typeof UISelect.Content> & { className?: string };
+
+const SelectContent = React.forwardRef<
+  React.ComponentRef<typeof UISelect.Content>,
+  ISelectContentProps
+>(function SelectContent({ className, ...props }, ref) {
+  return (
+    <UISelect.Content
+      className={selectContentStyle({ class: className })}
+      ref={ref}
+      {...props}
+    />
+  );
+});
+
+type ISelectItemProps = VariantProps<typeof selectItemStyle> &
+  React.ComponentProps<typeof UISelect.Item> & { className?: string };
+
+const SelectItem = React.forwardRef<
+  React.ComponentRef<typeof UISelect.Item>,
+  ISelectItemProps
+>(function SelectItem({ className, ...props }, ref) {
+  return (
+    <UISelect.Item
+      className={selectItemStyle({ class: className })}
+      ref={ref}
+      {...props}
+    />
+  );
+});
+
+type ISelectItemTextProps = VariantProps<typeof selectItemTextStyle> &
+  React.ComponentProps<typeof UISelect.ItemText> & { className?: string };
+
+const SelectItemText = React.forwardRef<
+  React.ComponentRef<typeof UISelect.ItemText>,
+  ISelectItemTextProps
+>(function SelectItemText({ className, ...props }, ref) {
+  return (
+    <UISelect.ItemText
+      className={selectItemTextStyle({ class: className })}
+      ref={ref}
+      {...props}
+    />
+  );
+});
+
 Select.displayName = 'Select';
 SelectTrigger.displayName = 'SelectTrigger';
 SelectInput.displayName = 'SelectInput';
 SelectIcon.displayName = 'SelectIcon';
+SelectContent.displayName = 'SelectContent';
+SelectItem.displayName = 'SelectItem';
+SelectItemText.displayName = 'SelectItemText';
 
-// Actionsheet Components
+// Componentes do Actionsheet mantidos
 const SelectPortal = UISelect.Portal;
 const SelectBackdrop = UISelect.Backdrop;
-const SelectContent = UISelect.Content;
 const SelectDragIndicator = UISelect.DragIndicator;
 const SelectDragIndicatorWrapper = UISelect.DragIndicatorWrapper;
-const SelectItem = UISelect.Item;
 const SelectScrollView = UISelect.ScrollView;
 const SelectVirtualizedList = UISelect.VirtualizedList;
 const SelectFlatList = UISelect.FlatList;
@@ -269,6 +351,7 @@ export {
   SelectDragIndicator,
   SelectDragIndicatorWrapper,
   SelectItem,
+  SelectItemText,
   SelectScrollView,
   SelectVirtualizedList,
   SelectFlatList,

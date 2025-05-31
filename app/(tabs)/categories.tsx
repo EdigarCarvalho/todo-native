@@ -190,7 +190,7 @@ export default function CategoriesScreen() {
                         className="p-2"
                         onPress={() => openEditModal(category)}
                       >
-                        <Edit2 size={20} color="#DC6803" />
+                        <Edit2 size={20} color="#C74B0B" />
                       </TouchableOpacity>
                     </View>
                     {index < filteredCategories.length - 1 && <Divider />}
@@ -225,7 +225,7 @@ export default function CategoriesScreen() {
           </ModalHeader>
           
           <ModalBody className="py-6">
-            <Input className="border-[#DC6803] border-2" label="Categoria" size="xl">
+            <Input className="border-[#C74B0B] border-2" label="Categoria" size="xl">
               <InputField
                 value={categoryName}
                 onChangeText={setCategoryName}
@@ -236,15 +236,15 @@ export default function CategoriesScreen() {
           
           <ModalFooter className="flex flex-row gap-3 ">
             <Button
-              className="flex-1 bg-white border-[#DC6803] border-2"
+              className="flex-1 bg-white border-[#C74B0B] border-2"
               onPress={closeModal}
               disabled={isSubmitting}
             >
-              <ButtonText className="text-[#DC6803] font-bold">Cancelar</ButtonText>
+              <ButtonText className="text-[#C74B0B] font-bold">Cancelar</ButtonText>
             </Button>
             
             <Button
-              className="flex-1 bg-[#DC6803]"
+              className="flex-1 bg-[#C74B0B]"
               onPress={handleSubmit}
               disabled={isSubmitting}
             >
@@ -258,7 +258,7 @@ export default function CategoriesScreen() {
         </ModalContent>
       </Modal>
       <TouchableOpacity
-          className="absolute bottom-6 right-6 w-14 h-14 bg-[#DC6803] rounded-2xl flex items-center justify-center shadow-lg"
+          className="absolute bottom-6 right-6 w-14 h-14 bg-[#C74B0B] rounded-2xl flex items-center justify-center shadow-lg"
           onPress={openAddModal}
           style={styles.floatingButton}
         >

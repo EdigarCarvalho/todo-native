@@ -9,7 +9,7 @@ interface FloatingAddButtonProps {
 export function FloatingAddButton({ onPress }: FloatingAddButtonProps) {
   return (
     <TouchableOpacity
-      className="absolute bottom-6 right-6 w-14 h-14 bg-[#DC6803] rounded-2xl flex items-center justify-center shadow-lg"
+      className="absolute bottom-6 right-6 w-14 h-14 bg-[#C74B0B] rounded-2xl flex items-center justify-center shadow-lg"
       onPress={onPress}
       style={styles.floatingButton}
     >

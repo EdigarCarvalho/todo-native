@@ -148,7 +148,7 @@ function WordItem({ word, isAdmin, onWordSelect, onWordEdit }: WordItemProps) {
           className="p-2 mr-2"
           onPress={() => onWordEdit(word)}
         >
-          <Edit2 size={16} color="#DC6803" />
+          <Edit2 size={16} color="#C74B0B" />
         </TouchableOpacity>
       )}
       <TouchableOpacity

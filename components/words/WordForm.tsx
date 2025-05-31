@@ -15,8 +15,14 @@ import {
   SelectDragIndicator,
   SelectItem,
 } from "@/components/ui/select";
-import { useToast, Toast, ToastTitle, ToastDescription } from "@/components/ui/toast";
+import {
+  useToast,
+  Toast,
+  ToastTitle,
+  ToastDescription,
+} from "@/components/ui/toast";
 import apiService from "@/services/ApiService";
+import { ThemedText } from "../ThemedText";
 
 interface Word {
   id: number;
@@ -37,7 +43,12 @@ interface WordFormProps {
   onCancel: () => void;
 }
 
-export function WordForm({ editingWord, categories, onSuccess, onCancel }: WordFormProps) {
+export function WordForm({
+  editingWord,
+  categories,
+  onSuccess,
+  onCancel,
+}: WordFormProps) {
   const [wordName, setWordName] = useState("");
   const [wordTranslation, setWordTranslation] = useState("");
   const [wordMeaning, setWordMeaning] = useState("");
@@ -69,7 +80,9 @@ export function WordForm({ editingWord, categories, onSuccess, onCancel }: WordF
         render: ({ id }) => (
           <Toast nativeID={`toast-${id}`} action="error" variant="solid">
             <ToastTitle>Erro</ToastTitle>
-            <ToastDescription>Por favor, preencha todos os campos obrigatórios</ToastDescription>
+            <ToastDescription>
+              Por favor, preencha todos os campos obrigatórios
+            </ToastDescription>
           </Toast>
         ),
       });
@@ -83,14 +96,14 @@ export function WordForm({ editingWord, categories, onSuccess, onCancel }: WordF
       if (editingWord) {
         result = await apiService.updateWord(editingWord.id, {
           name: wordName.trim(),
-          meaning: wordTranslation.trim()
+          meaning: wordTranslation.trim(),
         });
       } else {
         result = await apiService.createWord({
           name: wordName.trim(),
           meaning: wordTranslation.trim(),
           category_id: parseInt(selectedCategory),
-          attachments
+          attachments,
         });
       }
 
@@ -106,7 +119,7 @@ export function WordForm({ editingWord, categories, onSuccess, onCancel }: WordF
             </Toast>
           ),
         });
-        
+
         onSuccess();
       } else {
         toast.show({
@@ -115,7 +128,8 @@ export function WordForm({ editingWord, categories, onSuccess, onCancel }: WordF
             <Toast nativeID={`toast-${id}`} action="error" variant="solid">
               <ToastTitle>Erro</ToastTitle>
               <ToastDescription>
-                {result.error || `Falha ao ${editingWord ? "atualizar" : "criar"} palavra`}
+                {result.error ||
+                  `Falha ao ${editingWord ? "atualizar" : "criar"} palavra`}
               </ToastDescription>
             </Toast>
           ),
@@ -127,7 +141,9 @@ export function WordForm({ editingWord, categories, onSuccess, onCancel }: WordF
         render: ({ id }) => (
           <Toast nativeID={`toast-${id}`} action="error" variant="solid">
             <ToastTitle>Erro</ToastTitle>
-            <ToastDescription>Erro de conexão. Tente novamente.</ToastDescription>
+            <ToastDescription>
+              Erro de conexão. Tente novamente.
+            </ToastDescription>
           </Toast>
         ),
       });
@@ -138,33 +154,47 @@ export function WordForm({ editingWord, categories, onSuccess, onCancel }: WordF
 
   return (
     <View className="py-1 px-2">
-      <View className="py-4 px-3 bg-[#FBF0E8] border-[#A30122] border-[1px] rounded-xl">
-        <Text className="text-lg font-bold text-[#212121] mb-6 text-center">
-          {editingWord ? "Editar palavra" : "Cadastrar palavra"}
-        </Text>
+      <View className=" px-3">
+        <View className="flex justify-center text-center mb-5">
+          <ThemedText
+            style={{ color: "#C74B0B", textAlign: "center" }}
+            type="title"
+          >
+            {editingWord ? "Editar palavra" : "Cadastrar palavra"}
+          </ThemedText>
+        </View>
 
-        <View className="space-y-4">
-          <Input className="border-[#DC6803] border-2 mb-4" label="Insira a palavra" size="xl">
-            <InputField
-              value={wordName}
-              onChangeText={setWordName}
-              placeholder="Digite a palavra"
-            />
+        <View className="space-y-4 flex flex-col gap-2">
+          <Input
+            className="border-[#C74B0B] border-2 "
+            label="Insira a palavra"
+            size="xl"
+          >
+            <InputField value={wordName} onChangeText={setWordName} />
           </Input>
 
-          <Input className="border-[#DC6803] border-2 mb-4" label="Insira a tradução" size="xl">
+          <Input
+            className="border-[#C74B0B] border-2 "
+            label="Insira a tradução"
+            size="xl"
+          >
             <InputField
               value={wordTranslation}
               onChangeText={setWordTranslation}
-              placeholder="Digite a tradução"
             />
           </Input>
 
-          <View className="mb-4">
-            <Text className="text-sm font-medium text-gray-700 mb-2">Escolha a categoria</Text>
-            <Select selectedValue={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger variant="outline" size="xl" className="border-[#DC6803] border-2">
-                <SelectInput placeholder="Selecione uma categoria" />
+          <View className="">
+            <Select
+              selectedValue={selectedCategory}
+              onValueChange={setSelectedCategory}
+              label="Escolha a categoria"
+            >
+              <SelectTrigger
+                variant="outline"
+                size="xl"
+                className="border-[#C74B0B] border-2"
+              >
                 <SelectIcon className="mr-3" />
               </SelectTrigger>
               <SelectPortal>
@@ -174,37 +204,53 @@ export function WordForm({ editingWord, categories, onSuccess, onCancel }: WordF
                     <SelectDragIndicator />
                   </SelectDragIndicatorWrapper>
                   {categories.map((category) => (
-                    <SelectItem key={category.id} label={category.name} value={category.id.toString()} />
+                    <SelectItem
+                      key={category.id}
+                      label={category.name}
+                      value={category.id.toString()}
+                    />
                   ))}
                 </SelectContent>
               </SelectPortal>
             </Select>
           </View>
 
-          <Input className="border-[#DC6803] border-2 mb-4" label="Significado (opcional)" size="xl">
+          <Input
+            className="border-[#C74B0B] border-2 "
+            label="Significado (opcional)"
+            size="xl"
+          >
             <InputField
               value={wordMeaning}
               onChangeText={setWordMeaning}
-              placeholder="Digite o significado"
               multiline
               numberOfLines={3}
             />
           </Input>
 
           <View className="mb-6">
-            <Text className="text-sm font-medium text-gray-700 mb-2">Anexos</Text>
-            <TouchableOpacity className="border-2 border-dashed border-[#DC6803] rounded-lg p-4 flex flex-row items-center justify-center">
-              <Paperclip size={20} color="#DC6803" />
-              <Text className="ml-2 text-[#DC6803]">Adicionar arquivos</Text>
+            <Text className="text-sm font-medium text-gray-700 mb-2">
+              Anexos
+            </Text>
+            <TouchableOpacity className="border-2 border-dashed border-[#C74B0B] rounded-lg p-4 flex flex-row items-center justify-center">
+              <Paperclip size={20} color="#C74B0B" />
+              <Text className="ml-2 text-[#C74B0B]">Adicionar arquivos</Text>
             </TouchableOpacity>
             {attachments.length > 0 && (
               <View className="mt-2">
                 {attachments.map((file, index) => (
-                  <View key={index} className="flex flex-row items-center justify-between p-2 bg-gray-100 rounded mb-1">
+                  <View
+                    key={index}
+                    className="flex flex-row items-center justify-between p-2 bg-gray-100 rounded mb-1"
+                  >
                     <Text className="flex-1 text-sm">{file.name}</Text>
-                    <TouchableOpacity onPress={() => {
-                      setAttachments(attachments.filter((_, i) => i !== index));
-                    }}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setAttachments(
+                          attachments.filter((_, i) => i !== index)
+                        );
+                      }}
+                    >
                       <X size={16} color="#666" />
                     </TouchableOpacity>
                   </View>
@@ -215,23 +261,28 @@ export function WordForm({ editingWord, categories, onSuccess, onCancel }: WordF
 
           <View className="flex flex-row gap-3">
             <Button
-              className="flex-1 bg-white border-[#DC6803] border-2"
+              className="flex-1 bg-white border-[#C74B0B] border-2"
               onPress={onCancel}
               disabled={isSubmitting}
             >
-              <ButtonText className="text-[#DC6803] font-bold">Cancelar</ButtonText>
+              <ButtonText className="text-[#C74B0B] font-bold">
+                Cancelar
+              </ButtonText>
             </Button>
-            
+
             <Button
-              className="flex-1 bg-[#DC6803]"
+              className="flex-1 bg-[#C74B0B]"
               onPress={handleSubmit}
               disabled={isSubmitting}
             >
               <ButtonText className="text-white font-bold">
-                {isSubmitting 
-                  ? (editingWord ? "Salvando..." : "Adicionando...") 
-                  : (editingWord ? "Salvar" : "Adicionar palavra")
-                }
+                {isSubmitting
+                  ? editingWord
+                    ? "Salvando..."
+                    : "Adicionando..."
+                  : editingWord
+                    ? "Salvar"
+                    : "Adicionar palavra"}
               </ButtonText>
             </Button>
           </View>
