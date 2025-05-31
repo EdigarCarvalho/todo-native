@@ -50,7 +50,10 @@ export default function HomeScreen() {
     setViewMode("form");
   };
 
-  const handleEditWord = (word: Word) => {
+  const handleEditWord = (word: Word & {
+    categoryId?: number;
+    category?: { id: number; name: string };
+  }) => {
     // Find which category this word belongs to
     let wordWithCategory = { ...word };
     

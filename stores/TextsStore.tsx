@@ -170,9 +170,6 @@ export const TextsProvider = ({
       // Use the API service
       const textsResult = await apiService.getTexts();
 
-      console.log(textsResult);
-      
-      
       if (!textsResult.success && !((textsResult?.data?.data?.length || 0) > 0)) {
         throw new Error('API response was not ok');
       }

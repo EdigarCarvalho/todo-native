@@ -11,9 +11,6 @@ export default function TabLayout() {
   const { state } = useAuth();
   const isAdmin = Boolean(state?.isAuthenticated);
 
-  console.log(state);
-  
-
   return (
     <Tabs
       screenOptions={{
@@ -32,7 +29,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <View className={` flex flex-col justify-center items-center`}>
               <View
-                className={`${focused ? "bg-[#A30122]" : ""} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}
+                className={`${focused ? (isAdmin ? "bg-[#C74B0B]" : "bg-[#A30122]") : ""} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}
               >
                 <MenuSvg size={26} color={focused ? color : "#474747"} />
               </View>
@@ -53,7 +50,7 @@ export default function TabLayout() {
             tabBarIcon: ({ color, focused }) => (
               <View className={` flex flex-col justify-center items-center`}>
                 <View
-                  className={`${focused ? "bg-[#A30122]" : ""} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}
+                  className={`${focused ? (isAdmin ? "bg-[#C74B0B]" : "bg-[#A30122]") : ""} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}
                 >
                   <FolderOpen size={24} color={focused ? color : "#474747"} />
                 </View>
@@ -74,7 +71,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <View className={` flex flex-col justify-center items-center`}>
               <View
-                className={`${focused ? "bg-[#A30122]" : ""} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}
+                className={`${focused ? (isAdmin ? "bg-[#C74B0B]" : "bg-[#A30122]") : ""} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}
               >
                 <TextSvg size={24} color={focused ? color : "#474747"} />
               </View>
@@ -95,7 +92,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <View className={` flex flex-col justify-center items-center`}>
               <View
-                className={`${focused ? "bg-[#A30122]" : ""} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}
+                className={`${focused ? (isAdmin ? "bg-[#C74B0B]" : "bg-[#A30122]") : ""} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}
               >
                 <CogSvg size={24} color={focused ? color : "#474747"} />
               </View>
