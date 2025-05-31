@@ -2,6 +2,7 @@ import React, { createContext, useReducer, useContext, useEffect } from "react";
 import textsData from "../constants/Texts.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import apiService from "../services/ApiService";
+import { useAppConfig } from "./AppConfigStore";
 
 // Define type based on your JSON structure
 type Text = {
@@ -95,6 +96,7 @@ export const TextsProvider = ({
   children: React.ReactNode;
 }) => {
   const [state, dispatch] = useReducer(textsReducer, initialState);
+  const { isAdmin } = useAppConfig();
 
   // Load saved state on component mount
   useEffect(() => {
@@ -119,6 +121,9 @@ export const TextsProvider = ({
 
   // Check if we should try API fetch today
   const shouldFetchFromApi = () => {
+    // Admin users can always fetch from API
+    if (isAdmin()) return true;
+    
     if (!state.lastApiFetch) return true;
     
     const lastFetch = new Date(state.lastApiFetch);

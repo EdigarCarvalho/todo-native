@@ -2,6 +2,7 @@ import React, { createContext, useReducer, useContext, useEffect } from "react";
 import wordsData from "../constants/Words.json";
 import categoriesData from "../constants/Categories.json"; 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAppConfig } from "./AppConfigStore";
 
 export const BASE_URL = "http://localhost:3000"; // Replace with your actual API base URL  
 
@@ -16,6 +17,8 @@ type Word = {
   id: number;
   word: string;
   meaning: string;
+  categoryId?: number;
+  category?: Category;
   attachments: Attachment[];
 };
 
@@ -148,6 +151,7 @@ export const DictionaryProvider = ({
   children: React.ReactNode;
 }) => {
   const [state, dispatch] = useReducer(dictionaryReducer, initialState);
+  const { isAdmin } = useAppConfig();
 
   // Load saved state on component mount
   useEffect(() => {
@@ -180,6 +184,9 @@ export const DictionaryProvider = ({
 
   // Check if we should try API fetch today
   const shouldFetchFromApi = () => {
+    // Admin users can always fetch from API
+    if (isAdmin()) return true;
+    
     if (!state.lastApiFetch) return true;
     
     const lastFetch = new Date(state.lastApiFetch);

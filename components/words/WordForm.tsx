@@ -28,6 +28,8 @@ interface Word {
   id: number;
   word: string;
   meaning: string;
+  categoryId?: number;
+  category?: Category;
   attachments: any[];
 }
 
@@ -63,7 +65,14 @@ export function WordForm({
       setWordName(editingWord.word || "");
       setWordTranslation(editingWord.meaning || "");
       setWordMeaning(editingWord.meaning || "");
-      setSelectedCategory(""); // Would need category info from word
+
+      console.log("Editing word with category info:", editingWord);
+      
+      // Set the category based on categoryId or category object
+      const categoryId = editingWord.categoryId || editingWord.category?.id;
+      console.log("Category ID found:", categoryId);
+      
+      setSelectedCategory(categoryId ? categoryId.toString() : "");
     } else {
       setWordName("");
       setWordTranslation("");
@@ -195,6 +204,13 @@ export function WordForm({
                 size="xl"
                 className="border-[#C74B0B] border-2"
               >
+                <SelectInput 
+                  value={selectedCategory ? 
+                    categories.find(cat => cat.id.toString() === selectedCategory)?.name || "Selecione uma categoria"
+                    : "Selecione uma categoria"
+                  }
+                  editable={false}
+                />
                 <SelectIcon className="mr-3" />
               </SelectTrigger>
               <SelectPortal>

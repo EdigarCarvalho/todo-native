@@ -51,7 +51,23 @@ export default function HomeScreen() {
   };
 
   const handleEditWord = (word: Word) => {
-    setEditingWord(word);
+    // Find which category this word belongs to
+    let wordWithCategory = { ...word };
+    
+    // Search through wordsByCategory to find the category
+    Object.entries(state.wordsByCategory).forEach(([categoryId, words]) => {
+      const foundWord = words.find(w => w.id === word.id);
+      if (foundWord) {
+        wordWithCategory.categoryId = parseInt(categoryId);
+        // Also find the category object
+        const category = state.categories.find(cat => cat.id === parseInt(categoryId));
+        if (category) {
+          wordWithCategory.category = category;
+        }
+      }
+    });
+    
+    setEditingWord(wordWithCategory);
     setWordInFocus(null);
     setViewMode("form");
   };
