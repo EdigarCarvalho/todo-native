@@ -26,6 +26,8 @@ import { Button, ButtonText } from "@/components/ui/button";
 import { X } from "lucide-react-native";
 import apiService from "@/services/ApiService";
 import { useToast, Toast, ToastTitle, ToastDescription } from "@/components/ui/toast";
+import { useAuth } from "@/stores/AuthStore";
+import { router } from "expo-router";
 
 interface Category {
   id: number;
@@ -34,6 +36,7 @@ interface Category {
 
 export default function CategoriesScreen() {
   const { state, fetchData, refreshCategories } = useDictionary();
+  const { state: authState } = useAuth();
   const [filter, setFilter] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
@@ -41,9 +44,26 @@ export default function CategoriesScreen() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useToast();
 
+  const isAdmin = Boolean(authState?.isAuthenticated);
+
+  // Redirect non-admin users
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (!isAdmin) {
+      router.replace("/(tabs)");
+      return;
+    }
+  }, [isAdmin]);
+
+  useEffect(() => {
+    if (isAdmin) {
+      fetchData();
+    }
+  }, [isAdmin]);
+
+  // Don't render anything for non-admin users
+  if (!isAdmin) {
+    return null;
+  }
 
   // Filter categories based on search input
   const getFilteredCategories = () => {

@@ -42,28 +42,27 @@ export default function TabLayout() {
           ),
         }}
       />
-      {isAdmin && (
-        <Tabs.Screen
-          name="categories"
-          options={{
-            title: "",
-            tabBarIcon: ({ color, focused }) => (
-              <View className={` flex flex-col justify-center items-center`}>
-                <View
-                  className={`${focused ? (isAdmin ? "bg-[#C74B0B]" : "bg-[#A30122]") : ""} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}
-                >
-                  <FolderOpen size={24} color={focused ? color : "#474747"} />
-                </View>
-                <span
-                  className={`text-xs font-semibold ${focused ? "text-[#212121]]" : "text-[#474747]"} `}
-                >
-                  Categorias
-                </span>
+      <Tabs.Screen
+        name="categories"
+        options={{
+          href: isAdmin ? "/categories" : null,
+          title: "",
+          tabBarIcon: ({ color, focused }) => (
+            <View className={` flex flex-col justify-center items-center`}>
+              <View
+                className={`${focused ? (isAdmin ? "bg-[#C74B0B]" : "bg-[#A30122]") : ""} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}
+              >
+                <FolderOpen size={24} color={focused ? color : "#474747"} />
               </View>
-            ),
-          }}
-        />
-      )}
+              <span
+                className={`text-xs font-semibold ${focused ? "text-[#212121]]" : "text-[#474747]"} `}
+              >
+                Categorias
+              </span>
+            </View>
+          ),
+        }}
+      />
       <Tabs.Screen
         name="texts"
         options={{
