@@ -8,6 +8,9 @@ dependencies:
   '@babel/plugin-transform-template-literals':
     specifier: ^7.25.7
     version: 7.27.1(@babel/core@7.27.1)
+  '@babel/runtime':
+    specifier: ^7.27.6
+    version: 7.27.6
   '@expo/html-elements':
     specifier: ^0.4.2
     version: 0.4.3
@@ -17,21 +20,36 @@ dependencies:
   '@gluestack-ui/accordion':
     specifier: ^1.0.14
     version: 1.0.14(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+  '@gluestack-ui/actionsheet':
+    specifier: ^0.2.53
+    version: 0.2.53(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+  '@gluestack-ui/button':
+    specifier: ^1.0.14
+    version: 1.0.14(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
   '@gluestack-ui/checkbox':
     specifier: ^0.1.32
     version: 0.1.39(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+  '@gluestack-ui/divider':
+    specifier: ^0.1.10
+    version: 0.1.10(react-dom@18.2.0)(react@18.2.0)
   '@gluestack-ui/icon':
     specifier: ^0.1.27
     version: 0.1.27(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
   '@gluestack-ui/input':
     specifier: ^0.1.31
     version: 0.1.38(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+  '@gluestack-ui/modal':
+    specifier: ^0.1.41
+    version: 0.1.41(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
   '@gluestack-ui/nativewind-utils':
     specifier: ^1.0.24
     version: 1.0.26(nativewind@4.1.23)(react@18.2.0)(tailwindcss@3.4.17)
   '@gluestack-ui/overlay':
     specifier: ^0.1.15
     version: 0.1.22(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+  '@gluestack-ui/select':
+    specifier: ^0.1.31
+    version: 0.1.31(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
   '@gluestack-ui/slider':
     specifier: ^0.1.32
     version: 0.1.32(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
@@ -39,8 +57,11 @@ dependencies:
     specifier: ^0.1.22
     version: 0.1.29(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
   '@gluestack-ui/toast':
-    specifier: ^1.0.7
+    specifier: ^1.0.9
     version: 1.0.9(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+  '@legendapp/motion':
+    specifier: ^2.4.0
+    version: 2.4.0(nativewind@4.1.23)(react-native@0.74.5)(react@18.2.0)
   '@react-native-async-storage/async-storage':
     specifier: 1.23.1
     version: 1.23.1(react-native@0.74.5)
@@ -92,6 +113,9 @@ dependencies:
   react-native:
     specifier: 0.74.5
     version: 0.74.5(@babel/core@7.27.1)(@babel/preset-env@7.27.2)(@types/react@18.2.79)(react@18.2.0)
+  react-native-css-interop:
+    specifier: ^0.1.22
+    version: 0.1.22(react-native-reanimated@3.10.1)(react-native-safe-area-context@4.10.5)(react-native-svg@13.14.1)(react-native@0.74.5)(react@18.2.0)(tailwindcss@3.4.17)
   react-native-gesture-handler:
     specifier: ~2.16.1
     version: 2.16.2(react-native@0.74.5)(react@18.2.0)
@@ -1615,8 +1639,8 @@ packages:
       regenerator-runtime: 0.12.1
     dev: true
 
-  /@babel/runtime@7.27.1:
-    resolution: {integrity: sha512-1x3D2xEk2fRo3PAhwQwu5UubzgiVWSXTBfWpVd2Mx2AzRqJuDJCsgaDVZ7HB5iGzDW1Hl1sWN2mFyKjmR9uAog==}
+  /@babel/runtime@7.27.6:
+    resolution: {integrity: sha512-vbavdySgbTTrmFE+EsiqUTzlOr5bzlnJtUv9PynGCAKvfQqjIXbvFdumPM/GxMDfyuGMJaJAU6TO4zc1Jf1i8Q==}
     engines: {node: '>=6.9.0'}
     dev: false
 
@@ -1668,7 +1692,7 @@ packages:
 
   /@expo/bunyan@4.0.1:
     resolution: {integrity: sha512-+Lla7nYSiHZirgK+U/uYzsLv/X+HaJienbD5AKX1UQZHYfWaP+9uuQluRB4GrEVWF0GZ7vEVp/jzaOT9k/SQlg==}
-    engines: {node: '>=0.10.0'}
+    engines: {'0': node >=0.10.0}
     dependencies:
       uuid: 8.3.2
     dev: false
@@ -1677,7 +1701,7 @@ packages:
     resolution: {integrity: sha512-v9llw9fT3Uv+TCM6Xllo54t672CuYtinEQZ2LPJ2EJsCwuTc4Cd2gXQaouuIVD21VoeGQnr5JtJuWbF97sBKzQ==}
     hasBin: true
     dependencies:
-      '@babel/runtime': 7.27.1
+      '@babel/runtime': 7.27.6
       '@expo/code-signing-certificates': 0.0.5
       '@expo/config': 9.0.4
       '@expo/config-plugins': 8.0.11
@@ -2137,6 +2161,40 @@ packages:
       - react-native
     dev: false
 
+  /@gluestack-ui/actionsheet@0.2.53(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0):
+    resolution: {integrity: sha512-93qHvq6BHezJ7wt2lce4OQ38wXCGsDtglj5nlmwo2T41vj4ubOtDVoSUhXT+hfH0EmRr0TxFNeFqIgesO46qVw==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@gluestack-ui/hooks': 0.1.13(react-dom@18.2.0)(react@18.2.0)
+      '@gluestack-ui/overlay': 0.1.22(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      '@gluestack-ui/transitions': 0.1.11(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      '@gluestack-ui/utils': 0.1.15(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      '@react-native-aria/dialog': 0.0.5(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      '@react-native-aria/focus': 0.2.9(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      '@react-native-aria/interactions': 0.2.16(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    transitivePeerDependencies:
+      - react-native
+    dev: false
+
+  /@gluestack-ui/button@1.0.14(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0):
+    resolution: {integrity: sha512-Rqv5PY18jzeVACBwsVxXlyDbHjBiSXGVqY29VO6KHZGMMokCPW6MXYXT8ZpriLxMc1DRkgTtpTVYZCJBFaYTbg==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@gluestack-ui/utils': 0.1.15(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      '@react-native-aria/focus': 0.2.9(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      '@react-native-aria/interactions': 0.2.16(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    transitivePeerDependencies:
+      - react-native
+    dev: false
+
   /@gluestack-ui/checkbox@0.1.39(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0):
     resolution: {integrity: sha512-CPL9+g9qIFuGGQAQuFySATTxrqGMhIx/ASpBdl/YC50Ec/d7gMZlnKww3N1og3a6JqMG8yeWwbH+GH3z07XsfA==}
     peerDependencies:
@@ -2155,6 +2213,16 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     transitivePeerDependencies:
       - react-native
+    dev: false
+
+  /@gluestack-ui/divider@0.1.10(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-/hZx1Rmy4Pgln9AwAprAEQcxYPEHjHSNF4xCUWlK/q0peyiMT5Nagt54VnxykVn5A0b2zg5QKP0pOqOF9xeE6w==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@gluestack-ui/form-control@0.1.19(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0):
@@ -2212,6 +2280,25 @@ packages:
       - react-native
     dev: false
 
+  /@gluestack-ui/modal@0.1.41(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0):
+    resolution: {integrity: sha512-pEO5h6TxEpYyU/CEhRD/pAkuBsDfqnFUe51AxK7w6FLjBuTKA5P0wsQ1pfcovJeykkpreG+MiUvNPIo3MW/Lfw==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@gluestack-ui/hooks': 0.1.13(react-dom@18.2.0)(react@18.2.0)
+      '@gluestack-ui/overlay': 0.1.22(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      '@gluestack-ui/utils': 0.1.15(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      '@react-native-aria/dialog': 0.0.5(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      '@react-native-aria/focus': 0.2.9(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      '@react-native-aria/interactions': 0.2.16(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      '@react-native-aria/overlays': 0.3.15(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    transitivePeerDependencies:
+      - react-native
+    dev: false
+
   /@gluestack-ui/nativewind-utils@1.0.26(nativewind@4.1.23)(react@18.2.0)(tailwindcss@3.4.17):
     resolution: {integrity: sha512-Ul/nHkYOKMH5CTmDUndM826GKYqWI6jFaz7/v7AgOo9dFuokOYm6Sd3pcJHqzPghwODRXV9L4nQgxa7dJX96pg==}
     peerDependencies:
@@ -2263,6 +2350,22 @@ packages:
       react: '>=16'
       react-dom: '>=16'
     dependencies:
+      '@react-native-aria/focus': 0.2.9(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    transitivePeerDependencies:
+      - react-native
+    dev: false
+
+  /@gluestack-ui/select@0.1.31(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0):
+    resolution: {integrity: sha512-d8vfdCK4VFBYEDYMCTRYcZCWvYaf7UWMJGg2uMnutHA8Y4sDXjKR5P821xKdh75QVkmZRZm1MdzSWFvXUzAlgg==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@gluestack-ui/form-control': 0.1.19(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      '@gluestack-ui/hooks': 0.1.13(react-dom@18.2.0)(react@18.2.0)
+      '@gluestack-ui/utils': 0.1.15(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
       '@react-native-aria/focus': 0.2.9(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -2376,8 +2479,21 @@ packages:
       '@swc/helpers': 0.5.17
     dev: false
 
+  /@internationalized/date@3.8.2:
+    resolution: {integrity: sha512-/wENk7CbvLbkUvX1tu0mwq49CVkkWpkXubGel6birjRPyo6uQ4nQpnq5xZu823zRCwwn82zgHrvgF1vZyvmVgA==}
+    dependencies:
+      '@swc/helpers': 0.5.17
+    dev: false
+
   /@internationalized/message@3.1.7:
     resolution: {integrity: sha512-gLQlhEW4iO7DEFPf/U7IrIdA3UyLGS0opeqouaFwlMObLUzwexRjbygONHDVbC9G9oFLXsLyGKYkJwqXw/QADg==}
+    dependencies:
+      '@swc/helpers': 0.5.17
+      intl-messageformat: 10.7.16
+    dev: false
+
+  /@internationalized/message@3.1.8:
+    resolution: {integrity: sha512-Rwk3j/TlYZhn3HQ6PyXUV0XP9Uv42jqZGNegt0BXlxjE6G3+LwHjbQZAGHhCnCPdaA6Tvd3ma/7QzLlLkJxAWA==}
     dependencies:
       '@swc/helpers': 0.5.17
       intl-messageformat: 10.7.16
@@ -2389,8 +2505,20 @@ packages:
       '@swc/helpers': 0.5.17
     dev: false
 
+  /@internationalized/number@3.6.3:
+    resolution: {integrity: sha512-p+Zh1sb6EfrfVaS86jlHGQ9HA66fJhV9x5LiE5vCbZtXEHAuhcmUZUdZ4WrFpUBfNalr2OkAJI5AcKEQF+Lebw==}
+    dependencies:
+      '@swc/helpers': 0.5.17
+    dev: false
+
   /@internationalized/string@3.2.6:
     resolution: {integrity: sha512-LR2lnM4urJta5/wYJVV7m8qk5DrMZmLRTuFhbQO5b9/sKLHgty6unQy1Li4+Su2DWydmB4aZdS5uxBRXIq2aAw==}
+    dependencies:
+      '@swc/helpers': 0.5.17
+    dev: false
+
+  /@internationalized/string@3.2.7:
+    resolution: {integrity: sha512-D4OHBjrinH+PFZPvfCXvG28n2LSykWcJ7GIioQL+ok0LON15SdfoUssoHzzOUmVZLbRoREsQXVzA6r8JKsbP6A==}
     dependencies:
       '@swc/helpers': 0.5.17
     dev: false
@@ -2696,6 +2824,30 @@ packages:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
+  /@legendapp/motion@2.4.0(nativewind@4.1.23)(react-native@0.74.5)(react@18.2.0):
+    resolution: {integrity: sha512-AAYpRLGvxGD5hIGl9sVHyoUufr66zoH82PuxYcKiPSMdCBI3jwZFWh6CuHjV1leRKVIRk2py1rSvIVabG8eqcw==}
+    peerDependencies:
+      nativewind: '*'
+      react: '>=16'
+      react-native: '*'
+    dependencies:
+      '@legendapp/tools': 2.0.1(react@18.2.0)
+      nativewind: 4.1.23(react-native-reanimated@3.10.1)(react-native-safe-area-context@4.10.5)(react-native-svg@13.14.1)(react-native@0.74.5)(react@18.2.0)(tailwindcss@3.4.17)
+      react: 18.2.0
+      react-native: 0.74.5(@babel/core@7.27.1)(@babel/preset-env@7.27.2)(@types/react@18.2.79)(react@18.2.0)
+    dev: false
+
+  /@legendapp/tools@2.0.1(react@18.2.0):
+    resolution: {integrity: sha512-Kxt0HWvWElRK6oybHRzcYxdgaKGwuaiRNreS7usW7QuHXRIHaH4yMcW2YNRG4DHE5fpefv+Bno/BohQcCE4FaA==}
+    peerDependencies:
+      react: '>=16'
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -2736,7 +2888,7 @@ packages:
     peerDependencies:
       react: ^16.8 || ^17.0 || ^18.0
     dependencies:
-      '@babel/runtime': 7.27.1
+      '@babel/runtime': 7.27.6
       react: 18.2.0
     dev: false
 
@@ -2745,7 +2897,7 @@ packages:
     peerDependencies:
       react: ^16.8 || ^17.0 || ^18.0
     dependencies:
-      '@babel/runtime': 7.27.1
+      '@babel/runtime': 7.27.6
       '@radix-ui/react-compose-refs': 1.0.0(react@18.2.0)
       react: 18.2.0
     dev: false
@@ -2755,7 +2907,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1
     dependencies:
-      '@babel/runtime': 7.27.1
+      '@babel/runtime': 7.27.6
       '@react-aria/label': 3.7.18(react-dom@18.2.0)(react@18.2.0)
       '@react-aria/toggle': 3.11.3(react-dom@18.2.0)(react@18.2.0)
       '@react-aria/utils': 3.29.0(react-dom@18.2.0)(react@18.2.0)
@@ -2765,6 +2917,22 @@ packages:
       react: 18.2.0
     transitivePeerDependencies:
       - react-dom
+    dev: false
+
+  /@react-aria/dialog@3.5.27(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-Sp8LWQQYNxkLk2+L0bdWmAd9fz1YIrzvxbHXmAn9Tn6+/4SPnQhkOo+qQwtHFbjqe9fyS7cJZxegXd1RegIFew==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+    dependencies:
+      '@react-aria/interactions': 3.25.3(react-dom@18.2.0)(react@18.2.0)
+      '@react-aria/overlays': 3.27.3(react-dom@18.2.0)(react@18.2.0)
+      '@react-aria/utils': 3.29.1(react-dom@18.2.0)(react@18.2.0)
+      '@react-types/dialog': 3.5.19(react@18.2.0)
+      '@react-types/shared': 3.30.0(react@18.2.0)
+      '@swc/helpers': 0.5.17
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@react-aria/focus@3.20.3(react-dom@18.2.0)(react@18.2.0):
@@ -2778,6 +2946,39 @@ packages:
       '@react-types/shared': 3.29.1(react@18.2.0)
       '@swc/helpers': 0.5.17
       clsx: 2.1.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@react-aria/focus@3.20.5(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-JpFtXmWQ0Oca7FcvkqgjSyo6xEP7v3oQOLUId6o0xTvm4AD5W0mU2r3lYrbhsJ+XxdUUX4AVR5473sZZ85kU4A==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+    dependencies:
+      '@react-aria/interactions': 3.25.3(react-dom@18.2.0)(react@18.2.0)
+      '@react-aria/utils': 3.29.1(react-dom@18.2.0)(react@18.2.0)
+      '@react-types/shared': 3.30.0(react@18.2.0)
+      '@swc/helpers': 0.5.17
+      clsx: 2.1.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@react-aria/i18n@3.12.10(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-1j00soQ2W0nTgzaaIsGFdMF/5aN60AEdCJPhmXGZiuWdWzMxObN9LQ9vdzYPTjTqyqMdSaSp9DZKs5I26Xovpw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+    dependencies:
+      '@internationalized/date': 3.8.2
+      '@internationalized/message': 3.1.8
+      '@internationalized/number': 3.6.3
+      '@internationalized/string': 3.2.7
+      '@react-aria/ssr': 3.9.9(react@18.2.0)
+      '@react-aria/utils': 3.29.1(react-dom@18.2.0)(react@18.2.0)
+      '@react-types/shared': 3.30.0(react@18.2.0)
+      '@swc/helpers': 0.5.17
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
@@ -2810,6 +3011,21 @@ packages:
       '@react-aria/utils': 3.29.0(react-dom@18.2.0)(react@18.2.0)
       '@react-stately/flags': 3.1.1
       '@react-types/shared': 3.29.1(react@18.2.0)
+      '@swc/helpers': 0.5.17
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@react-aria/interactions@3.25.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-J1bhlrNtjPS/fe5uJQ+0c7/jiXniwa4RQlP+Emjfc/iuqpW2RhbF9ou5vROcLzWIyaW8tVMZ468J68rAs/aZ5A==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+    dependencies:
+      '@react-aria/ssr': 3.9.9(react@18.2.0)
+      '@react-aria/utils': 3.29.1(react-dom@18.2.0)(react@18.2.0)
+      '@react-stately/flags': 3.1.2
+      '@react-types/shared': 3.30.0(react@18.2.0)
       '@swc/helpers': 0.5.17
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -2849,6 +3065,27 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  /@react-aria/overlays@3.27.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-1hawsRI+QiM0TkPNwApNJ2+N49NQTP+48xq0JG8hdEUPChQLDoJ39cvT1sxdg0mnLDzLaAYkZrgfokq9sX6FLA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+    dependencies:
+      '@react-aria/focus': 3.20.5(react-dom@18.2.0)(react@18.2.0)
+      '@react-aria/i18n': 3.12.10(react-dom@18.2.0)(react@18.2.0)
+      '@react-aria/interactions': 3.25.3(react-dom@18.2.0)(react@18.2.0)
+      '@react-aria/ssr': 3.9.9(react@18.2.0)
+      '@react-aria/utils': 3.29.1(react-dom@18.2.0)(react@18.2.0)
+      '@react-aria/visually-hidden': 3.8.25(react-dom@18.2.0)(react@18.2.0)
+      '@react-stately/overlays': 3.6.17(react@18.2.0)
+      '@react-types/button': 3.12.2(react@18.2.0)
+      '@react-types/overlays': 3.8.16(react@18.2.0)
+      '@react-types/shared': 3.30.0(react@18.2.0)
+      '@swc/helpers': 0.5.17
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /@react-aria/slider@3.7.19(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-GONrMMz9zsx0ySbUTebWdqRjAuu6EEW+lLf3qUzcqkIYR8QZVTS8RLPt7FmGHKCTDIaBs8D2yv9puIfKAo1QAA==}
     peerDependencies:
@@ -2869,6 +3106,16 @@ packages:
 
   /@react-aria/ssr@3.9.8(react@18.2.0):
     resolution: {integrity: sha512-lQDE/c9uTfBSDOjaZUJS8xP2jCKVk4zjQeIlCH90xaLhHDgbpCdns3xvFpJJujfj3nI4Ll9K7A+ONUBDCASOuw==}
+    engines: {node: '>= 12'}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+    dependencies:
+      '@swc/helpers': 0.5.17
+      react: 18.2.0
+    dev: false
+
+  /@react-aria/ssr@3.9.9(react@18.2.0):
+    resolution: {integrity: sha512-2P5thfjfPy/np18e5wD4WPt8ydNXhij1jwA8oehxZTFqlgVMGXzcWKxTb4RtJrLFsqPO7RUQTiY8QJk0M4Vy2g==}
     engines: {node: '>= 12'}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
@@ -2909,6 +3156,22 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  /@react-aria/utils@3.29.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-yXMFVJ73rbQ/yYE/49n5Uidjw7kh192WNN9PNQGV0Xoc7EJUlSOxqhnpHmYTyO0EotJ8fdM1fMH8durHjUSI8g==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+    dependencies:
+      '@react-aria/ssr': 3.9.9(react@18.2.0)
+      '@react-stately/flags': 3.1.2
+      '@react-stately/utils': 3.10.7(react@18.2.0)
+      '@react-types/shared': 3.30.0(react@18.2.0)
+      '@swc/helpers': 0.5.17
+      clsx: 2.1.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /@react-aria/visually-hidden@3.8.23(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-D37GHtAcxCck8BtCiGTNDniGqtldJuN0cRlW1PJ684zM4CdmkSPqKbt5IUKUfqheS9Vt7HxYsj1VREDW+0kaGA==}
     peerDependencies:
@@ -2918,6 +3181,20 @@ packages:
       '@react-aria/interactions': 3.25.1(react-dom@18.2.0)(react@18.2.0)
       '@react-aria/utils': 3.29.0(react-dom@18.2.0)(react@18.2.0)
       '@react-types/shared': 3.29.1(react@18.2.0)
+      '@swc/helpers': 0.5.17
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@react-aria/visually-hidden@3.8.25(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-9tRRFV1YMLuDId9E8PeUf0xy0KmQBoP8y/bm0PKWzXOqLOVmp/+kop9rwsjC7J6ppbBnlak7XCXTc7GoSFOCRA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+    dependencies:
+      '@react-aria/interactions': 3.25.3(react-dom@18.2.0)(react@18.2.0)
+      '@react-aria/utils': 3.29.1(react-dom@18.2.0)(react@18.2.0)
+      '@react-types/shared': 3.30.0(react@18.2.0)
       '@swc/helpers': 0.5.17
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -2944,6 +3221,22 @@ packages:
       '@react-native-aria/toggle': 0.2.11(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
       '@react-native-aria/utils': 0.2.12(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
       '@react-stately/toggle': 3.8.4(react@18.2.0)
+      react: 18.2.0
+      react-native: 0.74.5(@babel/core@7.27.1)(@babel/preset-env@7.27.2)(@types/react@18.2.79)(react@18.2.0)
+    transitivePeerDependencies:
+      - react-dom
+    dev: false
+
+  /@react-native-aria/dialog@0.0.5(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0):
+    resolution: {integrity: sha512-ZThiWyymf3WiA2EdjStV32pTL3RjAb7H/CL0Zsd1wKNuw1lU9HX6h4UIUpt0MZhcFCUnZjCovNtU9IRwbbdj/Q==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+    dependencies:
+      '@react-aria/dialog': 3.5.27(react-dom@18.2.0)(react@18.2.0)
+      '@react-native-aria/utils': 0.2.12(react-dom@18.2.0)(react-native@0.74.5)(react@18.2.0)
+      '@react-types/dialog': 3.5.19(react@18.2.0)
+      '@react-types/shared': 3.29.1(react@18.2.0)
       react: 18.2.0
       react-native: 0.74.5(@babel/core@7.27.1)(@babel/preset-env@7.27.2)(@types/react@18.2.79)(react@18.2.0)
     transitivePeerDependencies:
@@ -3562,6 +3855,12 @@ packages:
       '@swc/helpers': 0.5.17
     dev: false
 
+  /@react-stately/flags@3.1.2:
+    resolution: {integrity: sha512-2HjFcZx1MyQXoPqcBGALwWWmgFVUk2TuKVIQxCbRq7fPyWXIl6VHcakCLurdtYC2Iks7zizvz0Idv48MQ38DWg==}
+    dependencies:
+      '@swc/helpers': 0.5.17
+    dev: false
+
   /@react-stately/form@3.1.4(react@18.2.0):
     resolution: {integrity: sha512-A6GOaZ9oEIo5/XOE+JT9Z8OBt0osIOfes4EcIxGS1C9ght/Smg0gNcIJ2/Wle8qmro4RoJcza2yJ+EglVOuE0w==}
     peerDependencies:
@@ -3579,6 +3878,17 @@ packages:
     dependencies:
       '@react-stately/utils': 3.10.6(react@18.2.0)
       '@react-types/overlays': 3.8.15(react@18.2.0)
+      '@swc/helpers': 0.5.17
+      react: 18.2.0
+    dev: false
+
+  /@react-stately/overlays@3.6.17(react@18.2.0):
+    resolution: {integrity: sha512-bkGYU4NPC/LgX9OGHLG8hpf9QDoazlb6fKfD+b5o7GtOdctBqCR287T/IBOQyvHqpySqrQ8XlyaGxJPGIcCiZw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+    dependencies:
+      '@react-stately/utils': 3.10.7(react@18.2.0)
+      '@react-types/overlays': 3.8.16(react@18.2.0)
       '@swc/helpers': 0.5.17
       react: 18.2.0
     dev: false
@@ -3616,12 +3926,30 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@react-stately/utils@3.10.7(react@18.2.0):
+    resolution: {integrity: sha512-cWvjGAocvy4abO9zbr6PW6taHgF24Mwy/LbQ4TC4Aq3tKdKDntxyD+sh7AkSRfJRT2ccMVaHVv2+FfHThd3PKQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+    dependencies:
+      '@swc/helpers': 0.5.17
+      react: 18.2.0
+    dev: false
+
   /@react-types/button@3.12.1(react@18.2.0):
     resolution: {integrity: sha512-z87stl4llWTi4C5qhUK1PKcEsG59uF/ZQpkRhMzX0KfgXobJY6yiIrry2xrpnlTPIVST6K1+kARhhSDOZ8zhLw==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
     dependencies:
       '@react-types/shared': 3.29.1(react@18.2.0)
+      react: 18.2.0
+    dev: false
+
+  /@react-types/button@3.12.2(react@18.2.0):
+    resolution: {integrity: sha512-QLoSCX8E7NFIdkVMa65TPieve0rKeltfcIxiMtrphjfNn+83L0IHMcbhjf4r4W19c/zqGbw3E53Hx8mNukoTUw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+    dependencies:
+      '@react-types/shared': 3.30.0(react@18.2.0)
       react: 18.2.0
     dev: false
 
@@ -3634,6 +3962,16 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@react-types/dialog@3.5.19(react@18.2.0):
+    resolution: {integrity: sha512-+FIyFnoKIGNL20zG8Sye7rrRxmt5HoeaCaHhDCTtNtv8CZEhm3Z+kNd4gylgWAxZRhDtBRWko+ADqfN5gQrgKg==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+    dependencies:
+      '@react-types/overlays': 3.8.16(react@18.2.0)
+      '@react-types/shared': 3.30.0(react@18.2.0)
+      react: 18.2.0
+    dev: false
+
   /@react-types/overlays@3.8.15(react@18.2.0):
     resolution: {integrity: sha512-ppDfezvVYOJDHLZmTSmIXajxAo30l2a1jjy4G65uBYy8J8kTZU7mcfQql5Pii1TwybcNMsayf2WtPItiWmJnOA==}
     peerDependencies:
@@ -3643,8 +3981,25 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@react-types/overlays@3.8.16(react@18.2.0):
+    resolution: {integrity: sha512-Aj9jIFwALk9LiOV/s3rVie+vr5qWfaJp/6aGOuc2StSNDTHvj1urSAr3T0bT8wDlkrqnlS4JjEGE40ypfOkbAA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+    dependencies:
+      '@react-types/shared': 3.30.0(react@18.2.0)
+      react: 18.2.0
+    dev: false
+
   /@react-types/shared@3.29.1(react@18.2.0):
     resolution: {integrity: sha512-KtM+cDf2CXoUX439rfEhbnEdAgFZX20UP2A35ypNIawR7/PFFPjQDWyA2EnClCcW/dLWJDEPX2U8+EJff8xqmQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+    dependencies:
+      react: 18.2.0
+    dev: false
+
+  /@react-types/shared@3.30.0(react@18.2.0):
+    resolution: {integrity: sha512-COIazDAx1ncDg046cTJ8SFYsX8aS3lB/08LDnbkH/SkdYrFPWDlXMrO/sUam8j1WWM+PJ+4d1mj7tODIKNiFog==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
     dependencies:
@@ -6635,7 +6990,7 @@ packages:
   /dom-helpers@5.2.1:
     resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
     dependencies:
-      '@babel/runtime': 7.27.1
+      '@babel/runtime': 7.27.6
       csstype: 3.1.3
     dev: false
 
@@ -7158,7 +7513,7 @@ packages:
     resolution: {integrity: sha512-Cs/9xopyzJrpXWbyVUZnr37rprdFJorRgfSp6cdBfvbjxZeKnw2MEu7wJwV/s626i5lZTPGjZPHUF9uQvt51cg==}
     hasBin: true
     dependencies:
-      '@babel/runtime': 7.27.1
+      '@babel/runtime': 7.27.6
       '@expo/cli': 0.18.31(expo-modules-autolinking@1.11.3)
       '@expo/config': 9.0.4
       '@expo/config-plugins': 8.0.11
@@ -9716,7 +10071,7 @@ packages:
     resolution: {integrity: sha512-LIx7+92p5rpI0i6iB4S4GBvvLxStNt6fF0oPMaUd1Weku7jZdfkCZzmrtDD9CSQ6EPb0T9NUZoyXIxlBa3wOCw==}
     engines: {node: '>=18'}
     dependencies:
-      '@babel/runtime': 7.27.1
+      '@babel/runtime': 7.27.6
       flow-enums-runtime: 0.0.6
     dev: false
 
@@ -10974,7 +11329,7 @@ packages:
       react: ^18.0.0
       react-dom: ^18.0.0
     dependencies:
-      '@babel/runtime': 7.27.1
+      '@babel/runtime': 7.27.6
       '@react-native/normalize-colors': 0.74.89
       fbjs: 3.0.5
       inline-style-prefixer: 6.0.4
