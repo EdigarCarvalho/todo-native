@@ -86,9 +86,12 @@ class ApiService {
   private async handleResponse<T>(response: Response): Promise<ApiResponse<T>> {
     try {
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`API Error (${response.status}): ${errorText}`);
         return {
           success: false,
           error: `HTTP ${response.status}: ${response.statusText}`,
+          data: errorText
         };
       }
 
@@ -98,6 +101,7 @@ class ApiService {
         data,
       };
     } catch (error) {
+      console.error("Response handling error:", error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error',
@@ -260,7 +264,7 @@ class ApiService {
     }
   }
 
-  async updateWord(id: number, updates: { name?: string; meaning?: string }): Promise<ApiResponse<Word>> {
+  async updateWord(id: number, updates: { name?: string; meaning?: string , category_id?: number}): Promise<ApiResponse<Word>> {
     try {
       const response = await fetch(`${this.baseUrl}/word/details/${id}`, {
         method: 'PUT',

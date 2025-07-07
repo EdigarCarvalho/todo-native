@@ -292,6 +292,13 @@ export const DictionaryProvider = ({
         type: FETCH_DATA, 
         payload: data
       });
+      
+      // Always clear word in focus after data refresh to prevent stale data
+      if (state.wordInFocus) {
+        dispatch({ type: SET_WORD_IN_FOCUS, payload: null });
+      }
+      
+      return true;
     } catch (error) {
       console.error("Error in fetchData:", error);
       
@@ -303,6 +310,7 @@ export const DictionaryProvider = ({
           wordsByCategory: wordsData as Record<string, Word[]>
         } 
       });
+      return false;
     } finally {
       dispatch({ type: SET_LOADING, payload: false });
     }

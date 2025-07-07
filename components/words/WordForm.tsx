@@ -103,9 +103,11 @@ export function WordForm({
     try {
       let result;
       if (editingWord) {
+        // Include category_id in the update payload
         result = await apiService.updateWord(editingWord.id, {
           name: wordName.trim(),
           meaning: wordTranslation.trim(),
+          category_id: parseInt(selectedCategory),
         });
       } else {
         result = await apiService.createWord({
@@ -236,7 +238,7 @@ export function WordForm({
             label="Significado (opcional)"
             size="xl"
           >
-            <InputField
+            <InputField 
               value={wordMeaning}
               onChangeText={setWordMeaning}
               multiline

@@ -70,6 +70,7 @@ export default function HomeScreen() {
       }
     });
     
+    console.log("Editing word with complete info:", wordWithCategory);
     setEditingWord(wordWithCategory);
     setWordInFocus(null);
     setViewMode("form");
@@ -84,6 +85,7 @@ export default function HomeScreen() {
   const handleWordFormSuccess = async () => {
     setEditingWord(null);
     setViewMode("list");
+    // Force a complete refresh of data after edits
     await fetchData();
   };
 
