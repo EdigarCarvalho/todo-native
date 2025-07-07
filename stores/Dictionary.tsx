@@ -17,6 +17,7 @@ type Word = {
   id: number;
   word: string;
   meaning: string;
+  translation?: string; // Add translation field
   categoryId?: number;
   category?: Category;
   attachments: Attachment[];

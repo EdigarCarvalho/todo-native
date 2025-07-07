@@ -22,6 +22,7 @@ export interface Word {
   id: number;
   word: string;
   meaning: string;
+  translation?: string; // Add translation field
   attachments: Attachment[];
 }
 
@@ -234,6 +235,7 @@ class ApiService {
   async createWord(wordData: {
     name: string;
     meaning: string;
+    translation?: string;
     category_id: number;
     attachments?: File[];
   }): Promise<ApiResponse<Word>> {
@@ -241,6 +243,12 @@ class ApiService {
       const formData = new FormData();
       formData.append('name', wordData.name);
       formData.append('meaning', wordData.meaning);
+      
+      // Add translation if provided
+      if (wordData.translation) {
+        formData.append('translation', wordData.translation);
+      }
+      
       formData.append('category_id', wordData.category_id.toString());
 
       if (wordData.attachments) {
@@ -248,6 +256,13 @@ class ApiService {
           formData.append(`attachment_${index}`, file);
         });
       }
+
+      console.log("Creating word with data:", {
+        name: wordData.name,
+        meaning: wordData.meaning,
+        translation: wordData.translation,
+        category_id: wordData.category_id
+      });
 
       const response = await fetch(`${this.baseUrl}/word/new`, {
         method: 'POST',
@@ -264,15 +279,23 @@ class ApiService {
     }
   }
 
-  async updateWord(id: number, updates: { name?: string; meaning?: string , category_id?: number}): Promise<ApiResponse<Word>> {
+  async updateWord(id: number, updates: { 
+    name?: string; 
+    meaning?: string;
+    translation?: string;
+    category_id?: number;
+  }): Promise<ApiResponse<Word>> {
     try {
+      console.log("Updating word with payload:", updates);
       const response = await fetch(`${this.baseUrl}/word/details/${id}`, {
         method: 'PUT',
         headers: this.getHeaders(true),
         body: JSON.stringify(updates),
       });
 
-      return this.handleResponse<Word>(response);
+      const result = await this.handleResponse<Word>(response);
+      console.log("Update word response:", result);
+      return result;
     } catch (error) {
       return {
         success: false,

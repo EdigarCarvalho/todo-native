@@ -28,6 +28,7 @@ interface Word {
   id: number;
   word: string;
   meaning: string;
+  translation?: string; // Add translation field
   categoryId?: number;
   category?: Category;
   attachments: any[];
@@ -59,31 +60,32 @@ export function WordForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useToast();
 
-  // Initialize form data when editingWord changes
+  
+
   useEffect(() => {
     if (editingWord) {
       setWordName(editingWord.word || "");
-      setWordTranslation(editingWord.meaning || "");
       setWordMeaning(editingWord.meaning || "");
+      setWordTranslation(editingWord.translation || ""); // Correctly initialize translation
 
       console.log("Editing word with category info:", editingWord);
-      
+
       // Set the category based on categoryId or category object
       const categoryId = editingWord.categoryId || editingWord.category?.id;
       console.log("Category ID found:", categoryId);
-      
+
       setSelectedCategory(categoryId ? categoryId.toString() : "");
     } else {
       setWordName("");
-      setWordTranslation("");
       setWordMeaning("");
+      setWordTranslation("");
       setSelectedCategory("");
     }
     setAttachments([]);
   }, [editingWord]);
 
   const handleSubmit = async () => {
-    if (!wordName.trim() || !wordTranslation.trim() || !selectedCategory) {
+    if (!wordName.trim() || !wordMeaning.trim() || !selectedCategory) {
       toast.show({
         placement: "top",
         render: ({ id }) => (
@@ -103,16 +105,18 @@ export function WordForm({
     try {
       let result;
       if (editingWord) {
-        // Include category_id in the update payload
+        // Include both meaning and translation in the update payload
         result = await apiService.updateWord(editingWord.id, {
           name: wordName.trim(),
-          meaning: wordTranslation.trim(),
+          meaning: wordMeaning.trim(),
+          translation: wordTranslation.trim(),
           category_id: parseInt(selectedCategory),
         });
       } else {
         result = await apiService.createWord({
           name: wordName.trim(),
-          meaning: wordTranslation.trim(),
+          meaning: wordMeaning.trim(),
+          translation: wordTranslation.trim(),
           category_id: parseInt(selectedCategory),
           attachments,
         });
@@ -186,7 +190,15 @@ export function WordForm({
 
           <Input
             className="border-[#C74B0B] border-2 "
-            label="Insira a tradução"
+            label="Insira o significado"
+            size="xl"
+          >
+            <InputField value={wordMeaning} onChangeText={setWordMeaning} />
+          </Input>
+
+          <Input
+            className="border-[#C74B0B] border-2 "
+            label="Insira a tradução (opcional)"
             size="xl"
           >
             <InputField
@@ -206,10 +218,13 @@ export function WordForm({
                 size="xl"
                 className="border-[#C74B0B] border-2"
               >
-                <SelectInput 
-                  value={selectedCategory ? 
-                    categories.find(cat => cat.id.toString() === selectedCategory)?.name || ""
-                    : ""
+                <SelectInput
+                  value={
+                    selectedCategory
+                      ? categories.find(
+                          (cat) => cat.id.toString() === selectedCategory
+                        )?.name || ""
+                      : ""
                   }
                   editable={false}
                 />
@@ -232,19 +247,6 @@ export function WordForm({
               </SelectPortal>
             </Select>
           </View>
-
-          <Input
-            className="border-[#C74B0B] border-2 "
-            label="Significado (opcional)"
-            size="xl"
-          >
-            <InputField 
-              value={wordMeaning}
-              onChangeText={setWordMeaning}
-              multiline
-              numberOfLines={3}
-            />
-          </Input>
 
           <View className="mb-6">
             <Text className="text-sm font-medium text-gray-700 mb-2">
@@ -299,8 +301,8 @@ export function WordForm({
                     ? "Salvando..."
                     : "Adicionando..."
                   : editingWord
-                    ? "Salvar"
-                    : "Adicionar palavra"}
+                  ? "Salvar"
+                  : "Adicionar palavra"}
               </ButtonText>
             </Button>
           </View>
