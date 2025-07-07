@@ -21,8 +21,17 @@ import {
   ToastTitle,
   ToastDescription,
 } from "@/components/ui/toast";
+import {
+  Modal,
+  ModalBackdrop,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "@/components/ui/modal";
 import apiService from "@/services/ApiService";
 import { ThemedText } from "../ThemedText";
+import { useDictionary } from "@/stores/Dictionary";
 
 interface Word {
   id: number;
@@ -58,9 +67,10 @@ export function WordForm({
   const [selectedCategory, setSelectedCategory] = useState("");
   const [attachments, setAttachments] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const toast = useToast();
-
-  
+  const { deleteWord } = useDictionary();
 
   useEffect(() => {
     if (editingWord) {
@@ -167,147 +177,251 @@ export function WordForm({
     }
   };
 
+  const handleDelete = async () => {
+    if (!editingWord) return;
+
+    setIsDeleting(true);
+    try {
+      const success = await deleteWord(editingWord.id);
+
+      if (success) {
+        toast.show({
+          placement: "top",
+          render: ({ id }) => (
+            <Toast nativeID={`toast-${id}`} action="success" variant="solid">
+              <ToastTitle>Sucesso</ToastTitle>
+              <ToastDescription>
+                Palavra excluída com sucesso!
+              </ToastDescription>
+            </Toast>
+          ),
+        });
+        onSuccess();
+      } else {
+        toast.show({
+          placement: "top",
+          render: ({ id }) => (
+            <Toast nativeID={`toast-${id}`} action="error" variant="solid">
+              <ToastTitle>Erro</ToastTitle>
+              <ToastDescription>Falha ao excluir palavra</ToastDescription>
+            </Toast>
+          ),
+        });
+      }
+    } catch (error) {
+      toast.show({
+        placement: "top",
+        render: ({ id }) => (
+          <Toast nativeID={`toast-${id}`} action="error" variant="solid">
+            <ToastTitle>Erro</ToastTitle>
+            <ToastDescription>
+              Erro de conexão. Tente novamente.
+            </ToastDescription>
+          </Toast>
+        ),
+      });
+    } finally {
+      setIsDeleting(false);
+      setIsDeleteModalOpen(false);
+    }
+  };
+
   return (
-    <View className="py-1 px-2">
-      <View className=" px-3">
-        <View className="flex justify-center text-center mb-5">
-          <ThemedText
-            style={{ color: "#C74B0B", textAlign: "center" }}
-            type="title"
-          >
-            {editingWord ? "Editar palavra" : "Cadastrar palavra"}
-          </ThemedText>
-        </View>
-
-        <View className="space-y-4 flex flex-col gap-2">
-          <Input
-            className="border-[#C74B0B] border-2 "
-            label="Insira a palavra"
-            size="xl"
-          >
-            <InputField value={wordName} onChangeText={setWordName} />
-          </Input>
-
-          <Input
-            className="border-[#C74B0B] border-2 "
-            label="Insira o significado"
-            size="xl"
-          >
-            <InputField value={wordMeaning} onChangeText={setWordMeaning} />
-          </Input>
-
-          <Input
-            className="border-[#C74B0B] border-2 "
-            label="Insira a tradução (opcional)"
-            size="xl"
-          >
-            <InputField
-              value={wordTranslation}
-              onChangeText={setWordTranslation}
-            />
-          </Input>
-
-          <View className="">
-            <Select
-              selectedValue={selectedCategory}
-              onValueChange={setSelectedCategory}
-              label="Escolha a categoria"
+    <>
+      <View className="py-1 px-2">
+        <View className=" px-3">
+          <View className="flex justify-center text-center mb-5">
+            <ThemedText
+              style={{ color: "#C74B0B", textAlign: "center" }}
+              type="title"
             >
-              <SelectTrigger
-                variant="outline"
-                size="xl"
-                className="border-[#C74B0B] border-2"
+              {editingWord ? "Editar palavra" : "Cadastrar palavra"}
+            </ThemedText>
+          </View>
+
+          <View className="space-y-4 flex flex-col gap-2">
+            <Input
+              className="border-[#C74B0B] border-2 "
+              label="Insira a palavra"
+              size="xl"
+            >
+              <InputField value={wordName} onChangeText={setWordName} />
+            </Input>
+
+            <Input
+              className="border-[#C74B0B] border-2 "
+              label="Insira o significado"
+              size="xl"
+            >
+              <InputField value={wordMeaning} onChangeText={setWordMeaning} />
+            </Input>
+
+            <Input
+              className="border-[#C74B0B] border-2 "
+              label="Insira a tradução (opcional)"
+              size="xl"
+            >
+              <InputField
+                value={wordTranslation}
+                onChangeText={setWordTranslation}
+              />
+            </Input>
+
+            <View className="">
+              <Select
+                selectedValue={selectedCategory}
+                onValueChange={setSelectedCategory}
+                label="Escolha a categoria"
               >
-                <SelectInput
-                  value={
-                    selectedCategory
-                      ? categories.find(
-                          (cat) => cat.id.toString() === selectedCategory
-                        )?.name || ""
-                      : ""
-                  }
-                  editable={false}
-                />
-                <SelectIcon className="mr-3" />
-              </SelectTrigger>
-              <SelectPortal>
-                <SelectBackdrop />
-                <SelectContent>
-                  <SelectDragIndicatorWrapper>
-                    <SelectDragIndicator />
-                  </SelectDragIndicatorWrapper>
-                  {categories.map((category) => (
-                    <SelectItem
-                      key={category.id}
-                      label={category.name}
-                      value={category.id.toString()}
-                    />
-                  ))}
-                </SelectContent>
-              </SelectPortal>
-            </Select>
-          </View>
+                <SelectTrigger
+                  variant="outline"
+                  size="xl"
+                  className="border-[#C74B0B] border-2"
+                >
+                  <SelectInput
+                    value={
+                      selectedCategory
+                        ? categories.find(
+                            (cat) => cat.id.toString() === selectedCategory
+                          )?.name || ""
+                        : ""
+                    }
+                    editable={false}
+                  />
+                  <SelectIcon className="mr-3" />
+                </SelectTrigger>
+                <SelectPortal>
+                  <SelectBackdrop />
+                  <SelectContent>
+                    <SelectDragIndicatorWrapper>
+                      <SelectDragIndicator />
+                    </SelectDragIndicatorWrapper>
+                    {categories.map((category) => (
+                      <SelectItem
+                        key={category.id}
+                        label={category.name}
+                        value={category.id.toString()}
+                      />
+                    ))}
+                  </SelectContent>
+                </SelectPortal>
+              </Select>
+            </View>
 
-          <View className="mb-6">
-            <Text className="text-sm font-medium text-gray-700 mb-2">
-              Anexos
-            </Text>
-            <TouchableOpacity className="border-2 border-dashed border-[#C74B0B] rounded-lg p-4 flex flex-row items-center justify-center">
-              <Paperclip size={20} color="#C74B0B" />
-              <Text className="ml-2 text-[#C74B0B]">Adicionar arquivos</Text>
-            </TouchableOpacity>
-            {attachments.length > 0 && (
-              <View className="mt-2">
-                {attachments.map((file, index) => (
-                  <View
-                    key={index}
-                    className="flex flex-row items-center justify-between p-2 bg-gray-100 rounded mb-1"
-                  >
-                    <Text className="flex-1 text-sm">{file.name}</Text>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setAttachments(
-                          attachments.filter((_, i) => i !== index)
-                        );
-                      }}
+            <View className="mb-6">
+              <Text className="text-sm font-medium text-gray-700 mb-2">
+                Anexos
+              </Text>
+              <TouchableOpacity className="border-2 border-dashed border-[#C74B0B] rounded-lg p-4 flex flex-row items-center justify-center">
+                <Paperclip size={20} color="#C74B0B" />
+                <Text className="ml-2 text-[#C74B0B]">Adicionar arquivos</Text>
+              </TouchableOpacity>
+              {attachments.length > 0 && (
+                <View className="mt-2">
+                  {attachments.map((file, index) => (
+                    <View
+                      key={index}
+                      className="flex flex-row items-center justify-between p-2 bg-gray-100 rounded mb-1"
                     >
-                      <X size={16} color="#666" />
-                    </TouchableOpacity>
-                  </View>
-                ))}
-              </View>
-            )}
-          </View>
+                      <Text className="flex-1 text-sm">{file.name}</Text>
+                      <TouchableOpacity
+                        onPress={() => {
+                          setAttachments(
+                            attachments.filter((_, i) => i !== index)
+                          );
+                        }}
+                      >
+                        <X size={16} color="#666" />
+                      </TouchableOpacity>
+                    </View>
+                  ))}
+                </View>
+              )}
+            </View>
 
-          <View className="flex flex-row gap-3">
-            <Button
-              className="flex-1 bg-white border-[#C74B0B] border-2"
-              onPress={onCancel}
-              disabled={isSubmitting}
-            >
-              <ButtonText className="text-[#C74B0B] font-bold">
-                Cancelar
-              </ButtonText>
-            </Button>
+            <View className="flex flex-row gap-3">
+              {editingWord ? (
+                <Button
+                  className="flex-1 bg-white border-red-500 border-2"
+                  onPress={() => setIsDeleteModalOpen(true)}
+                  disabled={isSubmitting}
+                >
+                  <ButtonText className="text-red-500 font-bold">
+                    Deletar
+                  </ButtonText>
+                </Button>
+              ) : (
+                <Button
+                  className="flex-1 bg-white border-[#C74B0B] border-2"
+                  onPress={onCancel}
+                  disabled={isSubmitting}
+                >
+                  <ButtonText className="text-[#C74B0B] font-bold">
+                    Cancelar
+                  </ButtonText>
+                </Button>
+              )}
 
-            <Button
-              className="flex-1 bg-[#C74B0B]"
-              onPress={handleSubmit}
-              disabled={isSubmitting}
-            >
-              <ButtonText className="text-white font-bold">
-                {isSubmitting
-                  ? editingWord
-                    ? "Salvando..."
-                    : "Adicionando..."
-                  : editingWord
-                  ? "Salvar"
-                  : "Adicionar palavra"}
-              </ButtonText>
-            </Button>
+              <Button
+                className="flex-1 bg-[#C74B0B]"
+                onPress={handleSubmit}
+                disabled={isSubmitting}
+              >
+                <ButtonText className="text-white font-bold">
+                  {isSubmitting
+                    ? editingWord
+                      ? "Salvando..."
+                      : "Adicionando..."
+                    : editingWord
+                    ? "Salvar"
+                    : "Adicionar palavra"}
+                </ButtonText>
+              </Button>
+            </View>
           </View>
         </View>
       </View>
-    </View>
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+      >
+        <ModalBackdrop />
+        <ModalContent className="bg-white">
+          <ModalHeader className="text-center">
+            <Text className="text-lg font-bold text-[#212121] mx-auto text-center">
+              Tem certeza que deseja excluir a palavra?
+            </Text>
+          </ModalHeader>
+
+          <ModalBody className="py-2">
+            <Text className="text-center text-gray-700">
+              Esta ação não pode ser desfeita.
+            </Text>
+          </ModalBody>
+
+          <ModalFooter className="flex flex-row gap-3">
+            <Button
+              className="flex-1 bg-white border-[#C74B0B] border-2"
+              onPress={() => setIsDeleteModalOpen(false)}
+              disabled={isDeleting}
+            >
+              <ButtonText className="text-[#C74B0B] font-bold">Cancelar</ButtonText>
+            </Button>
+
+            <Button
+              className="flex-1 bg-red-500"
+              onPress={handleDelete}
+              disabled={isDeleting}
+            >
+              <ButtonText className="text-white font-bold">
+                {isDeleting ? "Excluindo..." : "Excluir"}
+              </ButtonText>
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 }
