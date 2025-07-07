@@ -14,6 +14,15 @@ export function SelectedWord({ state }: SelectedWordProps) {
         </Text>
       </View>
 
+       {/* Translation - Only show if it exists */}
+       {state?.wordInFocus?.translation && (
+        <View className="py-4 px-3 bg-[#FBF0E8] border-[#A30122] border-[1px] my-2 rounded-xl">
+        <Text className="text-base">
+          <strong>Tradução:</strong> {state?.wordInFocus?.translation}
+        </Text>
+      </View>
+      )}
+
       {state?.wordInFocus?.attachments &&
         state?.wordInFocus?.attachments.length > 0 && (
           <View className="mt-4 py-4 px-3 bg-[#FBF0E8] border-[#A30122] border-[1px] rounded-xl">
