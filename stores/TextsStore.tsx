@@ -35,19 +35,28 @@ const SET_TEXT_IN_FOCUS = "SET_TEXT_IN_FOCUS";
 const LOAD_STATE = "LOAD_STATE";
 const SET_LOADING = "SET_LOADING";
 const UPDATE_LAST_API_FETCH = "UPDATE_LAST_API_FETCH";
+const DELETE_TEXT = "DELETE_TEXT";
+const UPDATE_TEXT = "UPDATE_TEXT";
+const ADD_TEXT = "ADD_TEXT";
 
-// Context type
+// Context type with added operations
 const TextsContext = createContext<{
   state: State;
   fetchTexts: () => Promise<void>;
   setTextInFocus: (text: Text | null) => void;
+  createText: (textData: { title: string; subtitle: string; content: string; cover?: File }) => Promise<boolean>;
+  updateText: (id: number, textData: { title: string; subtitle: string; content: string; cover?: File }) => Promise<boolean>;
+  deleteText: (id: number) => Promise<boolean>;
 }>({
   state: initialState,
   fetchTexts: async () => {},
   setTextInFocus: () => {},
+  createText: async () => false,
+  updateText: async () => false,
+  deleteText: async () => false,
 });
 
-// Reducer
+// Updated reducer with new action types
 const textsReducer = (
   state: State,
   action: { type: string; payload: any }
@@ -77,6 +86,25 @@ const textsReducer = (
       return {
         ...state,
         lastApiFetch: action.payload,
+      };
+    case DELETE_TEXT:
+      return {
+        ...state,
+        texts: state.texts.filter(text => text.id !== action.payload),
+        textInFocus: state.textInFocus?.id === action.payload ? null : state.textInFocus
+      };
+    case UPDATE_TEXT:
+      return {
+        ...state,
+        texts: state.texts.map(text => 
+          text.id === action.payload.id ? action.payload : text
+        ),
+        textInFocus: state.textInFocus?.id === action.payload.id ? action.payload : state.textInFocus
+      };
+    case ADD_TEXT:
+      return {
+        ...state,
+        texts: [...state.texts, action.payload]
       };
     default:
       return state;
@@ -233,12 +261,105 @@ export const TextsProvider = ({
     dispatch({ type: SET_TEXT_IN_FOCUS, payload: text });
   };
 
+  // Create text function
+  const createText = async (textData: { 
+    title: string; 
+    subtitle: string; 
+    content: string; 
+    cover?: File 
+  }): Promise<boolean> => {
+    dispatch({ type: SET_LOADING, payload: true });
+    
+    try {
+      const result = await apiService.createText(textData);
+      
+      if (result.success && result.data) {
+        // Add the new text to state
+        dispatch({ type: ADD_TEXT, payload: result.data });
+        
+        // Update storage
+        const updatedTexts = [...state.texts, result.data];
+        await saveDataToStorage(updatedTexts);
+        
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Error creating text:", error);
+      return false;
+    } finally {
+      dispatch({ type: SET_LOADING, payload: false });
+    }
+  };
+
+  // Update text function
+  const updateText = async (id: number, textData: {
+    title: string;
+    subtitle: string;
+    content: string;
+    cover?: File;
+  }): Promise<boolean> => {
+    dispatch({ type: SET_LOADING, payload: true });
+    
+    try {
+      const result = await apiService.updateText(id, textData);
+      
+      if (result.success && result.data) {
+        // Update the text in state
+        dispatch({ type: UPDATE_TEXT, payload: result.data });
+        
+        // Update storage
+        const updatedTexts = state.texts.map(text => 
+          text.id === id ? result.data : text
+        );
+        await saveDataToStorage(updatedTexts);
+        
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Error updating text:", error);
+      return false;
+    } finally {
+      dispatch({ type: SET_LOADING, payload: false });
+    }
+  };
+
+  // Delete text function
+  const deleteText = async (id: number): Promise<boolean> => {
+    dispatch({ type: SET_LOADING, payload: true });
+    
+    try {
+      const result = await apiService.deleteText(id);
+      
+      if (result.success) {
+        // Remove the text from state
+        dispatch({ type: DELETE_TEXT, payload: id });
+        
+        // Update storage
+        const updatedTexts = state.texts.filter(text => text.id !== id);
+        await saveDataToStorage(updatedTexts);
+        
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Error deleting text:", error);
+      return false;
+    } finally {
+      dispatch({ type: SET_LOADING, payload: false });
+    }
+  };
+
   return (
     <TextsContext.Provider
       value={{
         state,
         fetchTexts,
         setTextInFocus,
+        createText,
+        updateText,
+        deleteText,
       }}
     >
       {children}

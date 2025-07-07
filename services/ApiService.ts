@@ -426,6 +426,62 @@ class ApiService {
       };
     }
   }
+
+  async updateText(id: number, textData: {
+    title: string;
+    subtitle: string;
+    content: string;
+    cover?: File;
+  }): Promise<ApiResponse<Text>> {
+    try {
+      console.log("Updating text with ID:", id);
+      
+      const formData = new FormData();
+      formData.append('title', textData.title);
+      formData.append('subtitle', textData.subtitle);
+      formData.append('content', textData.content);
+
+      if (textData.cover) {
+        formData.append('cover', textData.cover);
+      }
+
+      const response = await fetch(`${this.baseUrl}/text/${id}`, {
+        method: 'PUT',
+        headers: this.getFormHeaders(true),
+        body: formData,
+      });
+
+      const result = await this.handleResponse<Text>(response);
+      console.log("Update text response:", result);
+      return result;
+    } catch (error) {
+      console.error("Update text error:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Network error',
+      };
+    }
+  }
+
+  async deleteText(id: number): Promise<ApiResponse<any>> {
+    try {
+      console.log("Deleting text with ID:", id);
+      const response = await fetch(`${this.baseUrl}/text/${id}`, {
+        method: 'DELETE',
+        headers: this.getHeaders(true),
+      });
+
+      const result = await this.handleResponse(response);
+      console.log("Delete text response:", result);
+      return result;
+    } catch (error) {
+      console.error("Delete text error:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Network error',
+      };
+    }
+  }
 }
 
 export const apiService = new ApiService();
