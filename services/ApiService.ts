@@ -304,6 +304,25 @@ class ApiService {
     }
   }
 
+  async deleteWord(id: number): Promise<ApiResponse<any>> {
+    try {
+      console.log("Deleting word with ID:", id);
+      const response = await fetch(`${this.baseUrl}/word/${id}`, {
+        method: 'DELETE',
+        headers: this.getHeaders(true),
+      });
+
+      const result = await this.handleResponse(response);
+      console.log("Delete word response:", result);
+      return result;
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Network error',
+      };
+    }
+  }
+
   async addWordAttachment(wordId: number, attachments: File[]): Promise<ApiResponse<any>> {
     try {
       const formData = new FormData();

@@ -3,6 +3,7 @@ import wordsData from "../constants/Words.json";
 import categoriesData from "../constants/Categories.json"; 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAppConfig } from "./AppConfigStore";
+import apiService from "@/services/ApiService";
 
 export const BASE_URL = "http://localhost:3000"; // Replace with your actual API base URL  
 
@@ -64,6 +65,7 @@ const UPDATE_SETTINGS = "UPDATE_SETTINGS";
 const LOAD_STATE = "LOAD_STATE";
 const SET_LOADING = "SET_LOADING";
 const UPDATE_LAST_API_FETCH = "UPDATE_LAST_API_FETCH";
+const DELETE_WORD = "DELETE_WORD"; // Add new action type
 
 // Updated context type
 const DictionaryContext = createContext<{
@@ -73,6 +75,7 @@ const DictionaryContext = createContext<{
   setWordInFocus: (word: Word | null) => void;
   updateSettings: (settings: Partial<State["settings"]>) => void;
   refreshCategories: () => Promise<void>;
+  deleteWord: (wordId: number) => Promise<boolean>; // Add new function
 }>({
   state: initialState,
   fetchData: async () => {},
@@ -80,6 +83,7 @@ const DictionaryContext = createContext<{
   setWordInFocus: () => {},
   updateSettings: () => {},
   refreshCategories: async () => {},
+  deleteWord: async () => false, // Initialize new function
 });
 
 // Updated reducer
@@ -131,6 +135,19 @@ const dictionaryReducer = (
       return {
         ...state,
         lastApiFetch: action.payload,
+      };
+    case DELETE_WORD:
+      const updatedWordsByCategory = { ...state.wordsByCategory };
+      for (const categoryId in updatedWordsByCategory) {
+        updatedWordsByCategory[categoryId] = updatedWordsByCategory[categoryId].filter(
+          word => word.id !== action.payload
+        );
+      }
+      return {
+        ...state,
+        wordsByCategory: updatedWordsByCategory,
+        // Clear word in focus if it's the deleted word
+        wordInFocus: state.wordInFocus?.id === action.payload ? null : state.wordInFocus
       };
     default:
       return state;
@@ -360,6 +377,25 @@ export const DictionaryProvider = ({
     }
   };
 
+  // Add deleteWord function
+  const deleteWord = async (wordId: number) => {
+    try {
+      dispatch({ type: SET_LOADING, payload: true });
+      const result = await apiService.deleteWord(wordId);
+      
+      if (result.success) {
+        dispatch({ type: DELETE_WORD, payload: wordId });
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Error deleting word:", error);
+      return false;
+    } finally {
+      dispatch({ type: SET_LOADING, payload: false });
+    }
+  };
+
   return (
     <DictionaryContext.Provider
       value={{
@@ -369,6 +405,7 @@ export const DictionaryProvider = ({
         setWordInFocus,
         updateSettings,
         refreshCategories,
+        deleteWord, // Add the new function to the context
       }}
     >
       {children}
