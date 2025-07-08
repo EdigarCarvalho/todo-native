@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Text as ReactText, TouchableOpacity, View, Image } from "react-native";
 import { Upload, X } from "lucide-react-native";
 import { Input, InputField } from "@/components/ui/input";
-import { TextArea, TextAreaInput } from "@/components/ui/textarea";
+// Fix the import to use the correct case or path
 import { Button, ButtonText } from "@/components/ui/button";
 import {
   useToast,
@@ -21,7 +21,13 @@ import {
 import apiService from "@/services/ApiService";
 import { ThemedText } from "../ThemedText";
 import { useTexts } from "@/stores/TextsStore";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
+import {
+  Textarea,
+  TextArea,
+  TextareaInput,
+  TextAreaInput,
+} from "../ui/textarea";
 
 interface Text {
   id: number;
@@ -37,11 +43,7 @@ interface TextFormProps {
   onCancel: () => void;
 }
 
-export function TextForm({
-  editingText,
-  onSuccess,
-  onCancel,
-}: TextFormProps) {
+export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [content, setContent] = useState("");
@@ -79,8 +81,8 @@ export function TextForm({
     if (!result.canceled) {
       setCover({
         uri: result.assets[0].uri,
-        type: 'image/jpeg',
-        name: 'cover.jpg',
+        type: "image/jpeg",
+        name: "cover.jpg",
       });
       setCoverPreview(result.assets[0].uri);
     }
@@ -196,9 +198,7 @@ export function TextForm({
           render: ({ id }) => (
             <Toast nativeID={`toast-${id}`} action="success" variant="solid">
               <ToastTitle>Sucesso</ToastTitle>
-              <ToastDescription>
-                Texto excluído com sucesso!
-              </ToastDescription>
+              <ToastDescription>Texto excluído com sucesso!</ToastDescription>
             </Toast>
           ),
         });
@@ -262,24 +262,24 @@ export function TextForm({
               <InputField value={subtitle} onChangeText={setSubtitle} />
             </Input>
 
-            <TextArea
-              className="border-[#C74B0B] border-2"
+            <Textarea
               label="Conteúdo"
-              size="xl"
+              isReadOnly={false}
+              isInvalid={false}
+              isDisabled={false}
+              className="h-52"
             >
-              <TextAreaInput 
-                value={content} 
-                onChangeText={setContent} 
-                numberOfLines={8}
-                multiline
+              <TextareaInput
+                value={content}
+                onChangeText={setContent}
               />
-            </TextArea>
+            </Textarea>
 
             <View className="mb-6">
               <ReactText className="text-sm font-medium text-gray-700 mb-2">
                 Imagem de capa
               </ReactText>
-              
+
               {coverPreview ? (
                 <View className="relative">
                   <Image
@@ -298,12 +298,14 @@ export function TextForm({
                   </TouchableOpacity>
                 </View>
               ) : (
-                <TouchableOpacity 
+                <TouchableOpacity
                   className="border-2 border-dashed border-[#C74B0B] rounded-lg p-4 flex flex-row items-center justify-center h-40"
                   onPress={pickImage}
                 >
                   <Upload size={20} color="#C74B0B" />
-                  <ReactText className="ml-2 text-[#C74B0B]">Escolher imagem</ReactText>
+                  <ReactText className="ml-2 text-[#C74B0B]">
+                    Escolher imagem
+                  </ReactText>
                 </TouchableOpacity>
               )}
             </View>
@@ -342,8 +344,8 @@ export function TextForm({
                       ? "Salvando..."
                       : "Adicionando..."
                     : editingText
-                    ? "Salvar"
-                    : "Adicionar texto"}
+                      ? "Salvar"
+                      : "Adicionar texto"}
                 </ButtonText>
               </Button>
             </View>
@@ -376,7 +378,9 @@ export function TextForm({
               onPress={() => setIsDeleteModalOpen(false)}
               disabled={isDeleting}
             >
-              <ButtonText className="text-[#C74B0B] font-bold">Cancelar</ButtonText>
+              <ButtonText className="text-[#C74B0B] font-bold">
+                Cancelar
+              </ButtonText>
             </Button>
 
             <Button

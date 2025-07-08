@@ -16,12 +16,12 @@ const UITextarea = createTextarea({
 });
 
 const textareaStyle = tva({
-  base: 'w-full h-[100px] border border-background-300 rounded data-[hover=true]:border-outline-400 data-[focus=true]:border-primary-700 data-[focus=true]:data-[hover=true]:border-primary-700 data-[disabled=true]:opacity-40 data-[disabled=true]:bg-background-50 data-[disabled=true]:data-[hover=true]:border-background-300',
+  base: 'w-full border-[#4B2C0B] border-2 rounded data-[hover=true]:border-[#C74B0B] data-[focus=true]:border-[#C74B0B] data-[focus=true]:data-[hover=true]:border-[#C74B0B] data-[disabled=true]:opacity-40 data-[disabled=true]:bg-background-50 data-[disabled=true]:data-[hover=true]:border-[#4B2C0B]',
 
   variants: {
     variant: {
       default:
-        'data-[focus=true]:border-primary-700 data-[focus=true]:web:ring-1 data-[focus=true]:web:ring-inset data-[focus=true]:web:ring-indicator-primary data-[invalid=true]:border-error-700 data-[invalid=true]:web:ring-1 data-[invalid=true]:web:ring-inset data-[invalid=true]:web:ring-indicator-error data-[invalid=true]:data-[hover=true]:border-error-700 data-[invalid=true]:data-[focus=true]:data-[hover=true]:border-primary-700 data-[invalid=true]:data-[focus=true]:data-[hover=true]:web:ring-1 data-[invalid=true]:data-[focus=true]:data-[hover=true]:web:ring-inset data-[invalid=true]:data-[focus=true]:data-[hover=true]:web:ring-indicator-primary data-[invalid=true]:data-[disabled=true]:data-[hover=true]:border-error-700 data-[invalid=true]:data-[disabled=true]:data-[hover=true]:web:ring-1 data-[invalid=true]:data-[disabled=true]:data-[hover=true]:web:ring-inset data-[invalid=true]:data-[disabled=true]:data-[hover=true]:web:ring-indicator-error ',
+        'data-[focus=true]:border-[#C74B0B] data-[focus=true]:web:ring-1 data-[focus=true]:web:ring-inset data-[focus=true]:web:ring-[#C74B0B] data-[invalid=true]:border-error-700 data-[invalid=true]:web:ring-1 data-[invalid=true]:web:ring-inset data-[invalid=true]:web:ring-indicator-error data-[invalid=true]:data-[hover=true]:border-error-700 data-[invalid=true]:data-[focus=true]:data-[hover=true]:border-[#C74B0B] data-[invalid=true]:data-[focus=true]:data-[hover=true]:web:ring-1 data-[invalid=true]:data-[focus=true]:data-[hover=true]:web:ring-inset data-[invalid=true]:data-[focus=true]:data-[hover=true]:web:ring-[#C74B0B] data-[invalid=true]:data-[disabled=true]:data-[hover=true]:border-error-700 data-[invalid=true]:data-[disabled=true]:data-[hover=true]:web:ring-1 data-[invalid=true]:data-[disabled=true]:data-[hover=true]:web:ring-inset data-[invalid=true]:data-[disabled=true]:data-[hover=true]:web:ring-indicator-error ',
     },
     size: {
       sm: '',
@@ -45,15 +45,33 @@ const textareaInputStyle = tva({
 });
 
 type ITextareaProps = React.ComponentProps<typeof UITextarea> &
-  VariantProps<typeof textareaStyle>;
+  VariantProps<typeof textareaStyle> & {
+    label?: string;
+  };
 
 const Textarea = React.forwardRef<
   React.ComponentRef<typeof UITextarea>,
   ITextareaProps
 >(function Textarea(
-  { className, variant = 'default', size = 'md', ...props },
+  { className, variant = 'default', size = 'md', label, ...props },
   ref
 ) {
+  if (label) {
+    return (
+      <div className="relative">
+        <UITextarea
+          ref={ref}
+          {...props}
+          className={textareaStyle({ variant, class: className })}
+          context={{ size }}
+        />
+        <span className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] text-[#4B2C0B] font-medium text-sm">
+          {label}
+        </span>
+      </div>
+    );
+  }
+
   return (
     <UITextarea
       ref={ref}
@@ -83,6 +101,7 @@ const TextareaInput = React.forwardRef<
         },
         class: className,
       })}
+      textAlignVertical="top"
     />
   );
 });
