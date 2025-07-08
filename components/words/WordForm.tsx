@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import { Paperclip, X } from "lucide-react-native";
+import { Text, TouchableOpacity, View, Image } from "react-native";
+import { Paperclip, X, Upload } from "lucide-react-native";
 import { Input, InputField } from "@/components/ui/input";
 import { Button, ButtonText } from "@/components/ui/button";
 import {
@@ -29,9 +29,11 @@ import {
   ModalBody,
   ModalFooter,
 } from "@/components/ui/modal";
-import apiService from "@/services/ApiService";
+import apiService, { RNFile } from "@/services/ApiService";
 import { ThemedText } from "../ThemedText";
 import { useDictionary } from "@/stores/Dictionary";
+import * as ImagePicker from "expo-image-picker";
+import { Platform } from "react-native";
 
 interface Word {
   id: number;
@@ -65,7 +67,8 @@ export function WordForm({
   const [wordTranslation, setWordTranslation] = useState("");
   const [wordMeaning, setWordMeaning] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [attachments, setAttachments] = useState<File[]>([]);
+  const [attachments, setAttachments] = useState<RNFile[]>([]);
+  const [attachmentPreviews, setAttachmentPreviews] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -85,14 +88,84 @@ export function WordForm({
       console.log("Category ID found:", categoryId);
 
       setSelectedCategory(categoryId ? categoryId.toString() : "");
+
+      // Set attachments previews from existing word attachments
+      if (editingWord.attachments && editingWord.attachments.length > 0) {
+        const previews = editingWord.attachments.map(
+          (attachment) => attachment.url
+        );
+        setAttachmentPreviews(previews);
+      } else {
+        setAttachmentPreviews([]);
+      }
     } else {
       setWordName("");
       setWordMeaning("");
       setWordTranslation("");
       setSelectedCategory("");
+      setAttachmentPreviews([]);
     }
     setAttachments([]);
   }, [editingWord]);
+
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.8,
+      base64: true, // Request base64 data
+    });
+
+    if (!result.canceled) {
+      const selectedAsset = result.assets[0];
+
+      // Determine if we have a data URI or a file URI
+      let uri = selectedAsset.uri;
+      let type = selectedAsset.mimeType || "image/jpeg";
+      let name = "attachment.jpg";
+
+      // If we have base64 data but not a data URI, create one
+      if (selectedAsset.base64 && !uri.startsWith("data:")) {
+        uri = `data:${type};base64,${selectedAsset.base64}`;
+      }
+
+      // If it's a file URI, try to get the extension for the filename
+      if (!uri.startsWith("data:")) {
+        const uriParts = uri.split(".");
+        const fileExtension = uriParts[uriParts.length - 1];
+        if (fileExtension) {
+          name = `attachment.${fileExtension}`;
+        }
+      } else {
+        // For data URIs, extract the extension from mime type
+        const ext = type.split("/")[1] || "jpg";
+        name = `attachment.${ext}`;
+      }
+
+      // Create a proper RNFile object
+      const file: RNFile = {
+        uri,
+        type,
+        name,
+      };
+
+      console.log("Selected image file:", {
+        uri: uri.substring(0, 30) + "...", // Trim URI for logging
+        type,
+        name,
+      });
+
+      // Add to attachments and previews
+      setAttachments([...attachments, file]);
+      setAttachmentPreviews([...attachmentPreviews, uri]);
+    }
+  };
+
+  const removeAttachment = (index: number) => {
+    setAttachments(attachments.filter((_, i) => i !== index));
+    setAttachmentPreviews(attachmentPreviews.filter((_, i) => i !== index));
+  };
 
   const handleSubmit = async () => {
     if (!wordName.trim() || !wordMeaning.trim() || !selectedCategory) {
@@ -115,20 +188,49 @@ export function WordForm({
     try {
       let result;
       if (editingWord) {
-        // Include both meaning and translation in the update payload
+        // First update the word details
         result = await apiService.updateWord(editingWord.id, {
           name: wordName.trim(),
           meaning: wordMeaning.trim(),
           translation: wordTranslation.trim(),
           category_id: parseInt(selectedCategory),
         });
+
+        // Then handle attachments if there are any new ones
+        if (attachments.length > 0) {
+          console.log(
+            `Adding ${attachments.length} attachments to word ${editingWord.id}`
+          );
+          const attachmentResult = await apiService.addWordAttachment(
+            editingWord.id,
+            attachments
+          );
+
+          if (!attachmentResult.success) {
+            console.error("Failed to add attachments:", attachmentResult.error);
+            toast.show({
+              placement: "top",
+              render: ({ id }) => (
+                <Toast nativeID={`toast-${id}`} action="warning" variant="solid">
+                  <ToastTitle>Atenção</ToastTitle>
+                  <ToastDescription>
+                    Palavra atualizada, mas houve um problema ao adicionar
+                    imagens.
+                  </ToastDescription>
+                </Toast>
+              ),
+            });
+          }
+        }
       } else {
+        // For new words, create with all data including attachments in one request
+        console.log("Creating new word with attachments:", attachments.length);
         result = await apiService.createWord({
           name: wordName.trim(),
           meaning: wordMeaning.trim(),
           translation: wordTranslation.trim(),
           category_id: parseInt(selectedCategory),
-          attachments,
+          attachments: attachments,
         });
       }
 
@@ -161,6 +263,7 @@ export function WordForm({
         });
       }
     } catch (error) {
+      console.error("Error in word submission:", error);
       toast.show({
         placement: "top",
         render: ({ id }) => (
@@ -308,35 +411,51 @@ export function WordForm({
               </Select>
             </View>
 
-            <View className="mb-6">
-              <Text className="text-sm font-medium text-gray-700 mb-2">
-                Anexos
-              </Text>
-              <TouchableOpacity className="border-2 border-dashed border-[#C74B0B] rounded-lg p-4 flex flex-row items-center justify-center">
-                <Paperclip size={20} color="#C74B0B" />
-                <Text className="ml-2 text-[#C74B0B]">Adicionar arquivos</Text>
-              </TouchableOpacity>
-              {attachments.length > 0 && (
-                <View className="mt-2">
-                  {attachments.map((file, index) => (
-                    <View
-                      key={index}
-                      className="flex flex-row items-center justify-between p-2 bg-gray-100 rounded mb-1"
+            {/* Updated Attachments UI */}
+            <View className="relative">
+              <View className="border-[#C74B0B] border-dashed border-2 rounded p-2 min-h-[80px]">
+                {attachmentPreviews.length > 0 ? (
+                  <View className="flex flex-row flex-wrap">
+                    {attachmentPreviews.map((preview, index) => (
+                      <View key={index} className="relative w-1/3 p-1">
+                        <Image
+                          source={{ uri: preview }}
+                          className="w-full h-24 rounded"
+                          resizeMode="cover"
+                        />
+                        <TouchableOpacity
+                          className="absolute top-2 right-2 bg-black bg-opacity-50 rounded-full p-1"
+                          onPress={() => removeAttachment(index)}
+                        >
+                          <X size={16} color="white" />
+                        </TouchableOpacity>
+                      </View>
+                    ))}
+                    <TouchableOpacity
+                      className="w-1/3 h-24 p-1"
+                      onPress={pickImage}
                     >
-                      <Text className="flex-1 text-sm">{file.name}</Text>
-                      <TouchableOpacity
-                        onPress={() => {
-                          setAttachments(
-                            attachments.filter((_, i) => i !== index)
-                          );
-                        }}
-                      >
-                        <X size={16} color="#666" />
-                      </TouchableOpacity>
-                    </View>
-                  ))}
-                </View>
-              )}
+                      <View className="border-2 border-dashed border-[#C74B0B] rounded h-full flex items-center justify-center">
+                        <Upload size={20} color="#C74B0B" />
+                        <Text className="text-xs text-[#C74B0B] mt-1">
+                          Adicionar
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                ) : (
+                  <TouchableOpacity
+                    className="rounded p-4 flex flex-row items-center justify-center h-[60px]"
+                    onPress={pickImage}
+                  >
+                    <Upload size={20} color="#C74B0B" />
+                    <Text className="ml-2 text-[#C74B0B]">Adicionar imagens</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+              <Text className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] text-[#4B2C0B] font-medium text-sm">
+                Imagens
+              </Text>
             </View>
 
             <View className="flex flex-row gap-3">

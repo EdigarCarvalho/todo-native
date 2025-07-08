@@ -49,7 +49,7 @@ export interface AuthData {
 
 export interface AuthLoginRequest {
   email: string;
-  password: string;
+  password;
 }
 
 export interface AuthRegisterRequest {
@@ -245,7 +245,7 @@ class ApiService {
     meaning: string;
     translation?: string;
     category_id: number;
-    attachments?: File[];
+    attachments?: RNFile[];
   }): Promise<ApiResponse<Word>> {
     try {
       const formData = new FormData();
@@ -259,18 +259,56 @@ class ApiService {
       
       formData.append('category_id', wordData.category_id.toString());
 
-      if (wordData.attachments) {
+      // Handle attachments properly
+      if (wordData.attachments && wordData.attachments.length > 0) {
         wordData.attachments.forEach((file, index) => {
-          formData.append(`attachment_${index}`, file);
+          // For each attachment, create a field with a unique name
+          const fieldName = `attachment_${index}`;
+          
+          // For web platform, convert data URI to blob if needed
+          if (Platform.OS === 'web' && file.uri.startsWith('data:')) {
+            try {
+              const mimeMatch = file.uri.match(/^data:([^;]+);base64,/);
+              const mime = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+              const base64Data = file.uri.split(',')[1];
+              const byteCharacters = atob(base64Data);
+              const byteArrays = [];
+              
+              for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+                const slice = byteCharacters.slice(offset, offset + 512);
+                const byteNumbers = new Array(slice.length);
+                
+                for (let i = 0; i < slice.length; i++) {
+                  byteNumbers[i] = slice.charCodeAt(i);
+                }
+                
+                const byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+              }
+              
+              const blob = new Blob(byteArrays, { type: mime });
+              // Add source parameter to identify the attachment
+              formData.append(fieldName, blob, file.name);
+              // Set empty string as source for now - server will generate URL
+              formData.append(`${fieldName}_source`, '');
+            } catch (error) {
+              console.error("Error converting data URI to blob:", error);
+            }
+          } else {
+            // For native platforms, append file object to form data
+            // The field name must match what the Go backend expects
+            formData.append(fieldName, {
+              uri: file.uri,
+              type: file.type,
+              name: file.name,
+            } as any);
+            // Set empty string as source for now - server will generate URL
+            formData.append(`${fieldName}_source`, '');
+          }
         });
       }
 
-      console.log("Creating word with data:", {
-        name: wordData.name,
-        meaning: wordData.meaning,
-        translation: wordData.translation,
-        category_id: wordData.category_id
-      });
+      console.log("Creating word with formData keys:", Object.keys(formData));
 
       const response = await fetch(`${this.baseUrl}/word/new`, {
         method: 'POST',
@@ -280,6 +318,7 @@ class ApiService {
 
       return this.handleResponse<Word>(response);
     } catch (error) {
+      console.error("Create word error:", error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Network error',
@@ -331,13 +370,55 @@ class ApiService {
     }
   }
 
-  async addWordAttachment(wordId: number, attachments: File[]): Promise<ApiResponse<any>> {
+  async addWordAttachment(wordId: number, attachments: RNFile[]): Promise<ApiResponse<any>> {
     try {
       const formData = new FormData();
       
+      // Process each attachment and add to form data
       attachments.forEach((file, index) => {
-        formData.append(`attachment_${index}`, file);
+        const fieldName = `attachment_${index}`;
+        
+        // For web platform, convert data URI to blob if needed
+        if (Platform.OS === 'web' && file.uri.startsWith('data:')) {
+          try {
+            const mimeMatch = file.uri.match(/^data:([^;]+);base64,/);
+            const mime = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+            const base64Data = file.uri.split(',')[1];
+            const byteCharacters = atob(base64Data);
+            const byteArrays = [];
+            
+            for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+              const slice = byteCharacters.slice(offset, offset + 512);
+              const byteNumbers = new Array(slice.length);
+              
+              for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+              }
+              
+              const byteArray = new Uint8Array(byteNumbers);
+              byteArrays.push(byteArray);
+            }
+            
+            const blob = new Blob(byteArrays, { type: mime });
+            formData.append(fieldName, blob, file.name);
+            // Add source param with empty string
+            formData.append(`${fieldName}_source`, '');
+          } catch (error) {
+            console.error("Error converting data URI to blob:", error);
+          }
+        } else {
+          // For native platforms, append file object
+          formData.append(fieldName, {
+            uri: file.uri,
+            type: file.type,
+            name: file.name,
+          } as any);
+          // Add source param with empty string
+          formData.append(`${fieldName}_source`, '');
+        }
       });
+
+      console.log(`Adding attachments to word ${wordId}, formData keys:`, Object.keys(formData));
 
       const response = await fetch(`${this.baseUrl}/word/attachment/${wordId}`, {
         method: 'POST',
@@ -347,6 +428,7 @@ class ApiService {
 
       return this.handleResponse(response);
     } catch (error) {
+      console.error("Add attachment error:", error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Network error',
