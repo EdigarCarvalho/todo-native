@@ -275,39 +275,39 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
               />
             </Textarea>
 
-            <View className="mb-6">
-              <ReactText className="text-sm font-medium text-gray-700 mb-2">
-                Imagem de capa
-              </ReactText>
-
-              {coverPreview ? (
-                <View className="relative">
-                  <Image
-                    source={{ uri: coverPreview }}
-                    className="w-full h-40 rounded-lg"
-                    resizeMode="cover"
-                  />
-                  <TouchableOpacity
-                    className="absolute top-2 right-2 bg-black bg-opacity-50 rounded-full p-1"
-                    onPress={() => {
-                      setCover(null);
-                      setCoverPreview(null);
-                    }}
+            {/* Cover Image with styled floating label */}
+            <View className="relative">
+              <View className="border-[#C74B0B] border-dashed  border-2 rounded p-2 min-h-[120px]">
+                {coverPreview ? (
+                  <View className="relative">
+                    <Image
+                      source={{ uri: coverPreview }}
+                      className="w-full h-40 rounded"
+                      resizeMode="cover"
+                    />
+                    <TouchableOpacity
+                      className="absolute top-2 right-2 bg-black bg-opacity-50 rounded-full p-1"
+                      onPress={() => {
+                        setCover(null);
+                        setCoverPreview(null);
+                      }}
+                    >
+                      <X size={16} color="white" />
+                    </TouchableOpacity>
+                  </View>
+                ) : (
+                  <TouchableOpacity 
+                    className=" rounded p-4 flex flex-row items-center justify-center h-[90px]"
+                    onPress={pickImage}
                   >
-                    <X size={16} color="white" />
+                    <Upload size={20} color="#C74B0B" />
+                    <ReactText className="ml-2 text-[#C74B0B]">Escolher imagem</ReactText>
                   </TouchableOpacity>
-                </View>
-              ) : (
-                <TouchableOpacity
-                  className="border-2 border-dashed border-[#C74B0B] rounded-lg p-4 flex flex-row items-center justify-center h-40"
-                  onPress={pickImage}
-                >
-                  <Upload size={20} color="#C74B0B" />
-                  <ReactText className="ml-2 text-[#C74B0B]">
-                    Escolher imagem
-                  </ReactText>
-                </TouchableOpacity>
-              )}
+                )}
+              </View>
+              <span className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] text-[#4B2C0B] font-medium text-sm">
+                Imagem de capa
+              </span>
             </View>
 
             <View className="flex flex-row gap-3">
