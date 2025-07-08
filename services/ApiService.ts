@@ -1,4 +1,5 @@
 import { BASE_URL } from '../stores/Dictionary';
+import { Platform } from 'react-native';
 
 // Types
 export interface ApiResponse<T = any> {
@@ -32,6 +33,13 @@ export interface Text {
   subtitle: string;
   content: string;
   cover_url: string;
+}
+
+// Define a React Native file object type
+export interface RNFile {
+  uri: string;
+  type: string;
+  name: string;
 }
 
 export interface AuthData {
@@ -400,7 +408,7 @@ class ApiService {
     title: string;
     subtitle: string;
     content: string;
-    cover?: File;
+    cover?: RNFile;
   }): Promise<ApiResponse<Text>> {
     try {
       const formData = new FormData();
@@ -409,8 +417,62 @@ class ApiService {
       formData.append('content', textData.content);
 
       if (textData.cover) {
-        formData.append('cover', textData.cover);
+        // Handle data URI images (base64)
+        if (textData.cover.uri.startsWith('data:')) {
+          console.log("Processing data URI image...");
+          
+          // Extract file type and create appropriate filename
+          const mimeMatch = textData.cover.uri.match(/^data:([^;]+);base64,/);
+          const mime = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+          const ext = mime.split('/')[1] || 'jpg';
+          
+          // For web, we need to convert base64 to blob
+          if (Platform.OS === 'web') {
+            try {
+              // Convert base64 to blob for web
+              const base64Data = textData.cover.uri.split(',')[1];
+              const byteCharacters = atob(base64Data);
+              const byteArrays = [];
+              
+              for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+                const slice = byteCharacters.slice(offset, offset + 512);
+                const byteNumbers = new Array(slice.length);
+                
+                for (let i = 0; i < slice.length; i++) {
+                  byteNumbers[i] = slice.charCodeAt(i);
+                }
+                
+                const byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+              }
+              
+              const blob = new Blob(byteArrays, { type: mime });
+              formData.append('cover', blob, `cover.${ext}`);
+              console.log("Added blob to form data from data URI");
+            } catch (error) {
+              console.error("Error converting data URI to blob:", error);
+            }
+          } else {
+            // For native platforms, just use the URI
+            formData.append('cover', {
+              uri: textData.cover.uri,
+              type: mime,
+              name: `cover.${ext}`,
+            } as any);
+            console.log("Added data URI to form data for native platform");
+          }
+        } else {
+          // Regular file URI
+          formData.append('cover', {
+            uri: textData.cover.uri,
+            type: textData.cover.type || 'image/jpeg',
+            name: textData.cover.name || 'cover.jpg',
+          } as any);
+          console.log("Added regular file to form data");
+        }
       }
+
+      console.log("Creating text with formData keys:", Object.keys(formData));
 
       const response = await fetch(`${this.baseUrl}/text/new`, {
         method: 'POST',
@@ -418,8 +480,19 @@ class ApiService {
         body: formData,
       });
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Server error response:", errorText);
+        return {
+          success: false,
+          error: `HTTP ${response.status}: ${response.statusText}`,
+          data: errorText
+        };
+      }
+
       return this.handleResponse<Text>(response);
     } catch (error) {
+      console.error("Create text error:", error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Network error',
@@ -431,19 +504,71 @@ class ApiService {
     title: string;
     subtitle: string;
     content: string;
-    cover?: File;
+    cover?: RNFile;
   }): Promise<ApiResponse<Text>> {
     try {
-      console.log("Updating text with ID:", id);
-      
       const formData = new FormData();
       formData.append('title', textData.title);
       formData.append('subtitle', textData.subtitle);
       formData.append('content', textData.content);
 
       if (textData.cover) {
-        formData.append('cover', textData.cover);
+        // Handle data URI images (base64)
+        if (textData.cover.uri.startsWith('data:')) {
+          console.log("Processing data URI image for update...");
+          
+          // Extract file type and create appropriate filename
+          const mimeMatch = textData.cover.uri.match(/^data:([^;]+);base64,/);
+          const mime = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+          const ext = mime.split('/')[1] || 'jpg';
+          
+          // For web, we need to convert base64 to blob
+          if (Platform.OS === 'web') {
+            try {
+              // Convert base64 to blob for web
+              const base64Data = textData.cover.uri.split(',')[1];
+              const byteCharacters = atob(base64Data);
+              const byteArrays = [];
+              
+              for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+                const slice = byteCharacters.slice(offset, offset + 512);
+                const byteNumbers = new Array(slice.length);
+                
+                for (let i = 0; i < slice.length; i++) {
+                  byteNumbers[i] = slice.charCodeAt(i);
+                }
+                
+                const byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+              }
+              
+              const blob = new Blob(byteArrays, { type: mime });
+              formData.append('cover', blob, `cover.${ext}`);
+              console.log("Added blob to form data from data URI for update");
+            } catch (error) {
+              console.error("Error converting data URI to blob:", error);
+            }
+          } else {
+            // For native platforms, just use the URI
+            formData.append('cover', {
+              uri: textData.cover.uri,
+              type: mime,
+              name: `cover.${ext}`,
+            } as any);
+            console.log("Added data URI to form data for native platform");
+          }
+        } else {
+          // Regular file URI
+          formData.append('cover', {
+            uri: textData.cover.uri,
+            type: textData.cover.type || 'image/jpeg',
+            name: textData.cover.name || 'cover.jpg',
+          } as any);
+          console.log("Added regular file to form data");
+        }
       }
+
+      console.log("Updating text with formData keys:", Object.keys(formData));
 
       const response = await fetch(`${this.baseUrl}/text/${id}`, {
         method: 'PUT',
@@ -451,9 +576,17 @@ class ApiService {
         body: formData,
       });
 
-      const result = await this.handleResponse<Text>(response);
-      console.log("Update text response:", result);
-      return result;
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Server error response:", errorText);
+        return {
+          success: false,
+          error: `HTTP ${response.status}: ${response.statusText}`,
+          data: errorText
+        };
+      }
+
+      return this.handleResponse<Text>(response);
     } catch (error) {
       console.error("Update text error:", error);
       return {

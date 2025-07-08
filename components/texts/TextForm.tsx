@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text as ReactText, TouchableOpacity, View, Image } from "react-native";
+import { Text as ReactText, TouchableOpacity, View, Image, Platform } from "react-native";
 import { Upload, X } from "lucide-react-native";
 import { Input, InputField } from "@/components/ui/input";
 // Fix the import to use the correct case or path
@@ -18,15 +18,13 @@ import {
   ModalBody,
   ModalFooter,
 } from "@/components/ui/modal";
-import apiService from "@/services/ApiService";
+import apiService, { RNFile } from "@/services/ApiService";
 import { ThemedText } from "../ThemedText";
 import { useTexts } from "@/stores/TextsStore";
 import * as ImagePicker from "expo-image-picker";
 import {
   Textarea,
-  TextArea,
   TextareaInput,
-  TextAreaInput,
 } from "../ui/textarea";
 
 interface Text {
@@ -47,7 +45,7 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [content, setContent] = useState("");
-  const [cover, setCover] = useState<any>(null);
+  const [cover, setCover] = useState<RNFile | null>(null);
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -76,15 +74,50 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
       allowsEditing: true,
       aspect: [16, 9],
       quality: 0.8,
+      base64: true, // Request base64 data
     });
 
     if (!result.canceled) {
-      setCover({
-        uri: result.assets[0].uri,
-        type: "image/jpeg",
-        name: "cover.jpg",
-      });
-      setCoverPreview(result.assets[0].uri);
+      const selectedAsset = result.assets[0];
+      
+      // Determine if we have a data URI or a file URI
+      let uri = selectedAsset.uri;
+      let type = selectedAsset.mimeType || 'image/jpeg';
+      let name = 'cover.jpg';
+      
+      // If we have base64 data but not a data URI, create one
+      if (selectedAsset.base64 && !uri.startsWith('data:')) {
+        uri = `data:${type};base64,${selectedAsset.base64}`;
+      }
+      
+      // If it's a file URI, try to get the extension for the filename
+      if (!uri.startsWith('data:')) {
+        const uriParts = uri.split('.');
+        const fileExtension = uriParts[uriParts.length - 1];
+        if (fileExtension) {
+          name = `cover.${fileExtension}`;
+        }
+      } else {
+        // For data URIs, extract the extension from mime type
+        const ext = type.split('/')[1] || 'jpg';
+        name = `cover.${ext}`;
+      }
+      
+      // Create a proper RNFile object
+      const file: RNFile = {
+        uri,
+        type,
+        name,
+      };
+      
+      console.log("Selected image file:", JSON.stringify({
+        uri: uri.substring(0, 100) + "...", // Trim the URI for logging
+        type,
+        name
+      }));
+      
+      setCover(file);
+      setCoverPreview(uri);
     }
   };
 
@@ -277,7 +310,7 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
 
             {/* Cover Image with styled floating label */}
             <View className="relative">
-              <View className="border-[#C74B0B] border-dashed  border-2 rounded p-2 min-h-[120px]">
+              <View className="border-[#C74B0B] border-dashed  border-2 rounded p-2 min-h-[80px]">
                 {coverPreview ? (
                   <View className="relative">
                     <Image
@@ -297,7 +330,7 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
                   </View>
                 ) : (
                   <TouchableOpacity 
-                    className=" rounded p-4 flex flex-row items-center justify-center h-[90px]"
+                    className=" rounded p-4 flex flex-row items-center justify-center h-[60px]"
                     onPress={pickImage}
                   >
                     <Upload size={20} color="#C74B0B" />

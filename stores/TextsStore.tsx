@@ -1,7 +1,7 @@
 import React, { createContext, useReducer, useContext, useEffect } from "react";
 import textsData from "../constants/Texts.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import apiService from "../services/ApiService";
+import apiService, { RNFile } from "../services/ApiService";
 import { useAppConfig } from "./AppConfigStore";
 
 // Define type based on your JSON structure
@@ -44,8 +44,8 @@ const TextsContext = createContext<{
   state: State;
   fetchTexts: () => Promise<void>;
   setTextInFocus: (text: Text | null) => void;
-  createText: (textData: { title: string; subtitle: string; content: string; cover?: File }) => Promise<boolean>;
-  updateText: (id: number, textData: { title: string; subtitle: string; content: string; cover?: File }) => Promise<boolean>;
+  createText: (textData: { title: string; subtitle: string; content: string; cover?: RNFile }) => Promise<boolean>;
+  updateText: (id: number, textData: { title: string; subtitle: string; content: string; cover?: RNFile }) => Promise<boolean>;
   deleteText: (id: number) => Promise<boolean>;
 }>({
   state: initialState,
@@ -266,7 +266,7 @@ export const TextsProvider = ({
     title: string; 
     subtitle: string; 
     content: string; 
-    cover?: File 
+    cover?: RNFile 
   }): Promise<boolean> => {
     dispatch({ type: SET_LOADING, payload: true });
     
@@ -297,7 +297,7 @@ export const TextsProvider = ({
     title: string;
     subtitle: string;
     content: string;
-    cover?: File;
+    cover?: RNFile;
   }): Promise<boolean> => {
     dispatch({ type: SET_LOADING, payload: true });
     
