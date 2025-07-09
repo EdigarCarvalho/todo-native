@@ -57,6 +57,12 @@ function AppContent() {
   const { state } = useDictionary();
   const colorScheme = state.settings.darkMode ? "dark" : "light";
 
+  // This useEffect will run whenever the colorScheme changes
+  useEffect(() => {
+    console.log(`App theme changed to: ${colorScheme}`);
+    // You could add any global theme-related side effects here
+  }, [colorScheme]);
+
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });

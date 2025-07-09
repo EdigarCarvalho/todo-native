@@ -55,10 +55,10 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
 
   useEffect(() => {
     if (editingText) {
-      setTitle(editingText.title || "");
-      setSubtitle(editingText.subtitle || "");
-      setContent(editingText.content || "");
-      setCoverPreview(editingText.cover_url || null);
+      setTitle(editingText?.title || "");
+      setSubtitle(editingText?.subtitle || "");
+      setContent(editingText?.content || "");
+      setCoverPreview(editingText?.cover_url || null);
     } else {
       setTitle("");
       setSubtitle("");

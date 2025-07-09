@@ -44,16 +44,7 @@ cssInterop(AnimatedPressable, { className: 'style' });
 cssInterop(MotionView, { className: 'style' });
 
 const modalStyle = tva({
-  base: 'group/modal  w-full h-full justify-center items-center web:pointer-events-none',
-  variants: {
-    size: {
-      xs: '',
-      sm: '',
-      md: '',
-      lg: '',
-      full: '',
-    },
-  },
+  base: 'group w-full h-full justify-center items-center bg-[#f9f9f9] dark:bg-gray-900',
 });
 
 const modalBackdropStyle = tva({
@@ -61,17 +52,18 @@ const modalBackdropStyle = tva({
 });
 
 const modalContentStyle = tva({
-  base: 'bg-white rounded-md overflow-hidden border border-outline-100 shadow-hard-2 p-6',
+  base: 'bg-white rounded-md overflow-hidden border border-outline-100 shadow-hard-2 p-6 w-auto max-w-[90%]',
   parentVariants: {
     size: {
-      xs: 'w-[60%] max-w-[360px]',
-      sm: 'w-[70%] max-w-[420px]',
-      md: 'w-[80%] max-w-[510px]',
-      lg: 'w-[90%] max-w-[640px]',
+      xs: 'max-w-[300px]',
+      sm: 'max-w-[400px]',
+      md: 'max-w-[500px]',
+      lg: 'max-w-[600px]',
       full: 'w-full',
     },
   },
 });
+
 
 const modalBodyStyle = tva({
   base: 'mt-2 mb-6',
@@ -118,11 +110,6 @@ const Modal = React.forwardRef<React.ComponentRef<typeof UIModal>, IModalProps>(
       pointerEvents="box-none"
       className={modalStyle({ size, class: className })}
       context={{ size }}
-      style={
-        {
-          backgroundColor: 'red',
-        }
-      }
     />
   )
 );

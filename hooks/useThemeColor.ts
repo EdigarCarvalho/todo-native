@@ -3,9 +3,15 @@
  * https://docs.expo.dev/guides/color-schemes/
  */
 
-import { useColorScheme } from 'react-native';
-
 import { Colors } from '@/constants/Colors';
+import { useDictionary } from '@/stores/Dictionary';
+
+export function useColorScheme() {
+ const { state } = useDictionary();
+  const { darkMode } = state.settings;
+  const isDarkMode = Boolean(darkMode);
+  return isDarkMode ? 'dark' : 'light';
+}
 
 export function useThemeColor(
   props: { light?: string; dark?: string },

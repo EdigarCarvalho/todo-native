@@ -18,8 +18,14 @@ export default function SettingsScreen() {
   const { state, updateSettings } = useDictionary();
   const { state: authState, logout } = useAuth();
   const { darkMode, fontSize } = state.settings;
+  const isDarkMode = Boolean(darkMode);
   
   const isAdmin = Boolean(authState?.isAuthenticated);
+
+  const handleThemeChange = () => {
+    const newDarkMode = !darkMode;
+    updateSettings({ darkMode: newDarkMode });
+  };
 
   const handleLogout = async () => {
     try {
@@ -44,22 +50,20 @@ export default function SettingsScreen() {
         },
       }}
     >
-      <View className="flex flex-col gap-2 bg-[#E7E4D8] p-4 pt-8">
+      <View className="flex flex-col gap-2 bg-[#E7E4D8] dark:bg-[#7C4F2C] p-4 pt-8">
         <TouchableOpacity onPress={() => router.back()}>
-          <ArrowLeft size={24} color={"#212121"} />
+          <ArrowLeft size={24} color={isDarkMode ? "#E7E4D8" : "#212121"} />
         </TouchableOpacity>
-        <ScalableText className="text-2xl font-bold">Configurações</ScalableText>
+        <ScalableText className="text-2xl font-bold dark:text-[#E7E4D8]">Configurações</ScalableText>
       </View>
       <View className="flex flex-col gap-6 px-4 py-6">
-        <ScalableText className="text-gray-500 text-base font-medium">Geral</ScalableText>
+        <ScalableText className="text-gray-500  dark:text-[#E7E4D8] text-base font-medium">Geral</ScalableText>
 
         <View className="flex flex-row justify-between items-center">
-          <ScalableText className="text-gray-800 ">Modo Escuro</ScalableText>
+          <ScalableText className="text-gray-800 dark:text-[#E7E4D8] ">Modo Escuro</ScalableText>
           <Switch
-            checked={Boolean(darkMode)}
-            onCheckedChange={() => {
-              updateSettings({ darkMode: !darkMode});
-            }}
+            value={Boolean(darkMode)}
+            onToggle={handleThemeChange}
             className="data-[state=checked]:bg-[#5A2E0A]"
             trackColor={{ 
               false: '#E5D5C8', 
@@ -69,7 +73,7 @@ export default function SettingsScreen() {
         </View>
 
         <View className="flex flex-col gap-2">
-          <ScalableText className="text-gray-800 ">Tamanho da fonte</ScalableText>
+          <ScalableText className="text-gray-800 dark:text-[#E7E4D8] ">Tamanho da fonte</ScalableText>
           <Slider
             minValue={1}
             maxValue={5}
@@ -86,15 +90,15 @@ export default function SettingsScreen() {
             <SliderThumb />
           </Slider>
           
-          <View className="flex flex-row justify-between mt-1">
-            <ScalableText className="text-xs">Pequeno</ScalableText>
-            <ScalableText className="text-xs">Grande</ScalableText>
+          <View className="flex flex-row justify-between mt-1 ">
+            <ScalableText className="text-xs dark:text-[#E7E4D8]">Pequeno</ScalableText>
+            <ScalableText className="text-xs dark:text-[#E7E4D8]">Grande</ScalableText>
           </View>
         </View>
 
         {isAdmin && (
           <>
-            <ScalableText className="text-gray-500 text-base font-medium mt-4">Conta</ScalableText>
+            <ScalableText className="text-gray-500 dark:text-[#E7E4D8] text-base font-medium mt-4">Conta</ScalableText>
             
             <TouchableOpacity 
               onPress={handleLogout}
@@ -111,3 +115,4 @@ export default function SettingsScreen() {
     </ParallaxScrollView>
   );
 }
+

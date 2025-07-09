@@ -9,6 +9,7 @@ import Animated, {
 
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "./ThemedText";
+import { useDictionary } from "@/stores/Dictionary";
 
 const HEADER_HEIGHT = 250;
 
@@ -28,10 +29,19 @@ export default function ParallaxScrollView({
   title = "",
   customCss = {},
 }: Props) {
-  const colorScheme = useColorScheme() ?? "light";
+  const { state } = useDictionary();
+  const { darkMode } = state.settings;
+  const isDarkMode = Boolean(darkMode);
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
-  const styles = getStyles(customCss);
+  const styles = getStyles({
+    content: {
+      backgroundColor: isDarkMode ? "#3E1C00" : "#f9f9f9",
+    },
+    ...customCss,
+  });
+
+  
 
   const headerAnimatedStyle = useAnimatedStyle(() => {
     return {
@@ -60,13 +70,12 @@ export default function ParallaxScrollView({
         ref={scrollRef}
         scrollEventThrottle={16}
         style={{ backgroundColor: "#f9f9f9" }}
-
       >
         <Animated.View
           style={[
             styles.header,
             {
-              backgroundColor: headerBackgroundColor[colorScheme],
+              backgroundColor: headerBackgroundColor[isDarkMode ? "dark" : "light"],
               paddingTop: 0,
             },
             headerAnimatedStyle,
@@ -82,14 +91,11 @@ export default function ParallaxScrollView({
   );
 }
 
-
-
 const getStyles = (customCss: {
   container?: object;
   header?: object;
   content?: object;
 }) => {
-
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -110,12 +116,7 @@ const getStyles = (customCss: {
       paddingLeft: 20,
       gap: 16,
       overflow: "hidden",
-      backgroundColor: "#f9f9f9",
       ...(customCss?.content || {}),
     },
-  })
-}
-
-
-
-
+  });
+};

@@ -26,7 +26,7 @@ import {
         isDisabled={false}
         isInvalid={false}
         isReadOnly={false}
-        className="bg-[#E7E4D8] border-none sticky"
+        className="bg-[#E7E4D8] dark:bg-[#7C4F2C] border-none sticky"
       >
         {!condition || !CustomInputContent ? (
           <>

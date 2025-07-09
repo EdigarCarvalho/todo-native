@@ -507,7 +507,7 @@ export function WordForm({
         onClose={() => setIsDeleteModalOpen(false)}
       >
         <ModalBackdrop />
-        <ModalContent className="bg-white">
+        <ModalContent >
           <ModalHeader className="text-center">
             <Text className="text-lg font-bold text-[#212121] mx-auto text-center">
               Tem certeza que deseja excluir a palavra?

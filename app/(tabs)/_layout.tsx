@@ -11,6 +11,9 @@ export default function TabLayout() {
   const { state } = useAuth();
   const isAdmin = Boolean(state?.isAuthenticated);
 
+  console.log(colorScheme);
+  
+
   return (
     <Tabs
       screenOptions={{

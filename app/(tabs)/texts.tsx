@@ -99,10 +99,10 @@ export default function TextsScreen() {
           onChangeValue={setFilter}
           placeholder="Pesquise um texto"
           CustomInputContent={
-            <CustomInputContent 
-              setTextInFocus={setTextInFocus} 
-              state={state} 
-              viewMode={viewMode} 
+            <CustomInputContent
+              setTextInFocus={setTextInFocus}
+              state={state}
+              viewMode={viewMode}
               onBack={handleBackToList}
               editingText={editingText}
             />
@@ -121,7 +121,9 @@ export default function TextsScreen() {
         {state.isLoading ? (
           <View className="py-10 flex justify-center items-center">
             <ActivityIndicator size="large" color="#A30122" />
-            <ReactText className="mt-2 text-center">Carregando textos...</ReactText>
+            <ReactText className="mt-2 text-center">
+              Carregando textos...
+            </ReactText>
           </View>
         ) : (
           <>
@@ -130,9 +132,9 @@ export default function TextsScreen() {
                 {filteredTexts.length > 0 ? (
                   <View className="px-1">
                     {filteredTexts.map((text) => (
-                      <TextItem 
-                        key={text.id} 
-                        text={text} 
+                      <TextItem
+                        key={text.id}
+                        text={text}
                         isAdmin={isAdmin}
                         onTextSelect={setTextInFocus}
                         onTextEdit={handleEditText}
@@ -180,17 +182,19 @@ function TextItem({ text, isAdmin, onTextSelect, onTextEdit }: TextItemProps) {
   return (
     <View className="mb-4 border-[#C74B0B] border-[1px] rounded-xl overflow-hidden flex flex-row min-h-[80px] max-h-[80px]">
       <View className="p-3 bg-white w-[78%] flex flex-row">
-        <View className="flex-1">
-          <ReactText className="font-bold text-lg text-[#A30122] overflow-hidden truncate text-ellipsis">
-            {text.title}
-          </ReactText>
-          {text.subtitle && (
-            <ReactText className="text-sm text-[#474747] mt-1">
-              {text.subtitle}
-            </ReactText>
-          )}
-        </View>
+        <TouchableOpacity className="flex-1" onPress={() => onTextSelect(text)}>
         
+            <ReactText className="font-bold text-lg text-[#A30122] overflow-hidden truncate text-ellipsis">
+              {text.title}
+            </ReactText>
+            {text.subtitle && (
+              <ReactText className="text-sm text-[#474747] mt-1">
+                {text.subtitle}
+              </ReactText>
+            )}
+     
+        </TouchableOpacity>
+
         {isAdmin && (
           <TouchableOpacity
             className="p-2 self-center"
@@ -200,14 +204,14 @@ function TextItem({ text, isAdmin, onTextSelect, onTextEdit }: TextItemProps) {
           </TouchableOpacity>
         )}
       </View>
-      
-      <TouchableOpacity 
+
+      <TouchableOpacity
         className="w-[22%] h-full"
         onPress={() => onTextSelect(text)}
       >
-        {text.cover_url && (
+        {text?.cover_url && (
           <Image
-            source={{ uri: text.cover_url }}
+            source={{ uri: text?.cover_url }}
             style={{ height: "100%", width: "100%" }}
             resizeMode="cover"
           />
@@ -237,9 +241,9 @@ interface SelectedTextProps {
 function SelectedText({ state }: SelectedTextProps) {
   return (
     <View className="border-[#C74B0B] border-[1px] rounded-xl">
-      {state.textInFocus.cover_url && (
+      {state?.textInFocus?.cover_url && (
         <Image
-          source={{ uri: state.textInFocus.cover_url }}
+          source={{ uri: state?.textInFocus?.cover_url || "" }}
           style={{
             width: "100%",
             height: 200,
@@ -252,17 +256,17 @@ function SelectedText({ state }: SelectedTextProps) {
 
       <View className="py-4 px-3 rounded-xl">
         <ReactText className="text-xl font-bold text-[#212121] mb-1">
-          {state.textInFocus.title}
+          {state?.textInFocus?.title}
         </ReactText>
 
-        {state.textInFocus.subtitle && (
+        {state?.textInFocus?.subtitle && (
           <ReactText className="text-base font-medium text-[#474747] mb-4">
-            {state.textInFocus.subtitle}
+            {state?.textInFocus?.subtitle}
           </ReactText>
         )}
 
         <ReactText className="text-base text-[#49454F] leading-relaxed whitespace-pre-line">
-          {state.textInFocus.content}
+          {state?.textInFocus?.content}
         </ReactText>
       </View>
     </View>
@@ -285,17 +289,17 @@ function CustomInputContent({
   editingText,
 }: CustomInputContentProps) {
   const getTitle = () => {
-    if (viewMode === 'detail' && state.textInFocus) {
+    if (viewMode === "detail" && state.textInFocus) {
       return state.textInFocus.title;
     }
-    if (viewMode === 'form') {
+    if (viewMode === "form") {
       return editingText ? "Editar texto" : "Cadastrar texto";
     }
     return "Textos";
   };
 
   const handleBack = () => {
-    if (viewMode === 'detail') {
+    if (viewMode === "detail") {
       setTextInFocus(null);
     } else {
       onBack();
