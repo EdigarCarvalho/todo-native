@@ -1,112 +1,111 @@
 import { Tabs } from "expo-router";
 import React from "react";
-import { useColorScheme } from "@/hooks/useColorScheme";
 import { CogSvg, MenuSvg, TextSvg } from "@/components/customIcons";
 import { View } from "react-native";
 import { useAuth } from "@/stores/AuthStore";
 import { FolderOpen } from "lucide-react-native";
+import { useColorScheme } from "@/hooks/useThemeColor";
+
+const TabIcon = ({ 
+  focused, 
+  isAdmin, 
+  color, 
+  icon: Icon, 
+  size, 
+  label 
+}: {
+  focused: boolean;
+  isAdmin: boolean;
+  color: string;
+  icon: React.ComponentType<{ size: number; color: string }>;
+  size: number;
+  label: string;
+}) => {
+  const colorScheme = useColorScheme();
+  const bgColor = focused ? (isAdmin ? "bg-[#C74B0B] dark:bg-[#740018]" : "bg-[#A30122]  dark:bg-[#740018]") : "";
+  const textColor = focused ? "text-[#212121] dark:text-[#E7E4D8]" : "text-[#474747] dark:text-[#E7E4D8]";
+  const iconColor = focused ? color : colorScheme === 'light' ? "#474747" : "#E7E4D8";
+
+  return (
+    <View className="flex flex-col justify-center items-center">
+      <View className={`${bgColor} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}>
+        <Icon size={size} color={iconColor} />
+      </View>
+      <span className={`text-xs font-semibold ${textColor}`}>
+        {label}
+      </span>
+    </View>
+  );
+};
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const { state } = useAuth();
   const isAdmin = Boolean(state?.isAuthenticated);
 
-  console.log(colorScheme);
-  
+
+  const tabScreens = [
+    {
+      name: "index",
+      icon: MenuSvg,
+      size: 26,
+      label: "Dicionário",
+      href: undefined
+    },
+    {
+      name: "categories",
+      icon: FolderOpen,
+      size: 24,
+      label: "Categorias",
+      href: isAdmin ? "/categories" : null
+    },
+    {
+      name: "texts",
+      icon: TextSvg,
+      size: 24,
+      label: "Textos",
+      href: undefined
+    },
+    {
+      name: "settings",
+      icon: CogSvg,
+      size: 24,
+      label: "Configurações",
+      href: undefined
+    }
+  ];
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#E7E4D8",
+        tabBarActiveTintColor: colorScheme === 'light' ? "#E7E4D8" : "#E7E4D8",
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: "#E7E4D8",
+          backgroundColor: colorScheme === 'light' ? "#E7E4D8" : "#7C4F2C",
           height: 74,
         },
       }}
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "",
-          tabBarIcon: ({ color, focused }) => (
-            <View className={` flex flex-col justify-center items-center`}>
-              <View
-                className={`${focused ? (isAdmin ? "bg-[#C74B0B]" : "bg-[#A30122]") : ""} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}
-              >
-                <MenuSvg size={26} color={focused ? color : "#474747"} />
-              </View>
-              <span
-                className={`text-xs font-semibold ${focused ? "text-[#212121]]" : "text-[#474747]"} `}
-              >
-                Dicionário
-              </span>
-            </View>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="categories"
-        options={{
-          href: isAdmin ? "/categories" : null,
-          title: "",
-          tabBarIcon: ({ color, focused }) => (
-            <View className={` flex flex-col justify-center items-center`}>
-              <View
-                className={`${focused ? (isAdmin ? "bg-[#C74B0B]" : "bg-[#A30122]") : ""} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}
-              >
-                <FolderOpen size={24} color={focused ? color : "#474747"} />
-              </View>
-              <span
-                className={`text-xs font-semibold ${focused ? "text-[#212121]]" : "text-[#474747]"} `}
-              >
-                Categorias
-              </span>
-            </View>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="texts"
-        options={{
-          title: "",
-          tabBarIcon: ({ color, focused }) => (
-            <View className={` flex flex-col justify-center items-center`}>
-              <View
-                className={`${focused ? (isAdmin ? "bg-[#C74B0B]" : "bg-[#A30122]") : ""} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}
-              >
-                <TextSvg size={24} color={focused ? color : "#474747"} />
-              </View>
-              <span
-                className={`text-xs font-semibold ${focused ? "text-[#212121]]" : "text-[#474747]"} `}
-              >
-                Textos
-              </span>
-            </View>
-          ),
-        }}
-      />
-
-      <Tabs.Screen
-        name="settings"
-        options={{
-          title: "",
-          tabBarIcon: ({ color, focused }) => (
-            <View className={` flex flex-col justify-center items-center`}>
-              <View
-                className={`${focused ? (isAdmin ? "bg-[#C74B0B]" : "bg-[#A30122]") : ""} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}
-              >
-                <CogSvg size={24} color={focused ? color : "#474747"} />
-              </View>
-              <span
-                className={`text-xs font-semibold ${focused ? "text-[#212121]]" : "text-[#474747]"} `}
-              >
-                Configurações
-              </span>
-            </View>
-          ),
-        }}
-      />
+      {tabScreens.map((screen) => (
+        <Tabs.Screen
+          key={screen.name}
+          name={screen.name}
+          options={{
+            href: screen?.href,
+            title: "",
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                focused={focused}
+                isAdmin={isAdmin}
+                color={color}
+                icon={screen?.icon}
+                size={screen.size}
+                label={screen.label}
+              />
+            ),
+          }}
+        />
+      ))}
     </Tabs>
   );
 }

@@ -15,6 +15,7 @@ const HEADER_HEIGHT = 250;
 
 type Props = PropsWithChildren<{
   headerBackgroundColor: { dark: string; light: string };
+  scrollViewBackgroundColor?: { dark?: string; light?: string };
   title: string;
   customCss?: {
     container?: CSSProperties;
@@ -26,6 +27,7 @@ type Props = PropsWithChildren<{
 export default function ParallaxScrollView({
   children,
   headerBackgroundColor,
+  scrollViewBackgroundColor,
   title = "",
   customCss = {},
 }: Props) {
@@ -69,7 +71,7 @@ export default function ParallaxScrollView({
       <Animated.ScrollView
         ref={scrollRef}
         scrollEventThrottle={16}
-        style={{ backgroundColor: "#f9f9f9" }}
+        style={{ backgroundColor:  isDarkMode ? "#3E1C00" : scrollViewBackgroundColor?.light || "#f9f9f9" }}
       >
         <Animated.View
           style={[

@@ -493,7 +493,7 @@ export function WordForm({
                       : "Adicionando..."
                     : editingWord
                     ? "Salvar"
-                    : "Adicionar palavra"}
+                    : "Adicionar"}
                 </ButtonText>
               </Button>
             </View>

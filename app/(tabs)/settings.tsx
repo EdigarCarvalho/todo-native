@@ -39,6 +39,7 @@ export default function SettingsScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#101d25" }}
+      scrollViewBackgroundColor={{ light: "white",  }}
       title="Configurações"
       customCss={{
         content: {

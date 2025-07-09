@@ -378,7 +378,7 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
                       : "Adicionando..."
                     : editingText
                       ? "Salvar"
-                      : "Adicionar texto"}
+                      : "Adicionar"}
                 </ButtonText>
               </Button>
             </View>
