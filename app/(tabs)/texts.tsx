@@ -15,6 +15,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { FloatingAddButton } from "@/components/words/FloatingAddButton";
 import { TextForm } from "@/components/texts/TextForm";
 import { useAuth } from "@/stores/AuthStore";
+import { useColorScheme } from "@/hooks/useThemeColor";
 
 interface Text {
   id: number;
@@ -32,6 +33,7 @@ export default function TextsScreen() {
   const [filter, setFilter] = useState<string>("");
   const [viewMode, setViewMode] = useState<ViewMode>("list");
   const [editingText, setEditingText] = useState<Text | null>(null);
+  const theme = useColorScheme();
 
   const isAdmin = Boolean(authState?.isAuthenticated);
 
@@ -111,8 +113,11 @@ export default function TextsScreen() {
         />
 
         {viewMode === "list" && (
-          <View className="px-2 pt-1">
-            <ThemedText style={{ color: "#212121" }} type="title">
+          <View className="px-2 pt-2">
+            <ThemedText
+              style={{ color: theme === "dark" ? "#E7E4D8" : "#212121" }}
+              type="title"
+            >
               Textos
             </ThemedText>
           </View>
@@ -183,16 +188,14 @@ function TextItem({ text, isAdmin, onTextSelect, onTextEdit }: TextItemProps) {
     <View className="mb-4 border-[#C74B0B] border-[1px] rounded-xl overflow-hidden flex flex-row min-h-[80px] max-h-[80px]">
       <View className="p-3 bg-white w-[78%] flex flex-row">
         <TouchableOpacity className="flex-1" onPress={() => onTextSelect(text)}>
-        
-            <ReactText className="font-bold text-lg text-[#A30122] overflow-hidden truncate text-ellipsis">
-              {text.title}
+          <ReactText className="font-bold text-lg text-[#A30122] overflow-hidden truncate text-ellipsis">
+            {text.title}
+          </ReactText>
+          {text.subtitle && (
+            <ReactText className="text-sm text-[#474747] mt-1">
+              {text.subtitle}
             </ReactText>
-            {text.subtitle && (
-              <ReactText className="text-sm text-[#474747] mt-1">
-                {text.subtitle}
-              </ReactText>
-            )}
-     
+          )}
         </TouchableOpacity>
 
         {isAdmin && (

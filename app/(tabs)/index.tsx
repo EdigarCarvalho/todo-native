@@ -10,6 +10,7 @@ import { SelectedWord } from "@/components/words/SelectedWord";
 import { WordForm } from "@/components/words/WordForm";
 import { CustomInputContent } from "@/components/words/CustomInputContent";
 import { FloatingAddButton } from "@/components/words/FloatingAddButton";
+import { useColorScheme } from "@/hooks/useThemeColor";
 
 interface Word {
   id: number;
@@ -27,6 +28,7 @@ export default function HomeScreen() {
   const [filter, setFilter] = useState<string>("");
   const [viewMode, setViewMode] = useState<ViewMode>("list");
   const [editingWord, setEditingWord] = useState<Word | null>(null);
+  const theme = useColorScheme();
 
   const isAdmin = Boolean(authState?.isAuthenticated);
 
@@ -51,26 +53,30 @@ export default function HomeScreen() {
     setViewMode("form");
   };
 
-  const handleEditWord = (word: Word & {
-    categoryId?: number;
-    category?: { id: number; name: string };
-  }) => {
+  const handleEditWord = (
+    word: Word & {
+      categoryId?: number;
+      category?: { id: number; name: string };
+    }
+  ) => {
     // Find which category this word belongs to
     let wordWithCategory = { ...word };
-    
+
     // Search through wordsByCategory to find the category
     Object.entries(state.wordsByCategory).forEach(([categoryId, words]) => {
-      const foundWord = words.find(w => w.id === word.id);
+      const foundWord = words.find((w) => w.id === word.id);
       if (foundWord) {
         wordWithCategory.categoryId = parseInt(categoryId);
         // Also find the category object
-        const category = state.categories.find(cat => cat.id === parseInt(categoryId));
+        const category = state.categories.find(
+          (cat) => cat.id === parseInt(categoryId)
+        );
         if (category) {
           wordWithCategory.category = category;
         }
       }
     });
-    
+
     console.log("Editing word with complete info:", wordWithCategory);
     setEditingWord(wordWithCategory);
     setWordInFocus(null);
@@ -112,8 +118,11 @@ export default function HomeScreen() {
         />
 
         {viewMode === "list" && (
-          <View className="px-2 pt-1">
-            <ThemedText style={{ color: "#212121" }} type="title">
+          <View className="px-2 pt-2">
+            <ThemedText
+              style={{ color: theme === "dark" ? "#E7E4D8" : "#212121" }}
+              type="title"
+            >
               Dicionário
             </ThemedText>
           </View>

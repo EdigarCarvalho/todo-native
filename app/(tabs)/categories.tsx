@@ -25,9 +25,15 @@ import { Input, InputField } from "@/components/ui/input";
 import { Button, ButtonText } from "@/components/ui/button";
 import { X } from "lucide-react-native";
 import apiService from "@/services/ApiService";
-import { useToast, Toast, ToastTitle, ToastDescription } from "@/components/ui/toast";
+import {
+  useToast,
+  Toast,
+  ToastTitle,
+  ToastDescription,
+} from "@/components/ui/toast";
 import { useAuth } from "@/stores/AuthStore";
 import { router } from "expo-router";
+import { useColorScheme } from "@/hooks/useThemeColor";
 
 interface Category {
   id: number;
@@ -36,6 +42,7 @@ interface Category {
 
 export default function CategoriesScreen() {
   const { state, fetchData, refreshCategories } = useDictionary();
+  const theme = useColorScheme();
   const { state: authState } = useAuth();
   const [filter, setFilter] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -100,7 +107,9 @@ export default function CategoriesScreen() {
         render: ({ id }) => (
           <Toast nativeID={`toast-${id}`} action="error" variant="solid">
             <ToastTitle>Erro</ToastTitle>
-            <ToastDescription>Por favor, insira um nome para a categoria</ToastDescription>
+            <ToastDescription>
+              Por favor, insira um nome para a categoria
+            </ToastDescription>
           </Toast>
         ),
       });
@@ -112,7 +121,10 @@ export default function CategoriesScreen() {
     try {
       let result;
       if (editingCategory) {
-        result = await apiService.updateCategory(editingCategory.id, categoryName.trim());
+        result = await apiService.updateCategory(
+          editingCategory.id,
+          categoryName.trim()
+        );
       } else {
         result = await apiService.createCategory(categoryName.trim());
       }
@@ -124,15 +136,16 @@ export default function CategoriesScreen() {
             <Toast nativeID={`toast-${id}`} action="success" variant="solid">
               <ToastTitle>Sucesso</ToastTitle>
               <ToastDescription>
-                Categoria {editingCategory ? "atualizada" : "criada"} com sucesso!
+                Categoria {editingCategory ? "atualizada" : "criada"} com
+                sucesso!
               </ToastDescription>
             </Toast>
           ),
         });
-        
+
         // Close modal first
         closeModal();
-        
+
         // Then refresh data - try refreshCategories first, fallback to full fetchData
         const refreshSuccess = await refreshCategories();
         if (!refreshSuccess) {
@@ -146,7 +159,8 @@ export default function CategoriesScreen() {
             <Toast nativeID={`toast-${id}`} action="error" variant="solid">
               <ToastTitle>Erro</ToastTitle>
               <ToastDescription>
-                {result.error || `Falha ao ${editingCategory ? "atualizar" : "criar"} categoria`}
+                {result.error ||
+                  `Falha ao ${editingCategory ? "atualizar" : "criar"} categoria`}
               </ToastDescription>
             </Toast>
           ),
@@ -158,7 +172,9 @@ export default function CategoriesScreen() {
         render: ({ id }) => (
           <Toast nativeID={`toast-${id}`} action="error" variant="solid">
             <ToastTitle>Erro</ToastTitle>
-            <ToastDescription>Erro de conexão. Tente novamente.</ToastDescription>
+            <ToastDescription>
+              Erro de conexão. Tente novamente.
+            </ToastDescription>
           </Toast>
         ),
       });
@@ -179,14 +195,19 @@ export default function CategoriesScreen() {
           placeholder="Pesquise uma categoria"
           CustomInputContent={
             <View className="flex flex-row w-full items-center justify-center">
-              <Text className="text-lg font-medium">Pesquise uma categoria</Text>
+              <Text className="text-lg font-medium">
+                Pesquise uma categoria
+              </Text>
             </View>
           }
           condition={false}
         />
 
-        <View className="px-2 pt-1">
-          <ThemedText style={{ color: "#212121" }} type="title">
+        <View className="px-2 pt-2">
+          <ThemedText
+            style={{ color: theme === "dark" ? "#E7E4D8" : "#212121" }}
+            type="title"
+          >
             Categorias
           </ThemedText>
         </View>
@@ -228,7 +249,6 @@ export default function CategoriesScreen() {
         )}
 
         {/* Floating Add Button */}
-      
       </ParallaxScrollView>
 
       {/* Modal */}
@@ -243,9 +263,13 @@ export default function CategoriesScreen() {
               <X size={20} color="#666" />
             </ModalCloseButton> */}
           </ModalHeader>
-          
+
           <ModalBody className="py-6">
-            <Input className="border-[#C74B0B] border-2" label="Categoria" size="xl">
+            <Input
+              className="border-[#C74B0B] border-2"
+              label="Categoria"
+              size="xl"
+            >
               <InputField
                 value={categoryName}
                 onChangeText={setCategoryName}
@@ -253,37 +277,43 @@ export default function CategoriesScreen() {
               />
             </Input>
           </ModalBody>
-          
+
           <ModalFooter className="flex flex-row gap-3 ">
             <Button
               className="flex-1 bg-white border-[#C74B0B] border-2"
               onPress={closeModal}
               disabled={isSubmitting}
             >
-              <ButtonText className="text-[#C74B0B] font-bold">Cancelar</ButtonText>
+              <ButtonText className="text-[#C74B0B] font-bold">
+                Cancelar
+              </ButtonText>
             </Button>
-            
+
             <Button
               className="flex-1 bg-[#C74B0B]"
               onPress={handleSubmit}
               disabled={isSubmitting}
             >
               <ButtonText className="text-white font-bold">
-                {isSubmitting 
-                  ? (editingCategory ? "Salvando..." : "Adicionando...") 
-                  : (editingCategory ? "Salvar" : "Adicionar")}
+                {isSubmitting
+                  ? editingCategory
+                    ? "Salvando..."
+                    : "Adicionando..."
+                  : editingCategory
+                    ? "Salvar"
+                    : "Adicionar"}
               </ButtonText>
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
       <TouchableOpacity
-          className="absolute bottom-6 right-6 w-14 h-14 bg-[#C74B0B] rounded-2xl flex items-center justify-center shadow-lg"
-          onPress={openAddModal}
-          style={styles.floatingButton}
-        >
-          <Plus size={24} color="white" />
-        </TouchableOpacity>
+        className="absolute bottom-6 right-6 w-14 h-14 bg-[#C74B0B] rounded-2xl flex items-center justify-center shadow-lg"
+        onPress={openAddModal}
+        style={styles.floatingButton}
+      >
+        <Plus size={24} color="white" />
+      </TouchableOpacity>
     </>
   );
 }
