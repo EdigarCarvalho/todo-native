@@ -214,8 +214,8 @@ export default function CategoriesScreen() {
 
         {state.isLoading ? (
           <View className="py-10 flex justify-center items-center">
-            <ActivityIndicator size="large" color="#A30122" />
-            <Text className="mt-2 text-center">Carregando categorias...</Text>
+            <ActivityIndicator size="large" color={theme === 'dark' ? "#E7E4D8" : "#A30122"} />
+            <Text className="mt-2 text-center dark:text-[#E7E4D8]">Carregando categorias...</Text>
           </View>
         ) : (
           <View className="mt-2">
@@ -224,14 +224,14 @@ export default function CategoriesScreen() {
                 {filteredCategories.map((category, index) => (
                   <View key={category.id}>
                     <View className="flex flex-row justify-between items-center py-3 px-2">
-                      <Text className="font-bold text-base text-[#212121] flex-1">
+                      <Text className="font-bold text-base text-[#212121] dark:text-[#E7E4D8] flex-1">
                         {category.name}
                       </Text>
                       <TouchableOpacity
                         className="p-2"
                         onPress={() => openEditModal(category)}
                       >
-                        <Edit2 size={20} color="#C74B0B" />
+                        <Edit2 size={20} color={theme === "dark" ? "#eb5a12" : "#C74B0B"} />
                       </TouchableOpacity>
                     </View>
                     {index < filteredCategories.length - 1 && <Divider />}

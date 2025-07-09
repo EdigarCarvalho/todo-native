@@ -10,6 +10,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Divider } from "@/components/ui/divider";
+import { useColorScheme } from "@/hooks/useThemeColor";
 
 interface Word {
   id: number;
@@ -34,12 +35,12 @@ interface WordsListProps {
   onWordEdit: (word: Word) => void;
 }
 
-export function WordsList({ 
-  state, 
-  filter, 
-  isAdmin, 
-  onWordSelect, 
-  onWordEdit 
+export function WordsList({
+  state,
+  filter,
+  isAdmin,
+  onWordSelect,
+  onWordEdit,
 }: WordsListProps) {
   // Filter words based on search input
   const getFilteredWords = (categoryId: string) => {
@@ -56,15 +57,14 @@ export function WordsList({
   // Check if any category has words matching the filter
   const hasFilteredWords = () => {
     return state.categories.some(
-      (category: Category) => getFilteredWords(category.id.toString()).length > 0
+      (category: Category) =>
+        getFilteredWords(category.id.toString()).length > 0
     );
   };
 
   if (state.categories.length === 0) {
     return (
-      <Text className="text-center py-4">
-        Nenhuma categoria encontrada
-      </Text>
+      <Text className="text-center py-4">Nenhuma categoria encontrada</Text>
     );
   }
 
@@ -88,19 +88,11 @@ export function WordsList({
                 {({ isExpanded }) => {
                   return (
                     <>
-                      <AccordionTitleText>
-                        {category.name}
-                      </AccordionTitleText>
+                      <AccordionTitleText>{category.name}</AccordionTitleText>
                       {isExpanded ? (
-                        <AccordionIcon
-                          as={ChevronUpIcon}
-                          className="ml-3"
-                        />
+                        <AccordionIcon as={ChevronUpIcon} className="ml-3" />
                       ) : (
-                        <AccordionIcon
-                          as={ChevronDownIcon}
-                          className="ml-3"
-                        />
+                        <AccordionIcon as={ChevronDownIcon} className="ml-3" />
                       )}
                     </>
                   );
@@ -141,25 +133,20 @@ interface WordItemProps {
 }
 
 function WordItem({ word, isAdmin, onWordSelect, onWordEdit }: WordItemProps) {
+  const theme = useColorScheme();
   return (
     <View className="flex flex-row items-center py-2">
       {isAdmin && (
-        <TouchableOpacity
-          className="p-2 mr-2"
-          onPress={() => onWordEdit(word)}
-        >
-          <Edit2 size={16} color="#C74B0B" />
+        <TouchableOpacity className="p-2 mr-2" onPress={() => onWordEdit(word)}>
+          <Edit2 size={16} color={theme === "dark" ? "#eb5a12" : "#C74B0B"} />
         </TouchableOpacity>
       )}
-      <TouchableOpacity
-        className="flex-1"
-        onPress={() => onWordSelect(word)}
-      >
-        <View className="flex flex-col text-[#A30122]">
-          <Text className="font-bold text-base text-[#A30122]">
+      <TouchableOpacity className="flex-1" onPress={() => onWordSelect(word)}>
+        <View className="flex flex-col ">
+          <Text className="font-bold text-base text-[#A30122] dark:text-[#E7E4D8]">
             {word.word}
           </Text>
-          <Text className="text-sm text-[#474747]">
+          <Text className="text-sm text-[#474747] dark:text-[#E7E4D8]">
             {word.meaning}
           </Text>
         </View>

@@ -167,10 +167,12 @@ export default function HomeScreen() {
 
 // Loading component
 function LoadingView() {
+  const theme = useColorScheme();
+
   return (
     <View className="py-10 flex justify-center items-center">
-      <ActivityIndicator size="large" color="#A30122" />
-      <Text className="mt-2 text-center">
+      <ActivityIndicator size="large"  color={theme === 'dark' ? "#E7E4D8" : "#A30122"} />
+      <Text className="mt-2 text-center dark:text-[#E7E4D8]">
         Carregando dados do dicionário...
       </Text>
     </View>

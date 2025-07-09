@@ -125,8 +125,8 @@ export default function TextsScreen() {
 
         {state.isLoading ? (
           <View className="py-10 flex justify-center items-center">
-            <ActivityIndicator size="large" color="#A30122" />
-            <ReactText className="mt-2 text-center">
+            <ActivityIndicator size="large" color={theme === 'dark' ? "#E7E4D8" : "#A30122"} />
+            <ReactText className="mt-2 text-center dark:text-[#E7E4D8]  ">
               Carregando textos...
             </ReactText>
           </View>
@@ -184,6 +184,7 @@ interface TextItemProps {
 }
 
 function TextItem({ text, isAdmin, onTextSelect, onTextEdit }: TextItemProps) {
+    const theme = useColorScheme();
   return (
     <View className="mb-4 border-[#C74B0B] border-[1px] rounded-xl overflow-hidden flex flex-row min-h-[80px] max-h-[80px]">
       <View className="p-3 bg-white w-[78%] flex flex-row">
@@ -203,7 +204,7 @@ function TextItem({ text, isAdmin, onTextSelect, onTextEdit }: TextItemProps) {
             className="p-2 self-center"
             onPress={() => onTextEdit(text)}
           >
-            <Edit2 size={16} color="#C74B0B" />
+            <Edit2 size={16} color={theme === "dark" ? "#eb5a12" : "#C74B0B"} />
           </TouchableOpacity>
         )}
       </View>
