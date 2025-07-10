@@ -9,7 +9,7 @@ import { FontSizeProvider } from "@/components/FontSizeProvider";
 import { useFonts } from "expo-font";
 import { Slot, Stack, useRouter, useSegments } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
@@ -17,9 +17,52 @@ import { DictionaryProvider, useDictionary } from "@/stores/Dictionary";
 import { TextsProvider } from "@/stores/TextsStore";
 import { AppConfigProvider, useAppConfig } from "@/stores/AppConfigStore";
 import { AuthProvider, useAuth } from "@/stores/AuthStore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+// Theme manager component to initialize theme before content renders
+function ThemeManager({ children }: { children: React.ReactNode }) {
+  const [themeReady, setThemeReady] = useState(false);
+  const [initialTheme, setInitialTheme] = useState<'light' | 'dark'>('light');
+  
+  useEffect(() => {
+    async function loadTheme() {
+      try {
+        const savedSettings = await AsyncStorage.getItem("dictionary_settings");
+        if (savedSettings) {
+          const settings = JSON.parse(savedSettings);
+          if (settings.darkMode) {
+            setInitialTheme('dark');
+            // Apply theme to HTML element directly
+            if (typeof document !== 'undefined') {
+              document.documentElement.classList.remove('light');
+              document.documentElement.classList.add('dark');
+              document.documentElement.style.colorScheme = 'dark';
+            }
+          }
+        }
+        setThemeReady(true);
+      } catch (error) {
+        console.error("Failed to load theme:", error);
+        setThemeReady(true); // Continue with default theme if error
+      }
+    }
+    
+    loadTheme();
+  }, []);
+  
+  if (!themeReady) {
+    return null; // Or a simple loading indicator
+  }
+  
+  return (
+    <GluestackUIProvider mode={initialTheme}>
+      {children}
+    </GluestackUIProvider>
+  );
+}
 
 // App route guard to check app type and redirect accordingly
 function AppRouteGuard({ children }: { children: React.ReactNode }) {
@@ -57,10 +100,20 @@ function AppContent() {
   const { state } = useDictionary();
   const colorScheme = state.settings.darkMode ? "dark" : "light";
 
-  // This useEffect will run whenever the colorScheme changes
+  // Apply theme changes to HTML element when settings change
   useEffect(() => {
+    if (typeof document !== 'undefined') {
+      if (colorScheme === 'dark') {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+        document.documentElement.style.colorScheme = 'dark';
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        document.documentElement.style.colorScheme = 'light';
+      }
+    }
     console.log(`App theme changed to: ${colorScheme}`);
-    // You could add any global theme-related side effects here
   }, [colorScheme]);
 
   const [loaded] = useFonts({
@@ -88,7 +141,7 @@ function AppContent() {
 
 export default function RootLayout() {
   return (
-    <GluestackUIProvider mode="light">
+    <ThemeManager>
       <AppConfigProvider>
         <AuthProvider>
           <DictionaryProvider>
@@ -102,6 +155,6 @@ export default function RootLayout() {
           </DictionaryProvider>
         </AuthProvider>
       </AppConfigProvider>
-    </GluestackUIProvider>
+    </ThemeManager>
   );
 }

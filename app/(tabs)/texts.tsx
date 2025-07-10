@@ -186,15 +186,15 @@ interface TextItemProps {
 function TextItem({ text, isAdmin, onTextSelect, onTextEdit }: TextItemProps) {
     const theme = useColorScheme();
   return (
-    <View className="mb-4 border-[#C74B0B] border-[1px] rounded-xl overflow-hidden flex flex-row min-h-[80px] max-h-[80px]">
-      <View className="p-3 bg-white w-[78%] flex flex-row">
+    <View className="mb-4 border-[#C74B0B] dark:border-[#eb5a12] border-[1px] rounded-xl overflow-hidden flex flex-row min-h-[80px] max-h-[80px]">
+      <View className="p-3 bg-transparent w-[78%] flex flex-row">
         <TouchableOpacity className="flex-1" onPress={() => onTextSelect(text)}>
-          <ReactText className="font-bold text-lg text-[#A30122] overflow-hidden truncate text-ellipsis">
-            {text.title}
+          <ReactText className="font-bold text-lg text-[#A30122]  dark:text-[#E7E4D8] dark: overflow-hidden truncate text-ellipsis">
+            {text?.title}
           </ReactText>
-          {text.subtitle && (
-            <ReactText className="text-sm text-[#474747] mt-1">
-              {text.subtitle}
+          {text?.subtitle && (
+            <ReactText className="text-sm text-[#474747]  dark:text-[#E7E4D8] mt-1">
+              {text?.subtitle}
             </ReactText>
           )}
         </TouchableOpacity>
