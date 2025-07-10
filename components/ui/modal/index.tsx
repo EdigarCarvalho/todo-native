@@ -44,7 +44,7 @@ cssInterop(AnimatedPressable, { className: 'style' });
 cssInterop(MotionView, { className: 'style' });
 
 const modalStyle = tva({
-  base: 'group w-full h-full justify-center items-center bg-[#f9f9f9] dark:bg-gray-900',
+  base: 'group w-full h-full justify-center items-center bg-[#f9f9f9] dark:bg-[#3E1C00] ',
 });
 
 const modalBackdropStyle = tva({

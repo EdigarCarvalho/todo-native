@@ -259,17 +259,17 @@ function SelectedText({ state }: SelectedTextProps) {
       )}
 
       <View className="py-4 px-3 rounded-xl">
-        <ReactText className="text-xl font-bold text-[#212121] mb-1">
+        <ReactText className="text-xl font-bold text-[#212121] dark:text-[#E7E4D8] mb-1">
           {state?.textInFocus?.title}
         </ReactText>
 
         {state?.textInFocus?.subtitle && (
-          <ReactText className="text-base font-medium text-[#474747] mb-4">
+          <ReactText className="text-base font-medium text-[#474747] dark:text-[#e7e4d8d5] mb-4">
             {state?.textInFocus?.subtitle}
           </ReactText>
         )}
 
-        <ReactText className="text-base text-[#49454F] leading-relaxed whitespace-pre-line">
+        <ReactText className="text-base text-[#49454F] dark:text-[#E7E4D8] leading-relaxed whitespace-pre-line">
           {state?.textInFocus?.content}
         </ReactText>
       </View>
@@ -313,7 +313,7 @@ function CustomInputContent({
   return (
     <View className="flex flex-row w-full items-center justify-between">
       <View className="flex-1 text-center ml-6">
-        <ReactText className="text-xl font-bold overflow-hidden truncate text-ellipsis">
+        <ReactText className="text-xl font-bold overflow-hidden truncate text-ellipsis dark:text-[#E7E4D8]">
           {getTitle()}
         </ReactText>
       </View>
@@ -322,7 +322,7 @@ function CustomInputContent({
         onPress={handleBack}
       >
         <ArrowLeft size={17} />
-        <ReactText className="flex">Voltar</ReactText>
+              <ReactText className="flex dark:text-[#E7E4D8]">Voltar</ReactText>
       </TouchableOpacity>
     </View>
   );

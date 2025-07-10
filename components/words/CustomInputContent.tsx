@@ -45,7 +45,7 @@ export function CustomInputContent({
   return (
     <View className="flex flex-row w-full items-center justify-between">
       <View className="flex-1 text-center ml-6">
-        <Text className="text-xl font-bold overflow-hidden truncate text-ellipsis">
+        <Text className="text-xl font-bold overflow-hidden truncate text-ellipsis dark:text-[#E7E4D8]">
           {getTitle()}
         </Text>
       </View>
@@ -54,7 +54,7 @@ export function CustomInputContent({
         onPress={handleBack}
       >
         <ArrowLeft size={17} />
-        <Text className="flex">Voltar</Text>
+        <Text className="flex dark:text-[#E7E4D8]">Voltar</Text>
       </TouchableOpacity>
     </View>
   );

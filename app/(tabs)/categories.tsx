@@ -256,7 +256,7 @@ export default function CategoriesScreen() {
         <ModalBackdrop />
         <ModalContent className="bg-white">
           <ModalHeader className=" text-center">
-            <Text className="text-lg font-bold text-[#212121] mx-auto  text-center">
+            <Text className="text-lg font-bold text-[#212121] dark:text-[#E7E4D8]  mx-auto  text-center">
               {editingCategory ? "Editar categoria" : "Adicionar categoria"}
             </Text>
             {/* <ModalCloseButton onPress={closeModal}>

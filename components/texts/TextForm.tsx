@@ -26,6 +26,7 @@ import {
   Textarea,
   TextareaInput,
 } from "../ui/textarea";
+import { useColorScheme } from "@/hooks/useThemeColor";
 
 interface Text {
   id: number;
@@ -52,7 +53,8 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const toast = useToast();
   const { createText, updateText, deleteText } = useTexts();
-
+  const theme = useColorScheme();
+  
   useEffect(() => {
     if (editingText) {
       setTitle(editingText?.title || "");
@@ -333,12 +335,12 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
                     className=" rounded p-4 flex flex-row items-center justify-center h-[60px]"
                     onPress={pickImage}
                   >
-                    <Upload size={20} color="#C74B0B" />
-                    <ReactText className="ml-2 text-[#C74B0B]">Escolher imagem</ReactText>
+                    <Upload size={20} color={theme === "dark" ? "#eb5a12" : "#C74B0B"} />
+                    <ReactText className="ml-2 text-[#C74B0B] dark:text-[#eb5a12]">Escolher imagem</ReactText>
                   </TouchableOpacity>
                 )}
               </View>
-              <span className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] text-[#4B2C0B] font-medium text-sm">
+              <span className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] dark:bg-[#3E1C00] text-[#4B2C0B] dark:text-[#E7E4D8] font-medium text-sm">
                 Imagem de capa
               </span>
             </View>

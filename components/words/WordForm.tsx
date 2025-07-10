@@ -34,6 +34,7 @@ import { ThemedText } from "../ThemedText";
 import { useDictionary } from "@/stores/Dictionary";
 import * as ImagePicker from "expo-image-picker";
 import { Platform } from "react-native";
+import { useColorScheme } from "@/hooks/useThemeColor";
 
 interface Word {
   id: number;
@@ -74,6 +75,7 @@ export function WordForm({
   const [isDeleting, setIsDeleting] = useState(false);
   const toast = useToast();
   const { deleteWord } = useDictionary();
+  const theme = useColorScheme();
 
   useEffect(() => {
     if (editingWord) {
@@ -211,7 +213,11 @@ export function WordForm({
             toast.show({
               placement: "top",
               render: ({ id }) => (
-                <Toast nativeID={`toast-${id}`} action="warning" variant="solid">
+                <Toast
+                  nativeID={`toast-${id}`}
+                  action="warning"
+                  variant="solid"
+                >
                   <ToastTitle>Atenção</ToastTitle>
                   <ToastDescription>
                     Palavra atualizada, mas houve um problema ao adicionar
@@ -293,9 +299,7 @@ export function WordForm({
           render: ({ id }) => (
             <Toast nativeID={`toast-${id}`} action="success" variant="solid">
               <ToastTitle>Sucesso</ToastTitle>
-              <ToastDescription>
-                Palavra excluída com sucesso!
-              </ToastDescription>
+              <ToastDescription>Palavra excluída com sucesso!</ToastDescription>
             </Toast>
           ),
         });
@@ -335,7 +339,7 @@ export function WordForm({
         <View className=" px-3">
           <View className="flex justify-center text-center mb-5">
             <ThemedText
-              style={{ color: "#C74B0B", textAlign: "center" }}
+              style={{ color: theme === "dark" ? "#eb5a12" : "#C74B0B", textAlign: "center" }}
               type="title"
             >
               {editingWord ? "Editar palavra" : "Cadastrar palavra"}
@@ -435,9 +439,12 @@ export function WordForm({
                       className="w-1/3 h-24 p-1"
                       onPress={pickImage}
                     >
-                      <View className="border-2 border-dashed border-[#C74B0B] rounded h-full flex items-center justify-center">
-                        <Upload size={20} color="#C74B0B" />
-                        <Text className="text-xs text-[#C74B0B] mt-1">
+                      <View className="border-2 border-dashed border-[#C74B0B] dark:border-[#eb5a12] rounded h-full flex items-center justify-center">
+                        <Upload
+                          size={20}
+                          color={theme === "dark" ? "#eb5a12" : "#C74B0B"}
+                        />
+                        <Text className="text-xs text-[#C74B0B] dark:text-[#eb5a12] mt-1">
                           Adicionar
                         </Text>
                       </View>
@@ -448,12 +455,17 @@ export function WordForm({
                     className="rounded p-4 flex flex-row items-center justify-center h-[60px]"
                     onPress={pickImage}
                   >
-                    <Upload size={20} color="#C74B0B" />
-                    <Text className="ml-2 text-[#C74B0B]">Adicionar imagens</Text>
+                    <Upload
+                      size={20}
+                      color={theme === "dark" ? "#eb5a12" : "#C74B0B"}
+                    />
+                    <Text className="ml-2  text-[#C74B0B] dark:text-[#eb5a12]">
+                      Adicionar imagens
+                    </Text>
                   </TouchableOpacity>
                 )}
               </View>
-              <Text className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] text-[#4B2C0B] font-medium text-sm">
+              <Text className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] dark:bg-[#3E1C00] text-[#4B2C0B] dark:text-[#E7E4D8] font-medium text-sm">
                 Imagens
               </Text>
             </View>
@@ -492,8 +504,8 @@ export function WordForm({
                       ? "Salvando..."
                       : "Adicionando..."
                     : editingWord
-                    ? "Salvar"
-                    : "Adicionar"}
+                      ? "Salvar"
+                      : "Adicionar"}
                 </ButtonText>
               </Button>
             </View>
@@ -507,7 +519,7 @@ export function WordForm({
         onClose={() => setIsDeleteModalOpen(false)}
       >
         <ModalBackdrop />
-        <ModalContent >
+        <ModalContent>
           <ModalHeader className="text-center">
             <Text className="text-lg font-bold text-[#212121] mx-auto text-center">
               Tem certeza que deseja excluir a palavra?
@@ -526,7 +538,9 @@ export function WordForm({
               onPress={() => setIsDeleteModalOpen(false)}
               disabled={isDeleting}
             >
-              <ButtonText className="text-[#C74B0B] font-bold">Cancelar</ButtonText>
+              <ButtonText className="text-[#C74B0B] font-bold">
+                Cancelar
+              </ButtonText>
             </Button>
 
             <Button

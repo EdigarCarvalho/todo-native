@@ -163,7 +163,7 @@ const Select = React.forwardRef<
             {...props}
             className={selectStyle({ class: props?.className })}
           />
-          <span className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] text-[#4B2C0B] font-medium text-sm">
+          <span className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] dark:bg-[#3E1C00] text-[#4B2C0B] dark:text-[#E7E4D8] font-medium text-sm">
             {label}
           </span>
         </div>
