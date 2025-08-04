@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import { CogSvg, MenuSvg, TextSvg } from "@/components/customIcons";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { useAuth } from "@/stores/AuthStore";
 import { FolderOpen } from "lucide-react-native";
 import { useColorScheme } from "@/hooks/useThemeColor";
@@ -31,9 +31,9 @@ const TabIcon = ({
       <View className={`${bgColor} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}>
         <Icon size={size} color={iconColor} />
       </View>
-      <span className={`text-xs font-semibold ${textColor}`}>
+      <Text className={`text-xs font-semibold ${textColor}`}>
         {label}
-      </span>
+      </Text>
     </View>
   );
 };

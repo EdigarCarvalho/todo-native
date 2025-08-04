@@ -2,7 +2,7 @@
 import React, { useMemo } from "react";
 import { createInput } from "@gluestack-ui/input";
 import { Svg } from "react-native-svg";
-import { View, Pressable, TextInput, Platform } from "react-native";
+import { View, Pressable, TextInput, Platform, Text } from "react-native";
 import { tva } from "@gluestack-ui/nativewind-utils/tva";
 import {
   withStyleContext,
@@ -182,34 +182,36 @@ type IInputProps = React.ComponentProps<typeof UIInput> &
     className?: string;
     label?: string;
   };
-  const Input = React.forwardRef<React.ElementRef<typeof UIInput>, IInputProps>(
-    ({ className, variant = "outline", size = "lg", label, ...props }, ref) => {
-      if (label) {
-        return (
-          <div className="relative">
-            <UIInput
-              ref={ref}
-              {...props}
-              className={inputStyle({ variant, size, class: className })}
-              context={{ variant, size }}
-            />
-            <span className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] dark:bg-[#3E1C00] text-[#4B2C0B] dark:text-[#E7E4D8] font-medium text-sm">
-              {label}
-            </span>
-          </div>
-        );
-      }
-      
+
+const Input = React.forwardRef<React.ElementRef<typeof UIInput>, IInputProps>(
+  ({ className, variant = "outline", size = "lg", label, ...props }, ref) => {
+    if (label) {
       return (
-        <UIInput
-          ref={ref}
-          {...props}
-          className={inputStyle({ variant, size, class: className })}
-          context={{ variant, size }}
-        />
+        <View style={{ position: 'relative' }}>
+          <UIInput
+            ref={ref}
+            {...props}
+            className={inputStyle({ variant, size, class: className })}
+            context={{ variant, size }}
+          />
+          <Text className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] dark:bg-[#3E1C00] text-[#4B2C0B] dark:text-[#E7E4D8] font-medium text-sm">
+            {label}
+          </Text>
+        </View>
       );
     }
-  );
+    
+    return (
+      <UIInput
+        ref={ref}
+        {...props}
+        className={inputStyle({ variant, size, class: className })}
+        context={{ variant, size }}
+      />
+    );
+  }
+);
+
 type IInputIconProps = React.ComponentProps<typeof UIInput.Icon> & {
   className?: string;
   children?: any;

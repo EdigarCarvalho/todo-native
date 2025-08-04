@@ -24,7 +24,7 @@ import {
   ActionsheetSectionList,
   ActionsheetSectionHeaderText,
 } from './select-actionsheet';
-import { Pressable, View, TextInput } from 'react-native';
+import { Pressable, View, TextInput, Text } from 'react-native';
 
 const SelectTriggerWrapper = React.forwardRef<
   React.ComponentRef<typeof Pressable>,
@@ -157,16 +157,16 @@ const Select = React.forwardRef<
   ({ className, label, ...props }, ref) => {
     if (label) {
       return (
-        <div className="relative">
+        <View style={{ position: 'relative' }}>
           <UISelect
             ref={ref}
             {...props}
             className={selectStyle({ class: props?.className })}
           />
-          <span className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] dark:bg-[#3E1C00] text-[#4B2C0B] dark:text-[#E7E4D8] font-medium text-sm">
+          <Text className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] dark:bg-[#3E1C00] text-[#4B2C0B] dark:text-[#E7E4D8] font-medium text-sm">
             {label}
-          </span>
-        </div>
+          </Text>
+        </View>
       );
     }
 

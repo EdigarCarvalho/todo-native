@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { createTextarea } from '@gluestack-ui/textarea';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, Text } from 'react-native';
 import { tva } from '@gluestack-ui/nativewind-utils/tva';
 import {
   withStyleContext,
@@ -58,17 +58,17 @@ const Textarea = React.forwardRef<
 ) {
   if (label) {
     return (
-      <div className="relative">
+      <View style={{ position: 'relative' }}>
         <UITextarea
           ref={ref}
           {...props}
           className={textareaStyle({ variant, class: className })}
           context={{ size }}
         />
-        <span className="absolute -top-3 left-4 px-2  bg-[#f9f9f9] dark:bg-[#3E1C00] text-[#4B2C0B] dark:text-[#E7E4D8] font-medium text-sm">
+        <Text className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] dark:bg-[#3E1C00] text-[#4B2C0B] dark:text-[#E7E4D8] font-medium text-sm">
           {label}
-        </span>
-      </div>
+        </Text>
+      </View>
     );
   }
 

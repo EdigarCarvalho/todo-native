@@ -340,9 +340,9 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
                   </TouchableOpacity>
                 )}
               </View>
-              <span className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] dark:bg-[#3E1C00] text-[#4B2C0B] dark:text-[#E7E4D8] font-medium text-sm">
+              <ReactText className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] dark:bg-[#3E1C00] text-[#4B2C0B] dark:text-[#E7E4D8] font-semibold text-sm">
                 Imagem de capa
-              </span>
+              </ReactText>
             </View>
 
             <View className="flex flex-row gap-3">
