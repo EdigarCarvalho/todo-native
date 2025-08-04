@@ -34,9 +34,13 @@
       "typedRoutes": true
     },
     "extra": {
+      "router": {
+        "origin": false
+      },
       "eas": {
-        "projectId": "e1aaae15-3e94-4f0a-888c-9f943191f8e3"
+        "projectId": "26c1474e-50f8-47fb-b4ae-d7a440dceb61"
       }
-    }
+    },
+    "owner": "edgar88899"
   }
 }
