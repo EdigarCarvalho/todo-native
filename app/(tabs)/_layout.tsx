@@ -52,7 +52,7 @@ export default function TabLayout() {
   const tabScreens = [
     {
       name: "index",
-      icon: MenuSvg,
+      // icon: MenuSvg,
       size: 26,
       label: "Dicionário",
       href: undefined
@@ -66,14 +66,14 @@ export default function TabLayout() {
     },
     {
       name: "texts",
-      icon: TextSvg,
+      // icon: TextSvg,
       size: 24,
       label: "Textos",
       href: undefined
     },
     {
       name: "settings",
-      icon: CogSvg,
+      // icon: CogSvg,
       size: 24,
       label: "Configurações",
       href: undefined
