@@ -11,6 +11,7 @@ import { Slot, Stack, useRouter, useSegments } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import "react-native-reanimated";
+import { Platform } from "react-native";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { DictionaryProvider, useDictionary } from "@/stores/Dictionary";
@@ -35,8 +36,8 @@ function ThemeManager({ children }: { children: React.ReactNode }) {
           const settings = JSON.parse(savedSettings);
           if (settings.darkMode) {
             setInitialTheme('dark');
-            // Apply theme to HTML element directly
-            if (typeof document !== 'undefined') {
+            // Apply theme to HTML element only on web
+            if (Platform.OS === 'web' && typeof document !== 'undefined') {
               document.documentElement.classList.remove('light');
               document.documentElement.classList.add('dark');
               document.documentElement.style.colorScheme = 'dark';
@@ -100,9 +101,9 @@ function AppContent() {
   const { state } = useDictionary();
   const colorScheme = state.settings.darkMode ? "dark" : "light";
 
-  // Apply theme changes to HTML element when settings change
+  // Apply theme changes to HTML element when settings change - web only
   useEffect(() => {
-    if (typeof document !== 'undefined') {
+    if (Platform.OS === 'web' && typeof document !== 'undefined') {
       if (colorScheme === 'dark') {
         document.documentElement.classList.remove('light');
         document.documentElement.classList.add('dark');
