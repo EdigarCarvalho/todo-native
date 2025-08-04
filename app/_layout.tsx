@@ -72,27 +72,40 @@ function AppRouteGuard({ children }: { children: React.ReactNode }) {
   const { state: appConfigState, isAdmin } = useAppConfig();
   const { state: authState } = useAuth();
   const isAuthGroup = segments[0] === "(auth)";
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Set mounted state after first render
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
-    if (appConfigState.isLoading || authState.isLoading) return;
+    // Don't attempt navigation until component is mounted and data is loaded
+    if (!isMounted || appConfigState.isLoading || authState.isLoading) return;
 
-    // If user is authenticated, don't redirect to auth pages
-    if (authState.isAuthenticated) {
-      if (isAuthGroup) {
-        // Redirect authenticated user away from auth pages
+    const performNavigation = () => {
+      // If user is authenticated, don't redirect to auth pages
+      if (authState.isAuthenticated) {
+        if (isAuthGroup) {
+          // Redirect authenticated user away from auth pages
+          router.replace("/(tabs)");
+        }
+        return;
+      }
+
+      // If user is not authenticated and in admin mode, redirect to auth
+      if (isAdmin() && !isAuthGroup && !authState.isAuthenticated) {
+        router.replace("/(auth)/signin");
+      } else if (!isAdmin() && isAuthGroup) {
+        // Redirect to main app if in user mode but trying to access auth
         router.replace("/(tabs)");
       }
-      return;
-    }
+    };
 
-    // If user is not authenticated and in admin mode, redirect to auth
-    if (isAdmin() && !isAuthGroup && !authState.isAuthenticated) {
-      router.replace("/(auth)/signin");
-    } else if (!isAdmin() && isAuthGroup) {
-      // Redirect to main app if in user mode but trying to access auth
-      router.replace("/(tabs)");
-    }
-  }, [appConfigState.appType, authState.isAuthenticated, isAuthGroup, appConfigState.isLoading, authState.isLoading]);
+    // Add a small delay to ensure the component is fully mounted
+    const timer = setTimeout(performNavigation, 100);
+    return () => clearTimeout(timer);
+  }, [appConfigState.appType, authState.isAuthenticated, isAuthGroup, appConfigState.isLoading, authState.isLoading, isMounted, router]);
 
   return <>{children}</>;
 }
@@ -100,6 +113,7 @@ function AppRouteGuard({ children }: { children: React.ReactNode }) {
 function AppContent() {
   const { state } = useDictionary();
   const colorScheme = state.settings.darkMode ? "dark" : "light";
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   // Apply theme changes to HTML element when settings change - web only
   useEffect(() => {
@@ -123,12 +137,13 @@ function AppContent() {
 
   useEffect(() => {
     if (loaded) {
+      setFontsLoaded(true);
       SplashScreen.hideAsync();
     }
   }, [loaded]);
 
   if (!loaded) {
-    return null;
+    return <Slot />;  // Return Slot even before fonts are loaded
   }
 
   return (

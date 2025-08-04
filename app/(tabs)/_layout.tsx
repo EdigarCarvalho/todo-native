@@ -26,6 +26,12 @@ const TabIcon = ({
   const textColor = focused ? "text-[#212121] dark:text-[#E7E4D8]" : "text-[#474747] dark:text-[#E7E4D8]";
   const iconColor = focused ? color : colorScheme === 'light' ? "#474747" : "#E7E4D8";
 
+  // Make sure Icon is a valid component before rendering
+  if (!Icon) {
+    console.error(`Invalid icon component for tab: ${label}`);
+    return null;
+  }
+
   return (
     <View className="flex flex-col justify-center items-center">
       <View className={`${bgColor} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}>
@@ -42,7 +48,6 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
   const { state } = useAuth();
   const isAdmin = Boolean(state?.isAuthenticated);
-
 
   const tabScreens = [
     {
@@ -86,26 +91,33 @@ export default function TabLayout() {
         },
       }}
     >
-      {tabScreens.map((screen) => (
-        <Tabs.Screen
-          key={screen.name}
-          name={screen.name}
-          options={{
-            href: screen?.href,
-            title: "",
-            tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                focused={focused}
-                isAdmin={isAdmin}
-                color={color}
-                icon={screen?.icon}
-                size={screen.size}
-                label={screen.label}
-              />
-            ),
-          }}
-        />
-      ))}
+      {tabScreens.map((screen) => {
+        if (!screen.icon) {
+          console.error(`Missing icon for tab: ${screen.name}`);
+          return null;
+        }
+        
+        return (
+          <Tabs.Screen
+            key={screen.name}
+            name={screen.name}
+            options={{
+              href: screen?.href,
+              title: "",
+              tabBarIcon: ({ color, focused }) => (
+                <TabIcon
+                  focused={focused}
+                  isAdmin={isAdmin}
+                  color={color}
+                  icon={screen.icon}
+                  size={screen.size}
+                  label={screen.label}
+                />
+              ),
+            }}
+          />
+        );
+      })}
     </Tabs>
   );
 }
