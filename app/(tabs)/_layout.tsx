@@ -23,7 +23,7 @@ const TabIcon = ({
 }) => {
   const colorScheme = useColorScheme();
   const bgColor = focused ? (isAdmin ? "bg-[#C74B0B] dark:bg-[#740018]" : "bg-[#A30122]  dark:bg-[#740018]") : "";
-  const textColor = focused ? "text-[#212121] dark:text-[#E7E4D8]" : "text-[#474747] dark:text-[#E7E4D8]";
+  const textColor = focused ? "!text-[#212121] dark:text-[#E7E4D8]" : "!text-[#474747] dark:text-[#E7E4D8]";
   const iconColor = focused ? color : colorScheme === 'light' ? "#474747" : "#E7E4D8";
 
   // Make sure Icon is a valid component before rendering
@@ -52,7 +52,7 @@ export default function TabLayout() {
   const tabScreens = [
     {
       name: "index",
-      // icon: MenuSvg,
+      icon: MenuSvg,
       size: 26,
       label: "Dicionário",
       href: undefined
@@ -66,14 +66,14 @@ export default function TabLayout() {
     },
     {
       name: "texts",
-      // icon: TextSvg,
+      icon: TextSvg,
       size: 24,
       label: "Textos",
       href: undefined
     },
     {
       name: "settings",
-      // icon: CogSvg,
+      icon: CogSvg,
       size: 24,
       label: "Configurações",
       href: undefined
