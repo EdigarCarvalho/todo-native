@@ -10,7 +10,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Divider } from "@/components/ui/divider";
-import { useColorScheme } from "@/hooks/useThemeColor";
 
 interface Word {
   id: number;
@@ -33,6 +32,7 @@ interface WordsListProps {
   isAdmin: boolean;
   onWordSelect: (word: Word) => void;
   onWordEdit: (word: Word) => void;
+  isDarkMode?: boolean;
 }
 
 export function WordsList({
@@ -41,7 +41,14 @@ export function WordsList({
   isAdmin,
   onWordSelect,
   onWordEdit,
+  isDarkMode = false
 }: WordsListProps) {
+  // Theme colors
+  const textColor = isDarkMode ? "#E7E4D8" : "#212121";
+  const secondaryTextColor = isDarkMode ? "#E7E4D8" : "#474747";
+  const highlightColor = isDarkMode ? "#E7E4D8" : "#A30122";
+  const accentColor = isDarkMode ? "#eb5a12" : "#C74B0B";
+
   // Filter words based on search input
   const getFilteredWords = (categoryId: string) => {
     const words = state.wordsByCategory[categoryId] || [];
@@ -64,7 +71,9 @@ export function WordsList({
 
   if (state.categories.length === 0) {
     return (
-      <Text className="text-center py-4">Nenhuma categoria encontrada</Text>
+      <Text className="text-center py-4" style={{ color: textColor }}>
+        Nenhuma categoria encontrada
+      </Text>
     );
   }
 
@@ -88,11 +97,13 @@ export function WordsList({
                 {({ isExpanded }) => {
                   return (
                     <>
-                      <AccordionTitleText>{category.name}</AccordionTitleText>
+                      <AccordionTitleText style={{ color: textColor }}>
+                        {category.name}
+                      </AccordionTitleText>
                       {isExpanded ? (
-                        <AccordionIcon as={ChevronUpIcon} className="ml-3" />
+                        <AccordionIcon as={ChevronUpIcon} className="ml-3" color={textColor} />
                       ) : (
-                        <AccordionIcon as={ChevronDownIcon} className="ml-3" />
+                        <AccordionIcon as={ChevronDownIcon} className="ml-3" color={textColor} />
                       )}
                     </>
                   );
@@ -106,6 +117,7 @@ export function WordsList({
                     isAdmin={isAdmin}
                     onWordSelect={onWordSelect}
                     onWordEdit={onWordEdit}
+                    isDarkMode={isDarkMode}
                   />
                 ))}
               </AccordionContent>
@@ -116,7 +128,7 @@ export function WordsList({
       })}
 
       {filter && !hasFilteredWords() && (
-        <Text className="text-center py-4">
+        <Text className="text-center py-4" style={{ color: textColor }}>
           Nenhuma palavra encontrada para "{filter}"
         </Text>
       )}
@@ -130,23 +142,33 @@ interface WordItemProps {
   isAdmin: boolean;
   onWordSelect: (word: Word) => void;
   onWordEdit: (word: Word) => void;
+  isDarkMode: boolean;
 }
 
-function WordItem({ word, isAdmin, onWordSelect, onWordEdit }: WordItemProps) {
-  const theme = useColorScheme();
+function WordItem({ word, isAdmin, onWordSelect, onWordEdit, isDarkMode }: WordItemProps) {
+  const highlightColor = isDarkMode ? "#E7E4D8" : "#A30122";
+  const accentColor = isDarkMode ? "#eb5a12" : "#C74B0B";
+  const textColor = isDarkMode ? "#E7E4D8" : "#474747";
+
   return (
     <View className="flex flex-row items-center py-2">
       {isAdmin && (
         <TouchableOpacity className="p-2 mr-2" onPress={() => onWordEdit(word)}>
-          <Edit2 size={16} color={theme === "dark" ? "#eb5a12" : "#C74B0B"} />
+          <Edit2 size={16} color={accentColor} />
         </TouchableOpacity>
       )}
       <TouchableOpacity className="flex-1" onPress={() => onWordSelect(word)}>
         <View className="flex flex-col ">
-          <Text className="font-bold text-base text-[#A30122] dark:text-[#E7E4D8]">
+          <Text 
+            className="font-bold text-base"
+            style={{ color: highlightColor }}
+          >
             {word.word}
           </Text>
-          <Text className="text-sm text-[#474747] dark:text-[#E7E4D8]">
+          <Text 
+            className="text-sm"
+            style={{ color: textColor }}
+          >
             {word.meaning}
           </Text>
         </View>

@@ -71,7 +71,7 @@ export default function SettingsScreen() {
           Configurações
         </ScalableText>
       </View>
-      <View className="flex flex-col gap-6 px-4 py-6">
+      <View className="flex flex-col gap-6 px-6 py-6">
         <ScalableText
           className="text-base font-medium"
           style={{ color: subTextColor }}
@@ -104,6 +104,7 @@ export default function SettingsScreen() {
               updateSettings({ fontSize: value });
             }}
             step={1}
+            className="pr-1"
           >
             <SliderTrack>
               <SliderFilledTrack />

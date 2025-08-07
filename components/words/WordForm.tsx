@@ -56,6 +56,7 @@ interface WordFormProps {
   categories: Category[];
   onSuccess: () => void;
   onCancel: () => void;
+  isDarkMode?: boolean;
 }
 
 export function WordForm({
@@ -63,6 +64,7 @@ export function WordForm({
   categories,
   onSuccess,
   onCancel,
+  isDarkMode = false
 }: WordFormProps) {
   const [wordName, setWordName] = useState("");
   const [wordTranslation, setWordTranslation] = useState("");
@@ -76,6 +78,12 @@ export function WordForm({
   const toast = useToast();
   const { deleteWord } = useDictionary();
   const theme = useColorScheme();
+
+  // Theme colors
+  const textColor = isDarkMode ? "#E7E4D8" : "#212121";
+  const accentColor = isDarkMode ? "#eb5a12" : "#C74B0B";
+  const bgColor = isDarkMode ? "#3E1C00" : "#f9f9f9";
+  const borderColor = isDarkMode ? "#eb5a12" : "#C74B0B";
 
   useEffect(() => {
     if (editingWord) {
@@ -336,16 +344,17 @@ export function WordForm({
   return (
     <>
       <View className="py-1 px-2">
-        <View className=" px-3">
+        <View className="px-3">
           <View className="flex justify-center text-center mb-5">
             <ThemedText
-              style={{ color: theme === "dark" ? "#eb5a12" : "#C74B0B", textAlign: "center" }}
+              style={{ color: accentColor, textAlign: "center" }}
               type="title"
             >
               {editingWord ? "Editar palavra" : "Cadastrar palavra"}
             </ThemedText>
           </View>
 
+          {/* Form fields with inline styles */}
           <View className="space-y-4 flex flex-col gap-2">
             <Input
               className="border-[#C74B0B] border-2 "
@@ -417,7 +426,10 @@ export function WordForm({
 
             {/* Updated Attachments UI */}
             <View className="relative">
-              <View className="border-[#C74B0B] border-dashed border-2 rounded p-2 min-h-[80px]">
+              <View
+                className="border-dashed border-2 rounded p-2 min-h-[80px]"
+                style={{ borderColor }}
+              >
                 {attachmentPreviews.length > 0 ? (
                   <View className="flex flex-row flex-wrap">
                     {attachmentPreviews.map((preview, index) => (
@@ -439,12 +451,18 @@ export function WordForm({
                       className="w-1/3 h-24 p-1"
                       onPress={pickImage}
                     >
-                      <View className="border-2 border-dashed border-[#C74B0B] dark:border-[#eb5a12] rounded h-full flex items-center justify-center">
-                        <Upload
-                          size={20}
-                          color={theme === "dark" ? "#eb5a12" : "#C74B0B"}
-                        />
-                        <Text className="text-xs text-[#C74B0B] dark:text-[#eb5a12] mt-1">
+                      <View
+                        className="border-2 border-dashed rounded h-full flex items-center justify-center"
+                        style={{ borderColor }}
+                      >
+                        <Upload size={20} color={accentColor} />
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            color: accentColor,
+                            marginTop: 4,
+                          }}
+                        >
                           Adicionar
                         </Text>
                       </View>
@@ -455,17 +473,17 @@ export function WordForm({
                     className="rounded p-4 flex flex-row items-center justify-center h-[60px]"
                     onPress={pickImage}
                   >
-                    <Upload
-                      size={20}
-                      color={theme === "dark" ? "#eb5a12" : "#C74B0B"}
-                    />
-                    <Text className="ml-2  text-[#C74B0B] dark:text-[#eb5a12]">
+                    <Upload size={20} color={accentColor} />
+                    <Text style={{ marginLeft: 8, color: accentColor }}>
                       Adicionar imagens
                     </Text>
                   </TouchableOpacity>
                 )}
               </View>
-              <Text className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] dark:bg-[#3E1C00] text-[#4B2C0B] dark:text-[#E7E4D8] font-medium text-sm">
+              <Text
+                className="absolute -top-3 left-4 px-2 font-medium text-sm"
+                style={{ backgroundColor: bgColor, color: textColor }}
+              >
                 Imagens
               </Text>
             </View>

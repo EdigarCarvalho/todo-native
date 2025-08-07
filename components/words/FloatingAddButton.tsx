@@ -4,14 +4,17 @@ import { Plus } from "lucide-react-native";
 
 interface FloatingAddButtonProps {
   onPress: () => void;
+  isDarkMode?: boolean;
 }
 
-export function FloatingAddButton({ onPress }: FloatingAddButtonProps) {
+export function FloatingAddButton({ onPress, isDarkMode = false }: FloatingAddButtonProps) {
+  const backgroundColor = isDarkMode ? "#eb5a12" : "#C74B0B";
+  
   return (
     <TouchableOpacity
-      className="absolute bottom-6 right-6 w-14 h-14 bg-[#C74B0B] rounded-2xl flex items-center justify-center shadow-lg"
+      className="absolute bottom-6 right-6 w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg"
       onPress={onPress}
-      style={styles.floatingButton}
+      style={[styles.floatingButton, { backgroundColor }]}
     >
       <Plus size={24} color="white" />
     </TouchableOpacity>
