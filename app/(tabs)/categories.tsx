@@ -17,7 +17,6 @@ import {
   ModalBackdrop,
   ModalContent,
   ModalHeader,
-  ModalCloseButton,
   ModalBody,
   ModalFooter,
 } from "@/components/ui/modal";
@@ -33,7 +32,6 @@ import {
 } from "@/components/ui/toast";
 import { useAuth } from "@/stores/AuthStore";
 import { router } from "expo-router";
-import { useColorScheme } from "@/hooks/useThemeColor";
 
 interface Category {
   id: number;
@@ -42,7 +40,9 @@ interface Category {
 
 export default function CategoriesScreen() {
   const { state, fetchData, refreshCategories } = useDictionary();
-  const theme = useColorScheme();
+  const { darkMode } = state.settings;
+  const isDarkMode = Boolean(darkMode);
+  
   const { state: authState } = useAuth();
   const [filter, setFilter] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -52,6 +52,12 @@ export default function CategoriesScreen() {
   const toast = useToast();
 
   const isAdmin = Boolean(authState?.isAuthenticated);
+
+  // Theme colors
+  const textColor = isDarkMode ? "#E7E4D8" : "#212121";
+  const highlightColor = isDarkMode ? "#eb5a12" : "#C74B0B";
+  const loaderColor = isDarkMode ? "#E7E4D8" : "#A30122";
+  const headerBgColor = isDarkMode ? "#101d25" : "#A1CEDC";
 
   // Redirect non-admin users
   useEffect(() => {
@@ -195,7 +201,7 @@ export default function CategoriesScreen() {
           placeholder="Pesquise uma categoria"
           CustomInputContent={
             <View className="flex flex-row w-full items-center justify-center">
-              <Text className="text-lg font-medium">
+              <Text className="text-lg font-medium" style={{ color: textColor }}>
                 Pesquise uma categoria
               </Text>
             </View>
@@ -205,7 +211,7 @@ export default function CategoriesScreen() {
 
         <View className="px-2 pt-2">
           <ThemedText
-            style={{ color: theme === "dark" ? "#E7E4D8" : "#212121" }}
+            style={{ color: textColor }}
             type="title"
           >
             Categorias
@@ -214,8 +220,10 @@ export default function CategoriesScreen() {
 
         {state.isLoading ? (
           <View className="py-10 flex justify-center items-center">
-            <ActivityIndicator size="large" color={theme === 'dark' ? "#E7E4D8" : "#A30122"} />
-            <Text className="mt-2 text-center dark:text-[#E7E4D8]">Carregando categorias...</Text>
+            <ActivityIndicator size="large" color={loaderColor} />
+            <Text className="mt-2 text-center" style={{ color: textColor }}>
+              Carregando categorias...
+            </Text>
           </View>
         ) : (
           <View className="mt-2">
@@ -224,14 +232,17 @@ export default function CategoriesScreen() {
                 {filteredCategories.map((category, index) => (
                   <View key={category.id}>
                     <View className="flex flex-row justify-between items-center py-3 px-2">
-                      <Text className="font-bold text-base text-[#212121] dark:text-[#E7E4D8] flex-1">
+                      <Text 
+                        className="font-bold text-base flex-1"
+                        style={{ color: textColor }}
+                      >
                         {category.name}
                       </Text>
                       <TouchableOpacity
                         className="p-2"
                         onPress={() => openEditModal(category)}
                       >
-                        <Edit2 size={20} color={theme === "dark" ? "#eb5a12" : "#C74B0B"} />
+                        <Edit2 size={20} color={highlightColor} />
                       </TouchableOpacity>
                     </View>
                     {index < filteredCategories.length - 1 && <Divider />}
@@ -239,7 +250,10 @@ export default function CategoriesScreen() {
                 ))}
               </View>
             ) : (
-              <Text className="text-center py-4">
+              <Text 
+                className="text-center py-4"
+                style={{ color: textColor }}
+              >
                 {filter
                   ? `Nenhuma categoria encontrada para "${filter}"`
                   : "Nenhuma categoria cadastrada"}
@@ -247,21 +261,19 @@ export default function CategoriesScreen() {
             )}
           </View>
         )}
-
-        {/* Floating Add Button */}
       </ParallaxScrollView>
 
       {/* Modal */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <ModalBackdrop />
         <ModalContent className="bg-white">
-          <ModalHeader className=" text-center">
-            <Text className="text-lg font-bold text-[#212121] dark:text-[#E7E4D8]  mx-auto  text-center">
+          <ModalHeader className="text-center">
+            <Text 
+              className="text-lg font-bold mx-auto text-center"
+              style={{ color: textColor }}
+            >
               {editingCategory ? "Editar categoria" : "Adicionar categoria"}
             </Text>
-            {/* <ModalCloseButton onPress={closeModal}>
-              <X size={20} color="#666" />
-            </ModalCloseButton> */}
           </ModalHeader>
 
           <ModalBody className="py-6">
@@ -308,9 +320,10 @@ export default function CategoriesScreen() {
         </ModalContent>
       </Modal>
       <TouchableOpacity
-        className="absolute bottom-6 right-6 w-14 h-14 bg-[#C74B0B] rounded-2xl flex items-center justify-center shadow-lg"
+        className="absolute bottom-6 right-6 w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg"
+        style={{ backgroundColor: highlightColor }}
         onPress={openAddModal}
-        style={styles.floatingButton}
+        style={[styles.floatingButton, { backgroundColor: highlightColor }]}
       >
         <Plus size={24} color="white" />
       </TouchableOpacity>
@@ -320,6 +333,14 @@ export default function CategoriesScreen() {
 
 const styles = StyleSheet.create({
   floatingButton: {
+    position: 'absolute',
+    bottom: 24,
+    right: 24,
+    width: 56,
+    height: 56,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
     elevation: 8,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },

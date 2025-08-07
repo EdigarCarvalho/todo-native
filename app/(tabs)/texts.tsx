@@ -15,7 +15,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { FloatingAddButton } from "@/components/words/FloatingAddButton";
 import { TextForm } from "@/components/texts/TextForm";
 import { useAuth } from "@/stores/AuthStore";
-import { useColorScheme } from "@/hooks/useThemeColor";
+import { useDictionary } from "@/stores/Dictionary";
 
 interface Text {
   id: number;
@@ -29,11 +29,23 @@ type ViewMode = "list" | "detail" | "form";
 
 export default function TextsScreen() {
   const { fetchTexts, state, setTextInFocus } = useTexts();
+  const { state: dictionaryState } = useDictionary();
+  const { darkMode } = dictionaryState.settings;
+  const isDarkMode = Boolean(darkMode);
+  
   const { state: authState } = useAuth();
   const [filter, setFilter] = useState<string>("");
   const [viewMode, setViewMode] = useState<ViewMode>("list");
   const [editingText, setEditingText] = useState<Text | null>(null);
-  const theme = useColorScheme();
+  
+  // Theme colors
+  const textColor = isDarkMode ? "#E7E4D8" : "#212121";
+  const subTextColor = isDarkMode ? "#e7e4d8d5" : "#474747";
+  const contentTextColor = isDarkMode ? "#E7E4D8" : "#49454F"; 
+  const highlightColor = isDarkMode ? "#eb5a12" : "#C74B0B";
+  const titleColor = isDarkMode ? "#E7E4D8" : "#A30122";
+  const loaderColor = isDarkMode ? "#E7E4D8" : "#A30122";
+  const headerBgColor = isDarkMode ? "#101d25" : "#A1CEDC";
 
   const isAdmin = Boolean(authState?.isAuthenticated);
 
@@ -107,6 +119,7 @@ export default function TextsScreen() {
               viewMode={viewMode}
               onBack={handleBackToList}
               editingText={editingText}
+              isDarkMode={isDarkMode}
             />
           }
           condition={viewMode !== "list"}
@@ -115,7 +128,7 @@ export default function TextsScreen() {
         {viewMode === "list" && (
           <View className="px-2 pt-2">
             <ThemedText
-              style={{ color: theme === "dark" ? "#E7E4D8" : "#212121" }}
+              style={{ color: textColor }}
               type="title"
             >
               Textos
@@ -125,8 +138,8 @@ export default function TextsScreen() {
 
         {state.isLoading ? (
           <View className="py-10 flex justify-center items-center">
-            <ActivityIndicator size="large" color={theme === 'dark' ? "#E7E4D8" : "#A30122"} />
-            <ReactText className="mt-2 text-center dark:text-[#E7E4D8]  ">
+            <ActivityIndicator size="large" color={loaderColor} />
+            <ReactText className="mt-2 text-center" style={{ color: textColor }}>
               Carregando textos...
             </ReactText>
           </View>
@@ -143,11 +156,12 @@ export default function TextsScreen() {
                         isAdmin={isAdmin}
                         onTextSelect={setTextInFocus}
                         onTextEdit={handleEditText}
+                        isDarkMode={isDarkMode}
                       />
                     ))}
                   </View>
                 ) : (
-                  <ReactText className="text-center py-4">
+                  <ReactText className="text-center py-4" style={{ color: textColor }}>
                     {filter
                       ? `Nenhum texto encontrado para "${filter}"`
                       : "Nenhum texto disponível"}
@@ -156,13 +170,14 @@ export default function TextsScreen() {
               </View>
             )}
 
-            {viewMode === "detail" && <SelectedText state={state} />}
+            {viewMode === "detail" && <SelectedText state={state} isDarkMode={isDarkMode} />}
 
             {viewMode === "form" && (
               <TextForm
                 editingText={editingText}
                 onSuccess={handleTextFormSuccess}
                 onCancel={handleBackToList}
+                isDarkMode={isDarkMode}
               />
             )}
           </>
@@ -170,7 +185,7 @@ export default function TextsScreen() {
       </ParallaxScrollView>
 
       {isAdmin && viewMode === "list" && (
-        <FloatingAddButton onPress={handleAddText} />
+        <FloatingAddButton onPress={handleAddText} isDarkMode={isDarkMode} />
       )}
     </>
   );
@@ -181,19 +196,33 @@ interface TextItemProps {
   isAdmin: boolean;
   onTextSelect: (text: Text) => void;
   onTextEdit: (text: Text) => void;
+  isDarkMode: boolean;
 }
 
-function TextItem({ text, isAdmin, onTextSelect, onTextEdit }: TextItemProps) {
-    const theme = useColorScheme();
+function TextItem({ text, isAdmin, onTextSelect, onTextEdit, isDarkMode }: TextItemProps) {
+  const titleColor = isDarkMode ? "#E7E4D8" : "#A30122";
+  const subtitleColor = isDarkMode ? "#E7E4D8" : "#474747";
+  const highlightColor = isDarkMode ? "#eb5a12" : "#C74B0B";
+  const borderColor = isDarkMode ? "#eb5a12" : "#C74B0B";
+  
   return (
-    <View className="mb-4 border-[#C74B0B] dark:border-[#eb5a12] border-[1px] rounded-xl overflow-hidden flex flex-row min-h-[80px] max-h-[80px]">
+    <View 
+      className="mb-4 border-[1px] rounded-xl overflow-hidden flex flex-row min-h-[80px] max-h-[80px]"
+      style={{ borderColor }}
+    >
       <View className="p-3 bg-transparent w-[78%] flex flex-row">
         <TouchableOpacity className="flex-1" onPress={() => onTextSelect(text)}>
-          <ReactText className="font-bold text-lg text-[#A30122]  dark:text-[#E7E4D8] dark: overflow-hidden truncate text-ellipsis">
+          <ReactText 
+            className="font-bold text-lg overflow-hidden truncate text-ellipsis"
+            style={{ color: titleColor }}
+          >
             {text?.title}
           </ReactText>
           {text?.subtitle && (
-            <ReactText className="text-sm text-[#474747]  dark:text-[#E7E4D8] mt-1">
+            <ReactText 
+              className="text-sm mt-1"
+              style={{ color: subtitleColor }}
+            >
               {text?.subtitle}
             </ReactText>
           )}
@@ -204,7 +233,7 @@ function TextItem({ text, isAdmin, onTextSelect, onTextEdit }: TextItemProps) {
             className="p-2 self-center"
             onPress={() => onTextEdit(text)}
           >
-            <Edit2 size={16} color={theme === "dark" ? "#eb5a12" : "#C74B0B"} />
+            <Edit2 size={16} color={highlightColor} />
           </TouchableOpacity>
         )}
       </View>
@@ -240,11 +269,20 @@ const styles = StyleSheet.create({
 
 interface SelectedTextProps {
   state: any;
+  isDarkMode: boolean;
 }
 
-function SelectedText({ state }: SelectedTextProps) {
+function SelectedText({ state, isDarkMode }: SelectedTextProps) {
+  const titleColor = isDarkMode ? "#E7E4D8" : "#212121";
+  const subtitleColor = isDarkMode ? "#e7e4d8d5" : "#474747";
+  const contentColor = isDarkMode ? "#E7E4D8" : "#49454F";
+  const borderColor = isDarkMode ? "#eb5a12" : "#C74B0B";
+  
   return (
-    <View className="border-[#C74B0B] border-[1px] rounded-xl">
+    <View 
+      className="border-[1px] rounded-xl"
+      style={{ borderColor }}
+    >
       {state?.textInFocus?.cover_url && (
         <Image
           source={{ uri: state?.textInFocus?.cover_url || "" }}
@@ -259,17 +297,26 @@ function SelectedText({ state }: SelectedTextProps) {
       )}
 
       <View className="py-4 px-3 rounded-xl">
-        <ReactText className="text-xl font-bold text-[#212121] dark:text-[#E7E4D8] mb-1">
+        <ReactText 
+          className="text-xl font-bold mb-1"
+          style={{ color: titleColor }}
+        >
           {state?.textInFocus?.title}
         </ReactText>
 
         {state?.textInFocus?.subtitle && (
-          <ReactText className="text-base font-medium text-[#474747] dark:text-[#e7e4d8d5] mb-4">
+          <ReactText 
+            className="text-base font-medium mb-4"
+            style={{ color: subtitleColor }}
+          >
             {state?.textInFocus?.subtitle}
           </ReactText>
         )}
 
-        <ReactText className="text-base text-[#49454F] dark:text-[#E7E4D8] leading-relaxed whitespace-pre-line">
+        <ReactText 
+          className="text-base leading-relaxed whitespace-pre-line"
+          style={{ color: contentColor }}
+        >
           {state?.textInFocus?.content}
         </ReactText>
       </View>
@@ -283,6 +330,7 @@ interface CustomInputContentProps {
   viewMode: ViewMode;
   onBack: () => void;
   editingText: Text | null;
+  isDarkMode: boolean;
 }
 
 function CustomInputContent({
@@ -291,7 +339,10 @@ function CustomInputContent({
   viewMode,
   onBack,
   editingText,
+  isDarkMode,
 }: CustomInputContentProps) {
+  const textColor = isDarkMode ? "#E7E4D8" : "#212121";
+  
   const getTitle = () => {
     if (viewMode === "detail" && state.textInFocus) {
       return state.textInFocus.title;
@@ -313,7 +364,10 @@ function CustomInputContent({
   return (
     <View className="flex flex-row w-full items-center justify-between">
       <View className="flex-1 text-center ml-6">
-        <ReactText className="text-xl font-bold overflow-hidden truncate text-ellipsis dark:text-[#E7E4D8]">
+        <ReactText 
+          className="text-xl font-bold overflow-hidden truncate text-ellipsis"
+          style={{ color: textColor }}
+        >
           {getTitle()}
         </ReactText>
       </View>
@@ -321,8 +375,8 @@ function CustomInputContent({
         className="mr-5 pr-2 flex gap-1 flex-row items-center justify-center"
         onPress={handleBack}
       >
-        <ArrowLeft size={17} />
-              <ReactText className="flex dark:text-[#E7E4D8]">Voltar</ReactText>
+        <ArrowLeft size={17} color={textColor} />
+        <ReactText style={{ color: textColor }}>Voltar</ReactText>
       </TouchableOpacity>
     </View>
   );

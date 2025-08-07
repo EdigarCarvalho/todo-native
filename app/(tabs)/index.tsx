@@ -10,13 +10,12 @@ import { SelectedWord } from "@/components/words/SelectedWord";
 import { WordForm } from "@/components/words/WordForm";
 import { CustomInputContent } from "@/components/words/CustomInputContent";
 import { FloatingAddButton } from "@/components/words/FloatingAddButton";
-import { useColorScheme } from "@/hooks/useThemeColor";
 
 interface Word {
   id: number;
   word: string;
   meaning: string;
-  translation?: string; // Add translation field
+  translation?: string;
   attachments: any[];
 }
 
@@ -24,11 +23,17 @@ type ViewMode = "list" | "detail" | "form";
 
 export default function HomeScreen() {
   const { fetchData, state, setWordInFocus } = useDictionary();
+  const { darkMode } = state.settings;
+  const isDarkMode = Boolean(darkMode);
+  
   const { state: authState } = useAuth();
   const [filter, setFilter] = useState<string>("");
   const [viewMode, setViewMode] = useState<ViewMode>("list");
   const [editingWord, setEditingWord] = useState<Word | null>(null);
-  const theme = useColorScheme();
+  
+  // Theme colors
+  const textColor = isDarkMode ? "#E7E4D8" : "#212121";
+  const loaderColor = isDarkMode ? "#E7E4D8" : "#A30122";
 
   const isAdmin = Boolean(authState?.isAuthenticated);
 
@@ -120,7 +125,7 @@ export default function HomeScreen() {
         {viewMode === "list" && (
           <View className="px-2 pt-2">
             <ThemedText
-              style={{ color: theme === "dark" ? "#E7E4D8" : "#212121" }}
+              style={{ color: textColor }}
               type="title"
             >
               Dicionário
@@ -129,7 +134,7 @@ export default function HomeScreen() {
         )}
 
         {state.isLoading ? (
-          <LoadingView />
+          <LoadingView isDarkMode={isDarkMode} />
         ) : (
           <>
             {viewMode === "list" && (
@@ -139,10 +144,11 @@ export default function HomeScreen() {
                 isAdmin={isAdmin}
                 onWordSelect={setWordInFocus}
                 onWordEdit={handleEditWord}
+                isDarkMode={isDarkMode}
               />
             )}
 
-            {viewMode === "detail" && <SelectedWord state={state} />}
+            {viewMode === "detail" && <SelectedWord state={state} isDarkMode={isDarkMode} />}
 
             {viewMode === "form" && (
               <WordForm
@@ -150,29 +156,29 @@ export default function HomeScreen() {
                 categories={state.categories}
                 onSuccess={handleWordFormSuccess}
                 onCancel={handleBackToList}
+                isDarkMode={isDarkMode}
               />
             )}
-
-            {/* Floating Add Button - Only for Admin in list view */}
           </>
         )}
       </ParallaxScrollView>
 
       {isAdmin && viewMode === "list" && (
-        <FloatingAddButton onPress={handleAddWord} />
+        <FloatingAddButton onPress={handleAddWord} isDarkMode={isDarkMode} />
       )}
     </>
   );
 }
 
 // Loading component
-function LoadingView() {
-  const theme = useColorScheme();
+function LoadingView({ isDarkMode }: { isDarkMode: boolean }) {
+  const loaderColor = isDarkMode ? "#E7E4D8" : "#A30122";
+  const textColor = isDarkMode ? "#E7E4D8" : "#212121";
 
   return (
     <View className="py-10 flex justify-center items-center">
-      <ActivityIndicator size="large"  color={theme === 'dark' ? "#E7E4D8" : "#A30122"} />
-      <Text className="mt-2 text-center dark:text-[#E7E4D8]">
+      <ActivityIndicator size="large" color={loaderColor} />
+      <Text className="mt-2 text-center" style={{ color: textColor }}>
         Carregando dados do dicionário...
       </Text>
     </View>

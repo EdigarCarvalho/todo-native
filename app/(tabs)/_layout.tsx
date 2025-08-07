@@ -4,7 +4,7 @@ import { CogSvg, MenuSvg, TextSvg } from "@/components/customIcons";
 import { View, Text } from "react-native";
 import { useAuth } from "@/stores/AuthStore";
 import { FolderOpen } from "lucide-react-native";
-import { useColorScheme } from "@/hooks/useThemeColor";
+import { useDictionary } from "@/stores/Dictionary";
 
 const TabIcon = ({ 
   focused, 
@@ -21,10 +21,26 @@ const TabIcon = ({
   size: number;
   label: string;
 }) => {
-  const colorScheme = useColorScheme();
-  const bgColor = focused ? (isAdmin ? "bg-[#C74B0B] dark:bg-[#740018]" : "bg-[#A30122]  dark:bg-[#740018]") : "";
-  const textColor = focused ? "!text-[#212121] dark:text-[#E7E4D8]" : "!text-[#474747] dark:text-[#E7E4D8]";
-  const iconColor = focused ? color : colorScheme === 'light' ? "#474747" : "#E7E4D8";
+  const { state } = useDictionary();
+  const { darkMode } = state.settings;
+  const isDarkMode = Boolean(darkMode);
+
+  // Background colors based on theme and focus state
+  const bgColor = focused 
+    ? (isAdmin 
+      ? (isDarkMode ? "#740018" : "#C74B0B") 
+      : (isDarkMode ? "#740018" : "#A30122"))
+    : "transparent";
+    
+  // Text colors
+  const textColor = isDarkMode 
+    ? "#E7E4D8" 
+    : (focused ? "#212121" : "#474747");
+    
+  // Icon colors
+  const iconColor = focused 
+    ? color 
+    : (isDarkMode ? "#E7E4D8" : "#474747");
 
   // Make sure Icon is a valid component before rendering
   if (!Icon) {
@@ -34,10 +50,16 @@ const TabIcon = ({
 
   return (
     <View className="flex flex-col justify-center items-center">
-      <View className={`${bgColor} px-3 py-[5px] rounded-xl flex flex-col justify-center items-center`}>
+      <View 
+        className="px-3 py-[5px] rounded-xl flex flex-col justify-center items-center"
+        style={{ backgroundColor: bgColor }}
+      >
         <Icon size={size} color={iconColor} />
       </View>
-      <Text className={`text-xs font-semibold ${textColor}`}>
+      <Text 
+        className="text-xs font-semibold"
+        style={{ color: textColor }}
+      >
         {label}
       </Text>
     </View>
@@ -45,7 +67,10 @@ const TabIcon = ({
 };
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const { state: dictionaryState } = useDictionary();
+  const { darkMode } = dictionaryState.settings;
+  const isDarkMode = Boolean(darkMode);
+  
   const { state } = useAuth();
   const isAdmin = Boolean(state?.isAuthenticated);
 
@@ -83,10 +108,10 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: colorScheme === 'light' ? "#E7E4D8" : "#E7E4D8",
+        tabBarActiveTintColor: "#E7E4D8",
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: colorScheme === 'light' ? "#E7E4D8" : "#7C4F2C",
+          backgroundColor: isDarkMode ? "#7C4F2C" : "#E7E4D8",
           height: 74,
         },
       }}
