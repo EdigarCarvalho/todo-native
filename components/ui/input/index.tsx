@@ -197,7 +197,7 @@ const Input = React.forwardRef<React.ElementRef<typeof UIInput>, IInputProps>(
     
     if (label) {
       return (
-        <View style={{ position: 'relative' }}>
+        <View style={{ position: 'relative', marginTop: 7 }}>
           <UIInput
             ref={ref}
             {...props}
@@ -205,10 +205,11 @@ const Input = React.forwardRef<React.ElementRef<typeof UIInput>, IInputProps>(
             context={{ variant, size, isDarkMode }}
           />
           <Text 
-            className="absolute -top-3 left-4 px-2 font-medium text-sm"
+            className="absolute -top-3 left-4 px-2 font-medium text-sm !z-50 "
             style={{ 
               backgroundColor: labelBgColor, 
-              color: labelTextColor 
+              color: labelTextColor ,
+              
             }}
           >
             {label}

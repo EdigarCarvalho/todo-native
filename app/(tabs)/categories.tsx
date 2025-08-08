@@ -278,7 +278,7 @@ export default function CategoriesScreen() {
 
           <ModalBody className="py-6">
             <Input
-              className="border-[#C74B0B] border-2"
+              className="border-[#C74B0B] border-2  "
               label="Categoria"
               size="xl"
             >

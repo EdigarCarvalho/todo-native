@@ -355,7 +355,7 @@ export function WordForm({
           </View>
 
           {/* Form fields with inline styles */}
-          <View className="space-y-4 flex flex-col gap-2">
+          <View className="space-y-4 flex flex-col gap-4">
             <Input
               className="border-[#C74B0B] border-2 "
               label="Insira a palavra"
