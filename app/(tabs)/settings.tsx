@@ -13,13 +13,14 @@ import { useDictionary } from "@/stores/Dictionary";
 import { ScalableText } from "@/components/FontSizeProvider";
 import { router } from "expo-router";
 import { useAuth } from "@/stores/AuthStore";
+import { useAppConfig } from "@/stores/AppConfigStore";
 
 export default function SettingsScreen() {
   const { state, updateSettings } = useDictionary();
   const { state: authState, logout } = useAuth();
   const { darkMode, fontSize } = state.settings;
   const isDarkMode = Boolean(darkMode);
-
+  const { setAppType } = useAppConfig();
   const isAdmin = Boolean(authState?.isAuthenticated);
 
   // Theme colors
@@ -135,6 +136,32 @@ export default function SettingsScreen() {
                 <LogOut size={20} color="#DC2626" />
                 <ScalableText className="text-red-600 font-medium">
                   Sair da conta
+                </ScalableText>
+              </View>
+            </TouchableOpacity>
+          </>
+        )}
+
+        {!isAdmin && (
+          <>
+            <ScalableText
+              className="text-base font-medium mt-4"
+              style={{ color: subTextColor }}
+            >
+              Acesso
+            </ScalableText>
+
+            <TouchableOpacity
+              onPress={async () => {
+                await setAppType("admin");
+                router.push("/(auth)/signin");
+              }}
+              className="flex flex-row items-center justify-between py-3 px-4 bg-blue-50 rounded-lg border border-blue-200"
+            >
+              <View className="flex flex-row items-center gap-3">
+                <LogOut size={20} color="#3B82F6" />
+                <ScalableText className="text-blue-600 font-medium">
+                  Fazer login como administrador
                 </ScalableText>
               </View>
             </TouchableOpacity>
