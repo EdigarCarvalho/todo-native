@@ -15,6 +15,7 @@ import {
 } from "@gluestack-ui/nativewind-utils/withStyleContext";
 import { cssInterop } from "nativewind";
 import type { VariantProps } from "@gluestack-ui/nativewind-utils";
+import { useDictionary } from "@/stores/Dictionary";
 
 type IAnimatedPressableProps = React.ComponentProps<typeof Pressable> &
   MotionComponentProps<typeof Pressable, ViewStyle, unknown, unknown, unknown>;
@@ -44,15 +45,15 @@ cssInterop(AnimatedPressable, { className: "style" });
 cssInterop(MotionView, { className: "style" });
 
 const modalStyle = tva({
-  base: "group w-full h-full justify-center items-center bg-[#f9f9f9] dark:bg-[#3E1C00] ",
+  base: "group w-full h-full justify-center items-center",
 });
 
 const modalBackdropStyle = tva({
-  base: "absolute   left-0 top-0 right-0 bottom-0 bg-background-dark web:cursor-default",
+  base: "absolute left-0 top-0 right-0 bottom-0 bg-background-dark web:cursor-default",
 });
 
 const modalContentStyle = tva({
-  base: "bg-[#f9f9f9] rounded-md overflow-hidden border border-outline-100 shadow-hard-2 p-6 w-auto max-w-[90%]",
+  base: "rounded-md overflow-hidden border border-outline-100 shadow-hard-2 p-6 w-auto max-w-[90%]",
   parentVariants: {
     size: {
       xs: "max-w-[300px]",
@@ -102,16 +103,29 @@ type IModalCloseButtonProps = React.ComponentProps<typeof UIModal.CloseButton> &
   VariantProps<typeof modalCloseButtonStyle> & { className?: string };
 
 const Modal = React.forwardRef<React.ComponentRef<typeof UIModal>, IModalProps>(
-  ({ className, size = "md", ...props }, ref) => (
-    <UIModal
-      ref={ref}
-      {...props}
-      pointerEvents="box-none"
-      className={modalStyle({ size, class: className })}
-      context={{ size }}
-      style={{ backgroundColor: "transparent", width: "100%", height: "100%" }}
-    />
-  )
+  ({ className, size = "md", ...props }, ref) => {
+    const { state } = useDictionary();
+    const { darkMode } = state.settings;
+    const isDarkMode = Boolean(darkMode);
+
+    // Theme colors
+    const bgColor = isDarkMode ? "#3E1C00" : "#f9f9f9";
+
+    return (
+      <UIModal
+        ref={ref}
+        {...props}
+        pointerEvents="box-none"
+        className={modalStyle({ size, class: className })}
+        context={{ size, isDarkMode }}
+        style={{ 
+          backgroundColor: "transparent", 
+          width: "100%", 
+          height: "100%" 
+        }}
+      />
+    );
+  }
 );
 
 const ModalBackdrop = React.forwardRef<
@@ -151,7 +165,11 @@ const ModalContent = React.forwardRef<
   React.ComponentRef<typeof UIModal.Content>,
   IModalContentProps
 >(function ModalContent({ className, size, ...props }, ref) {
-  const { size: parentSize } = useStyleContext(SCOPE);
+  const { size: parentSize, isDarkMode } = useStyleContext(SCOPE);
+  
+  // Theme colors
+  const bgColor = isDarkMode ? "#3E1C00" : "#f9f9f9";
+  const textColor = isDarkMode ? "#E7E4D8" : "#4B2C0B";
 
   return (
     <UIModal.Content
@@ -184,7 +202,11 @@ const ModalContent = React.forwardRef<
         size,
         class: className,
       })}
-      style={{ width: "90%", height: "auto" }}
+      style={{ 
+        width: "90%", 
+        height: "auto", 
+        backgroundColor: bgColor 
+      }}
       pointerEvents="auto"
     />
   );
