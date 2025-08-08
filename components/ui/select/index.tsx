@@ -25,6 +25,7 @@ import {
   ActionsheetSectionHeaderText,
 } from './select-actionsheet';
 import { Pressable, View, TextInput, Text } from 'react-native';
+import { useDictionary } from '@/stores/Dictionary';
 
 const SelectTriggerWrapper = React.forwardRef<
   React.ComponentRef<typeof Pressable>,
@@ -155,6 +156,14 @@ const Select = React.forwardRef<
   ISelectProps
 >(
   ({ className, label, ...props }, ref) => {
+    const { state } = useDictionary();
+    const { darkMode } = state.settings;
+    const isDarkMode = Boolean(darkMode);
+
+    // Theme colors
+    const labelBgColor = isDarkMode ? '#3E1C00' : '#f9f9f9';
+    const labelTextColor = isDarkMode ? '#E7E4D8' : '#4B2C0B';
+
     if (label) {
       return (
         <View style={{ position: 'relative' }}>
@@ -162,8 +171,15 @@ const Select = React.forwardRef<
             ref={ref}
             {...props}
             className={selectStyle({ class: props?.className })}
+            context={{ isDarkMode }}
           />
-          <Text className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] dark:bg-[#3E1C00] text-[#4B2C0B] dark:text-[#E7E4D8] font-medium text-sm">
+          <Text
+            className="absolute -top-3 left-4 px-2 font-medium text-sm"
+            style={{
+              backgroundColor: labelBgColor,
+              color: labelTextColor,
+            }}
+          >
             {label}
           </Text>
         </View>
@@ -175,6 +191,7 @@ const Select = React.forwardRef<
         ref={ref}
         {...props}
         className={selectStyle({ class: props?.className })}
+        context={{ isDarkMode }}
       />
     );
   }
@@ -211,7 +228,9 @@ const SelectInput = React.forwardRef<
   React.ComponentRef<typeof UISelect.Input>,
   ISelectInputProps
 >(function SelectInput({ className, ...props }, ref) {
-  const { size: parentSize, variant: parentVariant } = useStyleContext();
+  const { size: parentSize, variant: parentVariant, isDarkMode } = useStyleContext();
+  const textColor = isDarkMode ? '#E7E4D8' : '#4B2C0B';
+
   return (
     <UISelect.Input
       className={selectInputStyle({
@@ -222,6 +241,7 @@ const SelectInput = React.forwardRef<
         },
       })}
       ref={ref}
+      style={{ color: textColor }}
       // placeholder="Selecione uma categoria"
       {...props}
     />
@@ -313,10 +333,14 @@ const SelectItemText = React.forwardRef<
   React.ComponentRef<typeof UISelect.ItemText>,
   ISelectItemTextProps
 >(function SelectItemText({ className, ...props }, ref) {
+  const { isDarkMode } = useStyleContext();
+  const textColor = isDarkMode ? '#E7E4D8' : '#4B2C0B';
+
   return (
     <UISelect.ItemText
       className={selectItemTextStyle({ class: className })}
       ref={ref}
+      style={{ color: textColor }}
       {...props}
     />
   );

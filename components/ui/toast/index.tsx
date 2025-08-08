@@ -14,6 +14,7 @@ import {
   useStyleContext,
 } from '@gluestack-ui/nativewind-utils/withStyleContext';
 import type { VariantProps } from '@gluestack-ui/nativewind-utils';
+import { useDictionary } from '@/stores/Dictionary';
 
 type IMotionViewProps = React.ComponentProps<typeof View> &
   MotionComponentProps<typeof View, ViewStyle, unknown, unknown, unknown>;
@@ -161,11 +162,37 @@ const Toast = React.forwardRef<React.ComponentRef<typeof Root>, IToastProps>(
     { className, variant = 'solid', action = 'muted', ...props },
     ref
   ) {
+    const { state } = useDictionary();
+    const { darkMode } = state.settings;
+    const isDarkMode = Boolean(darkMode);
+    
+    // Define background colors based on action and theme
+    const getBackgroundColor = () => {
+      if (variant === 'outline') {
+        return isDarkMode ? '#3E1C00' : '#FFFFFF';
+      }
+      
+      switch (action) {
+        case 'error':
+          return isDarkMode ? '#B91C1C' : '#DC2626';
+        case 'warning':
+          return isDarkMode ? '#B45309' : '#D97706';
+        case 'success':
+          return isDarkMode ? '#15803D' : '#16A34A';
+        case 'info':
+          return isDarkMode ? '#0369A1' : '#0EA5E9';
+        case 'muted':
+        default:
+          return isDarkMode ? '#3E1C00' : '#4B2C0B';
+      }
+    };
+    
     return (
       <Root
         ref={ref}
         className={toastStyle({ variant, action, class: className })}
         context={{ variant, action }}
+        style={{ backgroundColor: getBackgroundColor() }}
         {...props}
       />
     );
@@ -182,9 +209,33 @@ const ToastTitle = React.forwardRef<
 >(function ToastTitle({ className, size = 'md', children, ...props }, ref) {
   const { variant: parentVariant, action: parentAction } =
     useStyleContext(SCOPE);
+  const { state } = useDictionary();
+  const { darkMode } = state.settings;
+  const isDarkMode = Boolean(darkMode);
+  
+  // Define text color based on parent variant and theme
+  const getTextColor = () => {
+    if (parentVariant === 'solid') {
+      return '#FFFFFF'; // White text on solid backgrounds
+    } else {
+      // For outline variant
+      switch (parentAction) {
+        case 'error':
+          return isDarkMode ? '#FCA5A5' : '#DC2626';
+        case 'warning':
+          return isDarkMode ? '#FCD34D' : '#D97706';
+        case 'success':
+          return isDarkMode ? '#86EFAC' : '#16A34A';
+        case 'info':
+          return isDarkMode ? '#7DD3FC' : '#0EA5E9';
+        case 'muted':
+        default:
+          return isDarkMode ? '#E7E4D8' : '#4B2C0B';
+      }
+    }
+  };
+  
   React.useEffect(() => {
-    // Issue from react-native side
-    // Hack for now, will fix this later
     AccessibilityInfo.announceForAccessibility(children as string);
   }, [children]);
 
@@ -203,6 +254,7 @@ const ToastTitle = React.forwardRef<
           action: parentAction,
         },
       })}
+      style={{ color: getTextColor() }}
     >
       {children}
     </Text>
@@ -217,7 +269,33 @@ const ToastDescription = React.forwardRef<
   React.ComponentRef<typeof Text>,
   IToastDescriptionProps
 >(function ToastDescription({ className, size = 'md', ...props }, ref) {
-  const { variant: parentVariant } = useStyleContext(SCOPE);
+  const { variant: parentVariant, action: parentAction } = useStyleContext(SCOPE);
+  const { state } = useDictionary();
+  const { darkMode } = state.settings;
+  const isDarkMode = Boolean(darkMode);
+  
+  // Define text color based on parent variant and theme
+  const getTextColor = () => {
+    if (parentVariant === 'solid') {
+      return '#FFFFFF'; // White text on solid backgrounds
+    } else {
+      // For outline variant, slightly lighter than the title
+      switch (parentAction) {
+        case 'error':
+          return isDarkMode ? '#FCA5A5' : '#B91C1C';
+        case 'warning':
+          return isDarkMode ? '#FCD34D' : '#B45309';
+        case 'success':
+          return isDarkMode ? '#86EFAC' : '#15803D';
+        case 'info':
+          return isDarkMode ? '#7DD3FC' : '#0369A1';
+        case 'muted':
+        default:
+          return isDarkMode ? '#E7E4D8' : '#4B2C0B';
+      }
+    }
+  };
+  
   return (
     <Text
       ref={ref}
@@ -229,6 +307,7 @@ const ToastDescription = React.forwardRef<
           variant: parentVariant,
         },
       })}
+      style={{ color: getTextColor() }}
     />
   );
 });

@@ -72,7 +72,7 @@ const Textarea = React.forwardRef<
           ref={ref}
           {...props}
           className={textareaStyle({ variant, class: className })}
-          context={{ size }}
+          context={{ size, isDarkMode }}
         />
         <Text
           className="absolute -top-3 left-4 px-2 font-medium text-sm"
@@ -92,7 +92,7 @@ const Textarea = React.forwardRef<
       ref={ref}
       {...props}
       className={textareaStyle({ variant, class: className })}
-      context={{ size }}
+      context={{ size, isDarkMode }}
     />
   );
 });
@@ -104,7 +104,8 @@ const TextareaInput = React.forwardRef<
   React.ComponentRef<typeof UITextarea.Input>,
   ITextareaInputProps
 >(function TextareaInput({ className, ...props }, ref) {
-  const { size: parentSize } = useStyleContext(SCOPE);
+  const { size: parentSize, isDarkMode } = useStyleContext(SCOPE);
+  const textColor = isDarkMode ? '#E7E4D8' : '#4B2C0B';
 
   return (
     <UITextarea.Input
@@ -117,6 +118,7 @@ const TextareaInput = React.forwardRef<
         class: className,
       })}
       textAlignVertical="top"
+      style={{ color: textColor }}
     />
   );
 });

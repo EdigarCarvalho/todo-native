@@ -25,7 +25,7 @@ import { useDictionary } from "@/stores/Dictionary";
 
     // Theme colors
     const inputBgColor = isDarkMode ? "#7C4F2C" : "#E7E4D8";
-    const placeholderColor = isDarkMode ? "#E7E4D8" : "#474747";
+    const textColor = isDarkMode ? "#E7E4D8" : "#212121";
     const iconColor = isDarkMode ? "#E7E4D8" : "#110626";
 
     return (
@@ -35,18 +35,19 @@ import { useDictionary } from "@/stores/Dictionary";
         isDisabled={false}
         isInvalid={false}
         isReadOnly={false}
-        className="border-none sticky"
+        className="border-none sticky "
         style={{ backgroundColor: inputBgColor }}
+        
       >
         {!condition || !CustomInputContent ? (
           <>
             <InputField
               placeholder={placeholder}
-              className="text-sm font-normal"
-              style={{ 
-                color: isDarkMode ? "#E7E4D8" : "#212121"
+              className="text-sm font-normal "
+              style={{
+                color: textColor,
               }}
-              placeholderTextColor={placeholderColor}
+              placeholderTextColor={textColor}
               value={value}
               onChangeText={onChangeValue}
             />

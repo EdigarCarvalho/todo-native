@@ -135,7 +135,7 @@ const inputSlotStyle = tva({
 });
 
 const inputFieldStyle = tva({
-  base: "flex-1 text-typography-900 py-auto px-3 placeholder:text-typography-500 h-full ios:leading-[0px] web:cursor-text web:data-[disabled=true]:cursor-not-allowed",
+  base: "flex-1 text-typography-900 py-auto px-3  h-full ios:leading-[0px] web:cursor-text web:data-[disabled=true]:cursor-not-allowed",
 
   parentVariants: {
     variant: {
@@ -202,7 +202,7 @@ const Input = React.forwardRef<React.ElementRef<typeof UIInput>, IInputProps>(
             ref={ref}
             {...props}
             className={inputStyle({ variant, size, class: className })}
-            context={{ variant, size }}
+            context={{ variant, size, isDarkMode }}
           />
           <Text 
             className="absolute -top-3 left-4 px-2 font-medium text-sm"
@@ -222,7 +222,7 @@ const Input = React.forwardRef<React.ElementRef<typeof UIInput>, IInputProps>(
         ref={ref}
         {...props}
         className={inputStyle({ variant, size, class: className })}
-        context={{ variant, size }}
+        context={{ variant, size, isDarkMode }}
       />
     );
   }
@@ -299,7 +299,8 @@ const InputField = React.forwardRef<
   React.ElementRef<typeof UIInput.Input>,
   IInputFieldProps
 >(({ className, ...props }, ref) => {
-  const { variant: parentVariant, size: parentSize } = useStyleContext(SCOPE);
+  const { variant: parentVariant, size: parentSize, isDarkMode } = useStyleContext(SCOPE);
+  const textColor = isDarkMode ? "#E7E4D8" : "#4B2C0B";
 
   return (
     <UIInput.Input
@@ -312,6 +313,7 @@ const InputField = React.forwardRef<
         },
         class: className,
       })}
+      style={{ color: textColor }}
     />
   );
 });
