@@ -157,11 +157,11 @@ export default function SignUp() {
         </Input>
 
         <Button
-          className="bg-[#B34700] mt-4 rounded-md"
+          className="bg-[#B34700] text-white mt-4 rounded-md"
           onPress={handleSignUp}
           disabled={authContext.state.isLoading}
         >
-          <ButtonText className="font-bold">
+          <ButtonText className="font-bold text-white ">
             {authContext.state.isLoading ? "CADASTRANDO..." : "CADASTRAR"}
           </ButtonText>
         </Button>
@@ -175,9 +175,9 @@ export default function SignUp() {
           </Pressable>
         </Link>
 
-        <Pressable style={styles.userModeLink} onPress={switchToUserMode}>
+        {/* <Pressable style={styles.userModeLink} onPress={switchToUserMode}>
           <Text style={styles.userModeText}>Entrar como usuário comum</Text>
-        </Pressable>
+        </Pressable> */}
       </View>
 
       <View style={styles.footer}>

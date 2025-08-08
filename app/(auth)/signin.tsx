@@ -135,16 +135,16 @@ export default function SignIn() {
           </InputSlot>
         </Input>
 
-        <Pressable style={styles.forgotPassword}>
+        {/* <Pressable style={styles.forgotPassword}>
           <Text style={styles.forgotPasswordText}>Recuperar senha</Text>
-        </Pressable>
+        </Pressable> */}
 
         <Button 
           className="bg-[#B34700] rounded-md" 
           onPress={handleLogin}
           disabled={authContext.state.isLoading}
         >
-          <ButtonText className="font-bold">
+          <ButtonText className="font-bold text-white">
             {authContext.state.isLoading ? "ENTRANDO..." : "ENTRAR"}
           </ButtonText>
         </Button>
@@ -158,9 +158,9 @@ export default function SignIn() {
           </Pressable>
         </Link>
 
-        <Pressable style={styles.userModeLink} onPress={switchToUserMode}>
+        {/* <Pressable style={styles.userModeLink} onPress={switchToUserMode}>
           <Text style={styles.userModeText}>Entrar como usuário comum</Text>
-        </Pressable>
+        </Pressable> */}
       </View>
 
       <View style={styles.footer}>
