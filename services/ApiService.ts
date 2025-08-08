@@ -1,4 +1,4 @@
-import { BASE_URL } from '../stores/Dictionary';
+import { BASE_URL } from '../constants/Config';
 import { Platform } from 'react-native';
 
 // Types

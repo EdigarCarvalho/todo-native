@@ -3,9 +3,8 @@ import wordsData from "../constants/Words.json";
 import categoriesData from "../constants/Categories.json"; 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAppConfig } from "./AppConfigStore";
-import apiService from "@/services/ApiService";
-
-export const BASE_URL = "http://localhost:3000"; // Replace with your actual API base URL  
+import apiService from "../services/ApiService";
+import { BASE_URL } from "../constants/Config";
 
 // Define types based on your JSON structure
 type Attachment = {
