@@ -8,6 +8,7 @@ import {
   useStyleContext,
 } from '@gluestack-ui/nativewind-utils/withStyleContext';
 import type { VariantProps } from '@gluestack-ui/nativewind-utils';
+import { useDictionary } from '@/stores/Dictionary';
 
 const SCOPE = 'TEXTAREA';
 const UITextarea = createTextarea({
@@ -56,6 +57,14 @@ const Textarea = React.forwardRef<
   { className, variant = 'default', size = 'md', label, ...props },
   ref
 ) {
+  const { state } = useDictionary();
+  const { darkMode } = state.settings;
+  const isDarkMode = Boolean(darkMode);
+
+  // Theme colors
+  const labelBgColor = isDarkMode ? '#3E1C00' : '#f9f9f9';
+  const labelTextColor = isDarkMode ? '#E7E4D8' : '#4B2C0B';
+
   if (label) {
     return (
       <View style={{ position: 'relative' }}>
@@ -65,7 +74,13 @@ const Textarea = React.forwardRef<
           className={textareaStyle({ variant, class: className })}
           context={{ size }}
         />
-        <Text className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] dark:bg-[#3E1C00] text-[#4B2C0B] dark:text-[#E7E4D8] font-medium text-sm">
+        <Text
+          className="absolute -top-3 left-4 px-2 font-medium text-sm"
+          style={{
+            backgroundColor: labelBgColor,
+            color: labelTextColor,
+          }}
+        >
           {label}
         </Text>
       </View>

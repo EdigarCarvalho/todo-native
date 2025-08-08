@@ -54,6 +54,12 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
   const toast = useToast();
   const { createText, updateText, deleteText } = useTexts();
   const theme = useColorScheme();
+  const isDarkMode = theme === "dark";
+  
+  // Theme colors
+  const uploadTextColor = isDarkMode ? "#eb5a12" : "#C74B0B";
+  const labelBgColor = isDarkMode ? "#3E1C00" : "#f9f9f9";
+  const labelTextColor = isDarkMode ? "#E7E4D8" : "#4B2C0B";
   
   useEffect(() => {
     if (editingText) {
@@ -280,7 +286,7 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
             </ThemedText>
           </View>
 
-          <View className="space-y-4 flex flex-col gap-2">
+          <View className="space-y-4 flex flex-col gap-4">
             <Input
               className="border-[#C74B0B] border-2"
               label="Título"
@@ -312,7 +318,7 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
 
             {/* Cover Image with styled floating label */}
             <View className="relative">
-              <View className="border-[#C74B0B] border-dashed  border-2 rounded p-2 min-h-[80px]">
+              <View className="border-[#C74B0B] border-dashed border-2 rounded p-2 min-h-[80px]">
                 {coverPreview ? (
                   <View className="relative">
                     <Image
@@ -332,15 +338,26 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
                   </View>
                 ) : (
                   <TouchableOpacity 
-                    className=" rounded p-4 flex flex-row items-center justify-center h-[60px]"
+                    className="rounded p-4 flex flex-row items-center justify-center h-[60px]"
                     onPress={pickImage}
                   >
-                    <Upload size={20} color={theme === "dark" ? "#eb5a12" : "#C74B0B"} />
-                    <ReactText className="ml-2 text-[#C74B0B] dark:text-[#eb5a12]">Escolher imagem</ReactText>
+                    <Upload size={20} color={isDarkMode ? "#eb5a12" : "#C74B0B"} />
+                    <ReactText 
+                      className="ml-2"
+                      style={{ color: uploadTextColor }}
+                    >
+                      Escolher imagem
+                    </ReactText>
                   </TouchableOpacity>
                 )}
               </View>
-              <ReactText className="absolute -top-3 left-4 px-2 bg-[#f9f9f9] dark:bg-[#3E1C00] text-[#4B2C0B] dark:text-[#E7E4D8] font-semibold text-sm">
+              <ReactText 
+                className="absolute -top-3 left-4 px-2 font-semibold text-sm"
+                style={{ 
+                  backgroundColor: labelBgColor, 
+                  color: labelTextColor 
+                }}
+              >
                 Imagem de capa
               </ReactText>
             </View>
