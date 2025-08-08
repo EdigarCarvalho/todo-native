@@ -111,7 +111,7 @@ export default function SignIn() {
       <View style={styles.formContainer}>
         {/* <Text style={styles.subtitle}>Login Administrativo</Text> */}
 
-        <Input className="mb-6 border-[#4B2C0B] border-2" label="E-mail">
+        <Input className="mb-6 border-[#4B2C0B] border-2" label="E-mail" forceWhiteTheme>
           <InputField
             value={email}
             onChangeText={setEmail}
@@ -120,7 +120,7 @@ export default function SignIn() {
           />
         </Input>
 
-        <Input className="mb-2 border-[#4B2C0B] border-2" label="Senha">
+        <Input className="mb-2 border-[#4B2C0B] border-2" label="Senha" forceWhiteTheme>
           <InputField
             value={password}
             onChangeText={setPassword}

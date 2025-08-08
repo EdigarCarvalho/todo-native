@@ -128,14 +128,14 @@ export default function SignUp() {
       <View style={styles.formContainer}>
         {/* <Text style={styles.subtitle}>Cadastro Administrativo</Text> */}
         
-        <Input className="mb-4 border-[#4B2C0B] border-2" label="Nome">
+        <Input className="mb-4 border-[#4B2C0B] border-2" label="Nome" forceWhiteTheme>
           <InputField
             value={name}
             onChangeText={setName}
           />
         </Input>
 
-        <Input className="mb-4   border-[#4B2C0B] border-2" label="E-mail">
+        <Input className="mb-4   border-[#4B2C0B] border-2" label="E-mail" forceWhiteTheme>
           <InputField
             value={email}
             onChangeText={setEmail}
@@ -144,7 +144,7 @@ export default function SignUp() {
           />
         </Input>
 
-        <Input className="mb-4  border-[#4B2C0B] border-2" label="Senha">
+        <Input className="mb-4  border-[#4B2C0B] border-2" label="Senha" forceWhiteTheme>
           <InputField
             value={password}
             onChangeText={setPassword}

@@ -183,17 +183,18 @@ type IInputProps = React.ComponentProps<typeof UIInput> &
   VariantProps<typeof inputStyle> & { 
     className?: string;
     label?: string;
+    forceWhiteTheme?: boolean;
   };
 
 const Input = React.forwardRef<React.ElementRef<typeof UIInput>, IInputProps>(
-  ({ className, variant = "outline", size = "lg", label, ...props }, ref) => {
+  ({ className, variant = "outline", size = "lg", label, forceWhiteTheme = false, ...props }, ref) => {
     const { state } = useDictionary();
     const { darkMode } = state.settings;
     const isDarkMode = Boolean(darkMode);
     
     // Theme colors
-    const labelBgColor = isDarkMode ? "#3E1C00" : "#f9f9f9";
-    const labelTextColor = isDarkMode ? "#E7E4D8" : "#4B2C0B";
+    const labelBgColor =  isDarkMode && !forceWhiteTheme ? "#3E1C00" : "#f9f9f9";
+    const labelTextColor = isDarkMode && !forceWhiteTheme ? "#E7E4D8" : "#4B2C0B";
     
     if (label) {
       return (
@@ -202,7 +203,7 @@ const Input = React.forwardRef<React.ElementRef<typeof UIInput>, IInputProps>(
             ref={ref}
             {...props}
             className={inputStyle({ variant, size, class: className })}
-            context={{ variant, size, isDarkMode }}
+            context={{ variant, size, isDarkMode: isDarkMode && !forceWhiteTheme  }}
           />
           <Text 
             className="absolute -top-3 left-4 px-2 font-medium text-sm !z-50 "
@@ -223,7 +224,7 @@ const Input = React.forwardRef<React.ElementRef<typeof UIInput>, IInputProps>(
         ref={ref}
         {...props}
         className={inputStyle({ variant, size, class: className })}
-        context={{ variant, size, isDarkMode }}
+        context={{ variant, size, isDarkMode: isDarkMode && !forceWhiteTheme }}
       />
     );
   }
