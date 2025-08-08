@@ -1,8 +1,24 @@
 import React from "react";
 import { Text, View, Image } from "react-native";
 
+interface Attachment {
+  id: number;
+  source: string;
+  url: string;
+}
+
+interface Word {
+  id: number;
+  word: string;
+  meaning: string;
+  translation?: string;
+  attachments: Attachment[];
+}
+
 interface SelectedWordProps {
-  state: any;
+  state: {
+    wordInFocus: Word | null;
+  };
   isDarkMode?: boolean;
 }
 
@@ -12,6 +28,9 @@ export function SelectedWord({ state, isDarkMode = false }: SelectedWordProps) {
   const subtitleColor = isDarkMode ? "#e7e4d8d5" : "#474747";
   const bgColor = isDarkMode ? "#3E1C00" : "#FBF0E8";
   const borderColor = isDarkMode ? "#eb5a12" : "#A30122";
+  
+  // Get attachments only for the current word in focus
+  const currentWordAttachments = state?.wordInFocus?.attachments || [];
   
   return (
     <View className="py-1 px-2">
@@ -36,14 +55,14 @@ export function SelectedWord({ state, isDarkMode = false }: SelectedWordProps) {
         </View>
       )}
 
-      {state?.wordInFocus?.attachments &&
-        state?.wordInFocus?.attachments.length > 0 && (
+      {/* Only show attachments section if the current word has attachments */}
+      {currentWordAttachments.length > 0 && (
           <View 
             className="mt-4 py-4 px-3 border-[1px] rounded-xl"
             style={{ backgroundColor: bgColor, borderColor }}
           >
             <Text style={{ fontWeight: 'bold', color: textColor, marginBottom: 8 }}>Anexos:</Text>
-            {state?.wordInFocus?.attachments?.map((attachment: any) => (
+            {currentWordAttachments.map((attachment: Attachment) => (
               <View
                 key={attachment.id}
                 className="mb-2 p-2 flex flex-col items-center rounded text-center"
@@ -53,10 +72,10 @@ export function SelectedWord({ state, isDarkMode = false }: SelectedWordProps) {
                   className="mb-2 font-medium"
                   style={{ color: textColor }}
                 >
-                  {attachment?.source}
+                  {attachment.source}
                 </Text>
                 <Image
-                  source={{ uri: attachment?.url }}
+                  source={{ uri: attachment.url }}
                   style={{
                     width: "100%",
                     maxWidth: 300,
@@ -64,13 +83,13 @@ export function SelectedWord({ state, isDarkMode = false }: SelectedWordProps) {
                     borderRadius: 8,
                   }}
                   resizeMode="contain"
-                  alt={`Attachment ${attachment?.id}`}
+                  alt={`Attachment ${attachment.id}`}
                 />
                 <Text 
                   className="text-[8px] max-w-full text-center mt-2 px-1"
                   style={{ color: isDarkMode ? '#c4c4c4' : '#666666' }}
                 >
-                  Fonte: {attachment?.url}
+                  Fonte: {attachment.url}
                 </Text>
               </View>
             ))}
