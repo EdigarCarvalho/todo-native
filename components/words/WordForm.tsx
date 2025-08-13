@@ -281,8 +281,8 @@ export function WordForm({
         // Then handle attachments if there are any new ones
         if (attachments.length > 0) {
           // console.log(
-            `Adding ${attachments.length} attachments to word ${editingWord.id}`
-          );
+            // `Adding ${attachments.length} attachments to word ${editingWord.id}`
+          // );
           const attachmentResult = await apiService.addWordAttachment(
             editingWord.id,
             attachments
