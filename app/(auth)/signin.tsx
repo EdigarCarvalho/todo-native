@@ -16,17 +16,17 @@ export default function SignIn() {
   const authContext = useAuth();
   const toast = useToast();
   
-  console.log("=== SIGNIN COMPONENT ===");
-  console.log("Auth context:", authContext);
-  console.log("Auth state:", authContext.state);
+  // console.log("=== SIGNIN COMPONENT ===");
+  // console.log("Auth context:", authContext);
+  // console.log("Auth state:", authContext.state);
 
   const handleLogin = async () => {
-    console.log("=== HANDLE LOGIN CALLED ===");
-    console.log("Email:", email);
-    console.log("Password:", password);
+    // console.log("=== HANDLE LOGIN CALLED ===");
+    // console.log("Email:", email);
+    // console.log("Password:", password);
     
     if (!email.trim() || !password.trim()) {
-      console.log("Validation failed: empty fields");
+      // console.log("Validation failed: empty fields");
       toast.show({
         placement: "top",
         render: ({ id }) => {
@@ -42,13 +42,13 @@ export default function SignIn() {
     }
 
     try {
-      console.log("Calling login function...");
+      // console.log("Calling login function...");
       const success = await authContext.login(email.trim(), password);
       
-      console.log("Login result:", success);
+      // console.log("Login result:", success);
       
       if (success) {
-        console.log("Login successful, navigating to tabs...");
+        // console.log("Login successful, navigating to tabs...");
         toast.show({
           placement: "top",
           render: ({ id }) => {
@@ -63,7 +63,7 @@ export default function SignIn() {
         // Don't set app type here - let the existing app type persist
         // The AppRouteGuard will handle the navigation
       } else {
-        console.log("Login failed, showing toast");
+        // console.log("Login failed, showing toast");
         toast.show({
           placement: "top",
           render: ({ id }) => {

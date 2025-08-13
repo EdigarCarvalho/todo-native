@@ -17,17 +17,17 @@ export default function SignUp() {
   const authContext = useAuth();
   const toast = useToast();
   
-  console.log("=== SIGNUP COMPONENT ===");
-  console.log("Auth context:", authContext);
+  // console.log("=== SIGNUP COMPONENT ===");
+  // console.log("Auth context:", authContext);
 
   const handleSignUp = async () => {
-    console.log("=== HANDLE SIGNUP CALLED ===");
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Password:", password);
+    // console.log("=== HANDLE SIGNUP CALLED ===");
+    // console.log("Name:", name);
+    // console.log("Email:", email);
+    // console.log("Password:", password);
     
     if (!name.trim() || !email.trim() || !password.trim()) {
-      console.log("Validation failed: empty fields");
+      // console.log("Validation failed: empty fields");
       toast.show({
         placement: "top",
         render: ({ id }) => {
@@ -43,7 +43,7 @@ export default function SignUp() {
     }
 
     if (password.length < 6) {
-      console.log("Validation failed: password too short");
+      // console.log("Validation failed: password too short");
       toast.show({
         placement: "top",
         render: ({ id }) => {
@@ -59,13 +59,13 @@ export default function SignUp() {
     }
 
     try {
-      console.log("Calling register function...");
+      // console.log("Calling register function...");
       const success = await authContext.register(name.trim(), email.trim(), password);
       
-      console.log("Register result:", success);
+      // console.log("Register result:", success);
       
       if (success) {
-        console.log("Registration successful");
+        // console.log("Registration successful");
         toast.show({
           placement: "top",
           render: ({ id }) => {
@@ -80,7 +80,7 @@ export default function SignUp() {
         // Don't set app type here - let the existing app type persist
         // The AppRouteGuard will handle the navigation
       } else {
-        console.log("Registration failed, showing toast");
+        // console.log("Registration failed, showing toast");
         toast.show({
           placement: "top",
           render: ({ id }) => {

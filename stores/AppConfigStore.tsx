@@ -91,7 +91,7 @@ export const AppConfigProvider = ({
         // Set the app type
         dispatch({ type: SET_APP_TYPE, payload: appType });
         
-        console.log("App initialized with type:", appType);
+        // console.log("App initialized with type:", appType);
       } catch (error) {
         console.error("Error initializing app configuration:", error);
       } finally {

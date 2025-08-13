@@ -285,19 +285,19 @@ export const DictionaryProvider = ({
       
       // Step 1: Try API if we should fetch today
       if (shouldFetchFromApi()) {
-        console.log("Attempting to fetch from API...");
+        // console.log("Attempting to fetch from API...");
         data = await fetchFromApi();
       }
       
       // Step 2: If API failed or we shouldn't fetch today, try local storage
       if (!data) {
-        console.log("Falling back to stored data...");
+        // console.log("Falling back to stored data...");
         data = await loadDataFromStorage();
       }
       
       // Step 3: If local storage has no data, use bundled JSON
       if (!data) {
-        console.log("Using bundled JSON data...");
+        // console.log("Using bundled JSON data...");
         data = {
           categories: categoriesData as Category[],
           wordsByCategory: wordsData as Record<string, Word[]>

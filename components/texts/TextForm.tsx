@@ -122,14 +122,14 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
         name,
       };
 
-      console.log(
-        "Selected image file:",
-        JSON.stringify({
-          uri: uri.substring(0, 100) + "...", // Trim the URI for logging
-          type,
-          name,
-        })
-      );
+      // console.log(
+      //   "Selected image file:",
+      //   JSON.stringify({
+      //     uri: uri.substring(0, 100) + "...", // Trim the URI for logging
+      //     type,
+      //     name,
+      //   })
+      // );
 
       setCover(file);
       setCoverPreview(uri);

@@ -183,7 +183,7 @@ class ApiService {
 
   async createCategory(name: string): Promise<ApiResponse<{ message: string }>> {
     try {
-      console.log("Creating category:", name);
+      // console.log("Creating category:", name);
       const response = await fetch(`${this.baseUrl}/category/new`, {
         method: 'POST',
         headers: this.getHeaders(true),
@@ -191,7 +191,7 @@ class ApiService {
       });
 
       const result = await this.handleResponse<{ message: string }>(response);
-      console.log("Create category result:", result);
+      // console.log("Create category result:", result);
       return result;
     } catch (error) {
       console.error("Create category error:", error);
@@ -204,7 +204,7 @@ class ApiService {
 
   async updateCategory(id: number, name: string): Promise<ApiResponse<{ message: string }>> {
     try {
-      console.log("Updating category:", id, name);
+      // console.log("Updating category:", id, name);
       const response = await fetch(`${this.baseUrl}/category/${id}`, {
         method: 'PUT',
         headers: this.getHeaders(true),
@@ -212,7 +212,7 @@ class ApiService {
       });
 
       const result = await this.handleResponse<{ message: string }>(response);
-      console.log("Update category result:", result);
+      // console.log("Update category result:", result);
       return result;
     } catch (error) {
       console.error("Update category error:", error);
@@ -308,7 +308,7 @@ class ApiService {
         });
       }
 
-      console.log("Creating word with formData keys:", Object.keys(formData));
+      // console.log("Creating word with formData keys:", Object.keys(formData));
 
       const response = await fetch(`${this.baseUrl}/word/new`, {
         method: 'POST',
@@ -333,7 +333,7 @@ class ApiService {
     category_id?: number;
   }): Promise<ApiResponse<Word>> {
     try {
-      console.log("Updating word with payload:", updates);
+      // console.log("Updating word with payload:", updates);
       const response = await fetch(`${this.baseUrl}/word/details/${id}`, {
         method: 'PUT',
         headers: this.getHeaders(true),
@@ -341,7 +341,7 @@ class ApiService {
       });
 
       const result = await this.handleResponse<Word>(response);
-      console.log("Update word response:", result);
+      // console.log("Update word response:", result);
       return result;
     } catch (error) {
       return {
@@ -353,14 +353,14 @@ class ApiService {
 
   async deleteWord(id: number): Promise<ApiResponse<any>> {
     try {
-      console.log("Deleting word with ID:", id);
+      // console.log("Deleting word with ID:", id);
       const response = await fetch(`${this.baseUrl}/word/${id}`, {
         method: 'DELETE',
         headers: this.getHeaders(true),
       });
 
       const result = await this.handleResponse(response);
-      console.log("Delete word response:", result);
+      // console.log("Delete word response:", result);
       return result;
     } catch (error) {
       return {
@@ -418,7 +418,7 @@ class ApiService {
         }
       });
 
-      console.log(`Adding attachments to word ${wordId}, formData keys:`, Object.keys(formData));
+      // console.log(`Adding attachments to word ${wordId}, formData keys:`, Object.keys(formData));
 
       const response = await fetch(`${this.baseUrl}/word/attachment/${wordId}`, {
         method: 'POST',
@@ -501,7 +501,7 @@ class ApiService {
       if (textData.cover) {
         // Handle data URI images (base64)
         if (textData.cover.uri.startsWith('data:')) {
-          console.log("Processing data URI image...");
+          // console.log("Processing data URI image...");
           
           // Extract file type and create appropriate filename
           const mimeMatch = textData.cover.uri.match(/^data:([^;]+);base64,/);
@@ -530,7 +530,7 @@ class ApiService {
               
               const blob = new Blob(byteArrays, { type: mime });
               formData.append('cover', blob, `cover.${ext}`);
-              console.log("Added blob to form data from data URI");
+              // console.log("Added blob to form data from data URI");
             } catch (error) {
               console.error("Error converting data URI to blob:", error);
             }
@@ -541,7 +541,7 @@ class ApiService {
               type: mime,
               name: `cover.${ext}`,
             } as any);
-            console.log("Added data URI to form data for native platform");
+            // console.log("Added data URI to form data for native platform");
           }
         } else {
           // Regular file URI
@@ -550,11 +550,11 @@ class ApiService {
             type: textData.cover.type || 'image/jpeg',
             name: textData.cover.name || 'cover.jpg',
           } as any);
-          console.log("Added regular file to form data");
+          // console.log("Added regular file to form data");
         }
       }
 
-      console.log("Creating text with formData keys:", Object.keys(formData));
+      // console.log("Creating text with formData keys:", Object.keys(formData));
 
       const response = await fetch(`${this.baseUrl}/text/new`, {
         method: 'POST',
@@ -597,7 +597,7 @@ class ApiService {
       if (textData.cover) {
         // Handle data URI images (base64)
         if (textData.cover.uri.startsWith('data:')) {
-          console.log("Processing data URI image for update...");
+          // console.log("Processing data URI image for update...");
           
           // Extract file type and create appropriate filename
           const mimeMatch = textData.cover.uri.match(/^data:([^;]+);base64,/);
@@ -626,7 +626,7 @@ class ApiService {
               
               const blob = new Blob(byteArrays, { type: mime });
               formData.append('cover', blob, `cover.${ext}`);
-              console.log("Added blob to form data from data URI for update");
+              // console.log("Added blob to form data from data URI for update");
             } catch (error) {
               console.error("Error converting data URI to blob:", error);
             }
@@ -637,7 +637,7 @@ class ApiService {
               type: mime,
               name: `cover.${ext}`,
             } as any);
-            console.log("Added data URI to form data for native platform");
+            // console.log("Added data URI to form data for native platform");
           }
         } else {
           // Regular file URI
@@ -646,11 +646,11 @@ class ApiService {
             type: textData.cover.type || 'image/jpeg',
             name: textData.cover.name || 'cover.jpg',
           } as any);
-          console.log("Added regular file to form data");
+          // console.log("Added regular file to form data");
         }
       }
 
-      console.log("Updating text with formData keys:", Object.keys(formData));
+      // console.log("Updating text with formData keys:", Object.keys(formData));
 
       const response = await fetch(`${this.baseUrl}/text/${id}`, {
         method: 'PUT',
@@ -680,14 +680,14 @@ class ApiService {
 
   async deleteText(id: number): Promise<ApiResponse<any>> {
     try {
-      console.log("Deleting text with ID:", id);
+      // console.log("Deleting text with ID:", id);
       const response = await fetch(`${this.baseUrl}/text/${id}`, {
         method: 'DELETE',
         headers: this.getHeaders(true),
       });
 
       const result = await this.handleResponse(response);
-      console.log("Delete text response:", result);
+      // console.log("Delete text response:", result);
       return result;
     } catch (error) {
       console.error("Delete text error:", error);

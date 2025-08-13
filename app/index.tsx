@@ -33,23 +33,23 @@ export default function Index() {
   }
   
   // Check app type for navigation decision
-  console.log("App type:", appConfigState.appType);
-  console.log("Is admin:", isAdmin());
-  console.log("Is authenticated:", authState?.isAuthenticated);
+  // console.log("App type:", appConfigState.appType);
+  // console.log("Is admin:", isAdmin());
+  // console.log("Is authenticated:", authState?.isAuthenticated);
   
   // If user mode, always go to tabs
   if (appConfigState.appType === "user") {
-    console.log("Redirecting to tabs (user mode)");
+    // console.log("Redirecting to tabs (user mode)");
     return <Redirect href="/(tabs)" />;
   }
   
   // If admin mode but not authenticated, go to sign in
   if (appConfigState.appType === "admin" && !authState?.isAuthenticated) {
-    console.log("Redirecting to signin (admin mode, not authenticated)");
+    // console.log("Redirecting to signin (admin mode, not authenticated)");
     return <Redirect href="/(auth)/signin" />;
   }
   
   // Otherwise (admin mode and authenticated) go to main app
-  console.log("Redirecting to tabs (admin mode, authenticated)");
+  // console.log("Redirecting to tabs (admin mode, authenticated)");
   return <Redirect href="/(tabs)" />;
 }

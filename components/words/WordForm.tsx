@@ -92,11 +92,11 @@ export function WordForm({
       setWordMeaning(editingWord.meaning || "");
       setWordTranslation(editingWord.translation || ""); // Correctly initialize translation
 
-      console.log("Editing word with category info:", editingWord);
+      // console.log("Editing word with category info:", editingWord);
 
       // Set the category based on categoryId or category object
       const categoryId = editingWord.categoryId || editingWord.category?.id;
-      console.log("Category ID found:", categoryId);
+      // console.log("Category ID found:", categoryId);
 
       setSelectedCategory(categoryId ? categoryId.toString() : "");
 
@@ -280,7 +280,7 @@ export function WordForm({
 
         // Then handle attachments if there are any new ones
         if (attachments.length > 0) {
-          console.log(
+          // console.log(
             `Adding ${attachments.length} attachments to word ${editingWord.id}`
           );
           const attachmentResult = await apiService.addWordAttachment(
@@ -310,7 +310,7 @@ export function WordForm({
         }
       } else {
         // For new words, create with all data including attachments in one request
-        console.log("Creating new word with attachments:", attachments.length);
+        // console.log("Creating new word with attachments:", attachments.length);
         result = await apiService.createWord({
           name: wordName.trim(),
           meaning: wordMeaning.trim(),

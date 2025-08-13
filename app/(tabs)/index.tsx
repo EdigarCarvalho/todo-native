@@ -82,7 +82,7 @@ export default function HomeScreen() {
       }
     });
 
-    console.log("Editing word with complete info:", wordWithCategory);
+    // console.log("Editing word with complete info:", wordWithCategory);
     setEditingWord(wordWithCategory);
     setWordInFocus(null);
     setViewMode("form");

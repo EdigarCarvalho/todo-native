@@ -118,7 +118,7 @@ export const AuthProvider = ({
 
     try {
       
-        console.log("Attempting to login with email:", email);
+        // console.log("Attempting to login with email:", email);
         
         const result = await apiService.login({ email, password });
 

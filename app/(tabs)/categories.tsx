@@ -155,7 +155,7 @@ export default function CategoriesScreen() {
         // Then refresh data - try refreshCategories first, fallback to full fetchData
         const refreshSuccess = await refreshCategories();
         if (!refreshSuccess) {
-          console.log("Refresh categories failed, falling back to full fetch");
+          // console.log("Refresh categories failed, falling back to full fetch");
           await fetchData();
         }
       } else {

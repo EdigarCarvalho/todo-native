@@ -128,7 +128,7 @@ function AppContent() {
         document.documentElement.style.colorScheme = 'light';
       }
     }
-    console.log(`App theme changed to: ${colorScheme}`);
+    // console.log(`App theme changed to: ${colorScheme}`);
   }, [colorScheme]);
 
   const [loaded] = useFonts({
