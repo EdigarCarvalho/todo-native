@@ -160,11 +160,11 @@ export function WordForm({
         name,
       };
 
-      console.log("Selected image file:", {
-        uri: uri.substring(0, 30) + "...", // Trim URI for logging
-        type,
-        name,
-      });
+      // console.log("Selected image file:", {
+      //   uri: uri.substring(0, 30) + "...", // Trim URI for logging
+      //   type,
+      //   name,
+      // });
 
       // Add to attachments and previews
       setAttachments([...attachments, file]);
@@ -172,7 +172,78 @@ export function WordForm({
     }
   };
 
-  const removeAttachment = (index: number) => {
+  const removeAttachment = async (index: number) => {
+    // Check if this is an existing attachment with an ID (from the backend)
+    if (editingWord && editingWord.attachments && editingWord.attachments.length > index) {
+      const attachmentToDelete = editingWord.attachments[index];
+      
+      if (attachmentToDelete && attachmentToDelete.id) {
+        // Show loading state
+        toast.show({
+          placement: "top",
+          render: ({ id }) => (
+            <Toast nativeID={`toast-${id}`} action="loading" variant="solid">
+              <ToastTitle>Aguarde</ToastTitle>
+              <ToastDescription>
+                Removendo imagem...
+              </ToastDescription>
+            </Toast>
+          ),
+        });
+
+        try {
+          // Call the API to delete the attachment
+          const result = await apiService.deleteWordAttachment(attachmentToDelete.id);
+          
+          if (result.success) {
+            toast.show({
+              placement: "top",
+              render: ({ id }) => (
+                <Toast nativeID={`toast-${id}`} action="success" variant="solid">
+                  <ToastTitle>Sucesso</ToastTitle>
+                  <ToastDescription>
+                    Imagem removida com sucesso!
+                  </ToastDescription>
+                </Toast>
+              ),
+            });
+            
+            // Update the editingWord to reflect the removal
+            if (editingWord.attachments) {
+              editingWord.attachments = editingWord.attachments.filter((_, i) => i !== index);
+            }
+          } else {
+            toast.show({
+              placement: "top",
+              render: ({ id }) => (
+                <Toast nativeID={`toast-${id}`} action="error" variant="solid">
+                  <ToastTitle>Erro</ToastTitle>
+                  <ToastDescription>
+                    Não foi possível remover a imagem: {result.error}
+                  </ToastDescription>
+                </Toast>
+              ),
+            });
+            // Even if there's an error, we'll still remove it from local state
+          }
+        } catch (error) {
+          console.error("Error deleting attachment:", error);
+          toast.show({
+            placement: "top",
+            render: ({ id }) => (
+              <Toast nativeID={`toast-${id}`} action="error" variant="solid">
+                <ToastTitle>Erro</ToastTitle>
+                <ToastDescription>
+                  Erro ao remover imagem. Tente novamente.
+                </ToastDescription>
+              </Toast>
+            ),
+          });
+        }
+      }
+    }
+    
+    // Always update local state
     setAttachments(attachments.filter((_, i) => i !== index));
     setAttachmentPreviews(attachmentPreviews.filter((_, i) => i !== index));
   };
