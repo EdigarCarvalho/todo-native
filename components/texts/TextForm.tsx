@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Text as ReactText, TouchableOpacity, View, Image, Platform } from "react-native";
+import {
+  Text as ReactText,
+  TouchableOpacity,
+  View,
+  Image,
+  Platform,
+} from "react-native";
 import { Upload, X } from "lucide-react-native";
 import { Input, InputField } from "@/components/ui/input";
 // Fix the import to use the correct case or path
@@ -22,10 +28,7 @@ import apiService, { RNFile } from "@/services/ApiService";
 import { ThemedText } from "../ThemedText";
 import { useTexts } from "@/stores/TextsStore";
 import * as ImagePicker from "expo-image-picker";
-import {
-  Textarea,
-  TextareaInput,
-} from "../ui/textarea";
+import { Textarea, TextareaInput } from "../ui/textarea";
 import { useColorScheme } from "@/hooks/useThemeColor";
 
 interface Text {
@@ -55,12 +58,13 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
   const { createText, updateText, deleteText } = useTexts();
   const theme = useColorScheme();
   const isDarkMode = theme === "dark";
-  
+
   // Theme colors
   const uploadTextColor = isDarkMode ? "#eb5a12" : "#C74B0B";
   const labelBgColor = isDarkMode ? "#3E1C00" : "#f9f9f9";
   const labelTextColor = isDarkMode ? "#E7E4D8" : "#4B2C0B";
-  
+  const subTitleColor = isDarkMode ? "#8c9199" : "#374151";
+  const textColor = isDarkMode ? "#E7E4D8" : "#212121";
   useEffect(() => {
     if (editingText) {
       setTitle(editingText?.title || "");
@@ -87,43 +91,46 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
 
     if (!result.canceled) {
       const selectedAsset = result.assets[0];
-      
+
       // Determine if we have a data URI or a file URI
       let uri = selectedAsset.uri;
-      let type = selectedAsset.mimeType || 'image/jpeg';
-      let name = 'cover.jpg';
-      
+      let type = selectedAsset.mimeType || "image/jpeg";
+      let name = "cover.jpg";
+
       // If we have base64 data but not a data URI, create one
-      if (selectedAsset.base64 && !uri.startsWith('data:')) {
+      if (selectedAsset.base64 && !uri.startsWith("data:")) {
         uri = `data:${type};base64,${selectedAsset.base64}`;
       }
-      
+
       // If it's a file URI, try to get the extension for the filename
-      if (!uri.startsWith('data:')) {
-        const uriParts = uri.split('.');
+      if (!uri.startsWith("data:")) {
+        const uriParts = uri.split(".");
         const fileExtension = uriParts[uriParts.length - 1];
         if (fileExtension) {
           name = `cover.${fileExtension}`;
         }
       } else {
         // For data URIs, extract the extension from mime type
-        const ext = type.split('/')[1] || 'jpg';
+        const ext = type.split("/")[1] || "jpg";
         name = `cover.${ext}`;
       }
-      
+
       // Create a proper RNFile object
       const file: RNFile = {
         uri,
         type,
         name,
       };
-      
-      console.log("Selected image file:", JSON.stringify({
-        uri: uri.substring(0, 100) + "...", // Trim the URI for logging
-        type,
-        name
-      }));
-      
+
+      console.log(
+        "Selected image file:",
+        JSON.stringify({
+          uri: uri.substring(0, 100) + "...", // Trim the URI for logging
+          type,
+          name,
+        })
+      );
+
       setCover(file);
       setCoverPreview(uri);
     }
@@ -310,10 +317,7 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
               isDisabled={false}
               className="h-52"
             >
-              <TextareaInput
-                value={content}
-                onChangeText={setContent}
-              />
+              <TextareaInput value={content} onChangeText={setContent} />
             </Textarea>
 
             {/* Cover Image with styled floating label */}
@@ -337,12 +341,15 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
                     </TouchableOpacity>
                   </View>
                 ) : (
-                  <TouchableOpacity 
+                  <TouchableOpacity
                     className="rounded p-4 flex flex-row items-center justify-center h-[60px]"
                     onPress={pickImage}
                   >
-                    <Upload size={20} color={isDarkMode ? "#eb5a12" : "#C74B0B"} />
-                    <ReactText 
+                    <Upload
+                      size={20}
+                      color={isDarkMode ? "#eb5a12" : "#C74B0B"}
+                    />
+                    <ReactText
                       className="ml-2"
                       style={{ color: uploadTextColor }}
                     >
@@ -351,11 +358,11 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
                   </TouchableOpacity>
                 )}
               </View>
-              <ReactText 
+              <ReactText
                 className="absolute -top-3 left-4 px-2 font-semibold text-sm"
-                style={{ 
-                  backgroundColor: labelBgColor, 
-                  color: labelTextColor 
+                style={{
+                  backgroundColor: labelBgColor,
+                  color: labelTextColor,
                 }}
               >
                 Imagem de capa
@@ -413,13 +420,19 @@ export function TextForm({ editingText, onSuccess, onCancel }: TextFormProps) {
         <ModalBackdrop />
         <ModalContent className="bg-white">
           <ModalHeader className="text-center">
-            <ReactText className="text-lg font-bold text-[#212121] mx-auto text-center">
+            <ReactText
+              className="text-lg font-bold mx-auto text-center"
+              style={{ color: textColor }}
+            >
               Tem certeza que deseja excluir o texto?
             </ReactText>
           </ModalHeader>
 
           <ModalBody className="py-2">
-            <ReactText className="text-center text-gray-700">
+            <ReactText
+              className="text-center "
+              style={{ color: subTitleColor }}
+            >
               Esta ação não pode ser desfeita.
             </ReactText>
           </ModalBody>

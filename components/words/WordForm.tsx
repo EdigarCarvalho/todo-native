@@ -81,6 +81,7 @@ export function WordForm({
 
   // Theme colors
   const textColor = isDarkMode ? "#E7E4D8" : "#212121";
+  const subTitleColor = isDarkMode ? "#8c9199" : "#374151";
   const accentColor = isDarkMode ? "#eb5a12" : "#C74B0B";
   const bgColor = isDarkMode ? "#3E1C00" : "#f9f9f9";
   const borderColor = isDarkMode ? "#eb5a12" : "#C74B0B";
@@ -610,13 +611,13 @@ export function WordForm({
         <ModalBackdrop />
         <ModalContent>
           <ModalHeader className="text-center">
-            <Text className="text-lg font-bold text-[#212121] mx-auto text-center">
+            <Text className="text-lg font-bold mx-auto text-center" style={{ color: textColor }}> 
               Tem certeza que deseja excluir a palavra?
             </Text>
           </ModalHeader>
 
           <ModalBody className="py-2">
-            <Text className="text-center text-gray-700">
+            <Text className="text-center " style={{ color: subTitleColor }}>
               Esta ação não pode ser desfeita.
             </Text>
           </ModalBody>
