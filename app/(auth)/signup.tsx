@@ -13,7 +13,7 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { setAppType } = useAppConfig();
+  // const { setAppType } = useAppConfig();
   const authContext = useAuth();
   const toast = useToast();
   
@@ -111,7 +111,7 @@ export default function SignUp() {
 
   // For demo purposes - switch to user mode
   const switchToUserMode = async () => {
-    await setAppType("user");
+    // await setAppType("user");
     router.replace("/(tabs)");
   };
 

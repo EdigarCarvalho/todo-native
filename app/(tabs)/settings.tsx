@@ -142,7 +142,7 @@ export default function SettingsScreen() {
           </>
         )}
 
-        {!isAdmin && (
+        {/* {!isAdmin && (
           <>
             <ScalableText
               className="text-base font-medium mt-4"
@@ -166,7 +166,7 @@ export default function SettingsScreen() {
               </View>
             </TouchableOpacity>
           </>
-        )}
+        )} */}
       </View>
     </ParallaxScrollView>
   );

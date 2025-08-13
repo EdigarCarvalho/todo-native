@@ -10,25 +10,34 @@ type State = {
   isLoading: boolean;
 };
 
-// Initial state - default to admin mode for authentication flow
+// Initial state - Set this to change the app type
 const initialState: State = {
-  appType: "admin",
+  appType: "admin", // CHANGE THIS VALUE TO SWITCH APP TYPES (user or admin)
   isLoading: true, // Start as loading to prevent premature redirects
 };
 
+// Storage key
+const STORAGE_KEY = "app_config";
+
 // Define action types
-const SET_APP_TYPE = "SET_APP_TYPE";
 const SET_LOADING = "SET_LOADING";
-const LOAD_STATE = "LOAD_STATE";
+const SET_APP_TYPE = "SET_APP_TYPE";
+const RESET_STATE = "RESET_STATE";
 
 // Context type
-const AppConfigContext = createContext<{
+type AppConfigContextType = {
   state: State;
   setAppType: (appType: AppType) => Promise<void>;
+  resetAppType: () => Promise<void>;
+  forceAppType: (appType: AppType) => Promise<void>;
   isAdmin: () => boolean;
-}>({
+};
+
+const AppConfigContext = createContext<AppConfigContextType>({
   state: initialState,
   setAppType: async () => {},
+  resetAppType: async () => {},
+  forceAppType: async () => {},
   isAdmin: () => false,
 });
 
@@ -36,30 +45,27 @@ const AppConfigContext = createContext<{
 const appConfigReducer = (
   state: State,
   action: { type: string; payload: any }
-) => {
+): State => {
   switch (action.type) {
-    case SET_APP_TYPE:
-      return {
-        ...state,
-        appType: action.payload,
-      };
     case SET_LOADING:
       return {
         ...state,
         isLoading: action.payload,
       };
-    case LOAD_STATE:
+    case SET_APP_TYPE:
       return {
         ...state,
-        ...action.payload,
+        appType: action.payload,
+      };
+    case RESET_STATE:
+      return {
+        ...initialState,
+        isLoading: false,
       };
     default:
       return state;
   }
 };
-
-// Storage key
-const STORAGE_KEY = "app_config";
 
 // Provider component
 export const AppConfigProvider = ({
@@ -69,31 +75,34 @@ export const AppConfigProvider = ({
 }) => {
   const [state, dispatch] = useReducer(appConfigReducer, initialState);
 
-  // Load saved state on component mount
+  // Initialize state and load saved config
   useEffect(() => {
-    const loadSavedConfig = async () => {
+    const initializeConfig = async () => {
       try {
         dispatch({ type: SET_LOADING, payload: true });
         
-        const savedConfig = await AsyncStorage.getItem(STORAGE_KEY);
+        // For simplicity, let's just use the initial state value
+        // and ignore any saved configuration
+        const appType = initialState.appType;
         
-        if (savedConfig) {
-          const config = JSON.parse(savedConfig);
-          dispatch({
-            type: LOAD_STATE,
-            payload: {
-              appType: config.appType,
-            },
-          });
-        }
+        // Save this to storage to be consistent
+        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ appType }));
+        
+        // Set the app type
+        dispatch({ type: SET_APP_TYPE, payload: appType });
+        
+        console.log("App initialized with type:", appType);
       } catch (error) {
-        console.error("Error loading app configuration:", error);
+        console.error("Error initializing app configuration:", error);
       } finally {
-        dispatch({ type: SET_LOADING, payload: false });
+        // Small delay to make sure UI is ready
+        setTimeout(() => {
+          dispatch({ type: SET_LOADING, payload: false });
+        }, 300);
       }
     };
 
-    loadSavedConfig();
+    initializeConfig();
   }, []);
 
   // Set app type and save to storage
@@ -113,6 +122,40 @@ export const AppConfigProvider = ({
     }
   };
 
+  // Reset app type to initial state and clear storage
+  const resetAppType = async () => {
+    try {
+      dispatch({ type: SET_LOADING, payload: true });
+      
+      // Remove from AsyncStorage
+      await AsyncStorage.removeItem(STORAGE_KEY);
+      
+      // Reset state to initial
+      dispatch({ type: RESET_STATE, payload: null });
+    } catch (error) {
+      console.error("Error resetting app configuration:", error);
+    } finally {
+      dispatch({ type: SET_LOADING, payload: false });
+    }
+  };
+
+  // Force a specific app type (for testing purposes)
+  const forceAppType = async (appType: AppType) => {
+    try {
+      dispatch({ type: SET_LOADING, payload: true });
+      
+      // Override storage with new type
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ appType }));
+      
+      // Update state immediately
+      dispatch({ type: SET_APP_TYPE, payload: appType });
+    } catch (error) {
+      console.error("Error forcing app configuration:", error);
+    } finally {
+      dispatch({ type: SET_LOADING, payload: false });
+    }
+  };
+
   // Helper function to check if app is in admin mode
   const isAdmin = () => {
     return state.appType === "admin";
@@ -123,6 +166,8 @@ export const AppConfigProvider = ({
       value={{
         state,
         setAppType,
+        resetAppType,
+        forceAppType,
         isAdmin,
       }}
     >
