@@ -12,7 +12,7 @@ type State = {
 
 // Initial state - Set this to change the app type
 const initialState: State = {
-  appType: "admin", // CHANGE THIS VALUE TO SWITCH APP TYPES (user or admin)
+  appType: "user", // CHANGE THIS VALUE TO SWITCH APP TYPES (user or admin)
   isLoading: true, // Start as loading to prevent premature redirects
 };
 

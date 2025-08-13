@@ -27,6 +27,16 @@
         "gradleCommand": ":app:assembleDebug"
       }
     },
-    "production": {}
+    "apk": {
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "production": {
+      "android": {
+        "buildType": "apk"
+      }
+    }
   }
 }

@@ -10,7 +10,10 @@
     "web": "DARK_MODE=media expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
-    "rebuild-android": "rm -rf android && npx expo prebuild -p android"
+    "rebuild-android": "rm -rf android && npx expo prebuild -p android",
+    "build-apk": "npx expo prebuild -p android && cd android && ./gradlew assembleRelease",
+    "build-apk-debug": "npx expo prebuild -p android && cd android && ./gradlew assembleDebug",
+    "eas-build-apk": "eas build -p android --profile apk"
   },
   "jest": {
     "preset": "jest-expo"
