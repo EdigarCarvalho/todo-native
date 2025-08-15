@@ -1,4 +1,144 @@
 {
+  "1": [
+    {
+      "id": 1,
+      "word": "Pàr",
+      "meaning": "Árvore ou madeira",
+      "translation": "Árvore",
+      "attachments": [
+        {
+          "id": 1,
+          "source": "Fotografia da flora local",
+          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "word": "Cohkrit",
+      "meaning": "Animal selvagem de pequeno porte",
+      "translation": "Cutia",
+      "attachments": [
+        {
+          "id": 2,
+          "source": "Enciclopédia de fauna brasileira",
+          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
+        }
+      ]
+    }
+  ],
+  "2": [
+    {
+      "id": 3,
+      "word": "Cator",
+      "meaning": "Ação de chegar ou aproximar-se",
+      "translation": "Chegar",
+      "attachments": [
+        {
+          "id": 3,
+          "source": "Ilustração de ações",
+          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "word": "Ajcahhyc",
+      "meaning": "Movimento de caminhar ou andar a pé",
+      "translation": "Andar",
+      "attachments": [
+        {
+          "id": 4,
+          "source": "Vídeo educativo",
+          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
+        }
+      ]
+    }
+  ],
+  "3": [
+    {
+      "id": 5,
+      "word": "Impej",
+      "meaning": "Qualidade do que é bom ou agradável",
+      "translation": "Bom, bonito",
+      "attachments": [
+        {
+          "id": 5,
+          "source": "Dicionário ilustrado",
+          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "word": "Cati",
+      "meaning": "Característica de tamanho superior ao normal",
+      "translation": "Grande",
+      "attachments": [
+        {
+          "id": 6,
+          "source": "Material didático",
+          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
+        }
+      ]
+    }
+  ],
+  "4": [
+    {
+      "id": 7,
+      "word": "Amji kĩn",
+      "meaning": "Expressão usada em festividades e celebrações",
+      "translation": "Festa, celebração",
+      "attachments": [
+        {
+          "id": 7,
+          "source": "Registro de festa tradicional",
+          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "word": "Wa ihcakôc",
+      "meaning": "Expressão utilizada para indicar comunicação verbal",
+      "translation": "Eu falo, eu converso",
+      "attachments": [
+        {
+          "id": 8,
+          "source": "Áudio educativo",
+          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
+        }
+      ]
+    }
+  ],
+  "5": [
+    {
+      "id": 9,
+      "word": "Côj",
+      "meaning": "Elemento natural líquido essencial à vida",
+      "translation": "Água",
+      "attachments": [
+        {
+          "id": 9,
+          "source": "Fotografia de rio local",
+          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "word": "Putwrỳ",
+      "meaning": "Corpo celeste que ilumina a Terra durante a noite",
+      "translation": "Lua",
+      "attachments": [
+        {
+          "id": 10,
+          "source": "Astronomia ilustrada",
+          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
+        }
+      ]
+    }
+  ],
   "21": [
     {
       "id": 2,
@@ -8,12 +148,12 @@
         {
           "id": 3,
           "source": "google.com",
-          "url": "https://quuqisybwrwhiincjshd.supabase.co/storage/v1/object/public/attachments/file-21866305.png"
+          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
         },
         {
           "id": 4,
           "source": "Uma foto de sla",
-          "url": "https://quuqisybwrwhiincjshd.supabase.co/storage/v1/object/public/attachments/file-3667281173.png"
+          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
         }
       ]
     },
@@ -25,12 +165,12 @@
         {
           "id": 5,
           "source": "desc",
-          "url": "https://quuqisybwrwhiincjshd.supabase.co/storage/v1/object/public/attachments/file-3937347226.jpg"
+          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
         },
         {
           "id": 2,
           "source": "another source",
-          "url": "https://quuqisybwrwhiincjshd.supabase.co/storage/v1/object/public/attachments/file-809563499.png"
+          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
         }
       ]
     }

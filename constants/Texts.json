@@ -1,9 +1,16 @@
 [
   {
     "id": 1,
-    "title": "As Aventuras De Zé Joãozinho",
-    "subtitle": "O Filme",
-    "content": "Tudo começou muito, muito, muito tempo atrás.\n\nAcho que era terça feira, aí sla bro",
-    "cover_url": "https://quuqisybwrwhiincjshd.supabase.co/storage/v1/object/public/texts_covers/file-1730245857.png"
+    "title": "A Importância da Preservação Linguística",
+    "subtitle": "Valorizando o idioma Krikati",
+    "content": "A língua Krikati pertence à família Jê e é falada pelo povo Krikati no estado do Maranhão. Como muitas línguas indígenas brasileiras, enfrenta desafios para sua preservação e continuidade.\n\nA preservação de uma língua indígena vai além da simples documentação de palavras e expressões. Representa a manutenção de toda uma visão de mundo, de conhecimentos tradicionais e da identidade cultural de um povo.\n\nQuando uma língua se perde, perdem-se também formas únicas de compreender e classificar o mundo, conhecimentos sobre plantas medicinais, histórias, rituais e todo um sistema de saberes desenvolvido ao longo de gerações.\n\nProjetos de dicionários bilíngues e aplicativos de ensino são ferramentas fundamentais para garantir que as novas gerações tenham acesso à sua língua ancestral, mesmo em um contexto de crescente globalização e pressão cultural.",
+    "cover_url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Metodologia de Ensino Bilíngue",
+    "subtitle": "Estratégias para o ensino de línguas indígenas",
+    "content": "O ensino bilíngue é uma abordagem educacional que valoriza tanto a língua materna quanto uma segunda língua, permitindo que estudantes desenvolvam fluência em ambas.\n\nNo contexto das comunidades indígenas, o ensino bilíngue representa uma ferramenta essencial para a preservação cultural e linguística, ao mesmo tempo em que proporciona acesso ao conhecimento da sociedade envolvente.\n\nAlgumas estratégias eficazes incluem:\n\n1. Uso de materiais didáticos que reflitam a realidade local e incorporem elementos culturais relevantes;\n\n2. Participação de falantes nativos e anciãos no processo educativo, trazendo conhecimentos tradicionais para a sala de aula;\n\n3. Utilização de tecnologias como aplicativos e dicionários digitais para tornar o aprendizado mais acessível e atrativo para jovens;\n\n4. Integração de práticas culturais tradicionais com o ensino formal da língua.",
+    "cover_url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
   }
 ]

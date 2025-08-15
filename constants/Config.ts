@@ -3,4 +3,4 @@
 // For example: "http://192.168.1.100:3000" instead of "http://localhost:3000"
 // export const BASE_URL = "http://192.168.201.135:3000"; // Special IP for Android emulator to access host machine
 // export const BASE_URL = "http://localhost:3000"; // Special IP for Android emulator to access host machine
-export const BASE_URL = "http://159.203.186.27:3000"; // Special IP for Android emulator to access host machine
+export const BASE_URL = "https://krikati-backend.onrender.com"; // Special IP for Android emulator to access host machine

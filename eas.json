@@ -31,11 +31,17 @@
       "android": {
         "buildType": "apk",
         "gradleCommand": ":app:assembleRelease"
+      },
+      "env": {
+        "ANDROID_CLEAR_TRAFFIC": "true"
       }
     },
     "production": {
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "ANDROID_CLEAR_TRAFFIC": "true"
       }
     }
   }

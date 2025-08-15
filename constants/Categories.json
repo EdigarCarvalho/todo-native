@@ -1,10 +1,22 @@
 [
     {
-        "id": 20,
-        "name": "OI"
+        "id": 1,
+        "name": "Substantivos"
     },
     {
-        "id": 21,
-        "name": "Cat"
+        "id": 2,
+        "name": "Verbos"
+    },
+    {
+        "id": 3,
+        "name": "Adjetivos"
+    },
+    {
+        "id": 4,
+        "name": "Expressões"
+    },
+    {
+        "id": 5,
+        "name": "Natureza"
     }
 ]
