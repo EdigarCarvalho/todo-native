@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "todo-native",
-    "slug": "todo-native",
+    "name": "Dicionário Kritati",
+    "slug": "dicionario-kritati",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
