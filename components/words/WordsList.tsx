@@ -45,9 +45,6 @@ export function WordsList({
 }: WordsListProps) {
   // Theme colors
   const textColor = isDarkMode ? "#E7E4D8" : "#212121";
-  const secondaryTextColor = isDarkMode ? "#E7E4D8" : "#474747";
-  const highlightColor = isDarkMode ? "#E7E4D8" : "#A30122";
-  const accentColor = isDarkMode ? "#eb5a12" : "#C74B0B";
 
   // Filter words based on search input
   const getFilteredWords = (categoryId: string) => {
@@ -79,7 +76,7 @@ export function WordsList({
 
   return (
     <View className="mt-1">
-      {state.categories.map((category: Category) => {
+      {state.categories?.sort((a, b) => a.name.localeCompare(b.name)).map((category: Category) => {
         const filteredWords = getFilteredWords(category.id.toString());
 
         // Only show categories with matching words when filtering
@@ -110,7 +107,7 @@ export function WordsList({
                 }}
               </AccordionTrigger>
               <AccordionContent>
-                {filteredWords.map((word: Word) => (
+                {filteredWords?.sort((a, b) => a.word.localeCompare(b.word)).map((word: Word) => (
                   <WordItem
                     key={word.id}
                     word={word}

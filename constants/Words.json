@@ -1,178 +1,451 @@
 {
-  "1": [
+  "10": [
     {
-      "id": 1,
-      "word": "Pàr",
-      "meaning": "Árvore ou madeira",
-      "translation": "Árvore",
-      "attachments": [
-        {
-          "id": 1,
-          "source": "Fotografia da flora local",
-          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
-        }
-      ]
+      "id": 93,
+      "word": "xehxehp",
+      "meaning": "gengibre"
     },
     {
-      "id": 2,
-      "word": "Cohkrit",
-      "meaning": "Animal selvagem de pequeno porte",
-      "translation": "Cutia",
-      "attachments": [
-        {
-          "id": 2,
-          "source": "Enciclopédia de fauna brasileira",
-          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
-        }
-      ]
-    }
-  ],
-  "2": [
-    {
-      "id": 3,
-      "word": "Cator",
-      "meaning": "Ação de chegar ou aproximar-se",
-      "translation": "Chegar",
-      "attachments": [
-        {
-          "id": 3,
-          "source": "Ilustração de ações",
-          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
-        }
-      ]
+      "id": 91,
+      "word": "cwyrpej",
+      "meaning": "macaxeira"
     },
     {
-      "id": 4,
-      "word": "Ajcahhyc",
-      "meaning": "Movimento de caminhar ou andar a pé",
-      "translation": "Andar",
-      "attachments": [
-        {
-          "id": 4,
-          "source": "Vídeo educativo",
-          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
-        }
-      ]
-    }
-  ],
-  "3": [
-    {
-      "id": 5,
-      "word": "Impej",
-      "meaning": "Qualidade do que é bom ou agradável",
-      "translation": "Bom, bonito",
-      "attachments": [
-        {
-          "id": 5,
-          "source": "Dicionário ilustrado",
-          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
-        }
-      ]
+      "id": 94,
+      "word": "teˈteh",
+      "meaning": "jatobá"
     },
     {
-      "id": 6,
-      "word": "Cati",
-      "meaning": "Característica de tamanho superior ao normal",
-      "translation": "Grande",
-      "attachments": [
-        {
-          "id": 6,
-          "source": "Material didático",
-          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
-        }
-      ]
+      "id": 95,
+      "word": "aaruj",
+      "meaning": "arroz"
+    },
+    {
+      "id": 92,
+      "word": "copcahỳcre",
+      "meaning": "aroeira"
     }
   ],
   "4": [
     {
-      "id": 7,
-      "word": "Amji kĩn",
-      "meaning": "Expressão usada em festividades e celebrações",
-      "translation": "Festa, celebração",
-      "attachments": [
-        {
-          "id": 7,
-          "source": "Registro de festa tradicional",
-          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
-        }
-      ]
+      "id": 20,
+      "word": "hiire",
+      "meaning": "aranha"
+    },
+    {
+      "id": 25,
+      "word": "caprỹn",
+      "meaning": "tartaruga"
+    },
+    {
+      "id": 26,
+      "word": "crỹjacra",
+      "meaning": "coelho"
+    },
+    {
+      "id": 11,
+      "word": "capre",
+      "meaning": "bode"
+    },
+    {
+      "id": 17,
+      "word": "xoo",
+      "meaning": "cachorro"
+    },
+    {
+      "id": 12,
+      "word": "cohcuj",
+      "meaning": "macaco"
+    },
+    {
+      "id": 10,
+      "word": "meeh",
+      "meaning": "jacaré"
+    },
+    {
+      "id": 18,
+      "word": "cahỹ creht",
+      "meaning": "lagarto"
+    },
+    {
+      "id": 15,
+      "word": "tun",
+      "meaning": "tatu"
+    },
+    {
+      "id": 13,
+      "word": "carỳ",
+      "meaning": "veado"
+    },
+    {
+      "id": 21,
+      "word": "prỹmre",
+      "meaning": "hiire"
+    },
+    {
+      "id": 5,
+      "word": "pryhteh xõhmteh",
+      "meaning": "boi"
+    },
+    {
+      "id": 19,
+      "word": "prutcwyj",
+      "meaning": "sapo"
+    },
+    {
+      "id": 24,
+      "word": "xooteh",
+      "meaning": "lobo"
     },
     {
       "id": 8,
-      "word": "Wa ihcakôc",
-      "meaning": "Expressão utilizada para indicar comunicação verbal",
-      "translation": "Eu falo, eu converso",
-      "attachments": [
-        {
-          "id": 8,
-          "source": "Áudio educativo",
-          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
-        }
-      ]
+      "word": "cohxãm",
+      "meaning": "gato"
+    },
+    {
+      "id": 6,
+      "word": "cawar",
+      "meaning": "cavalo"
+    },
+    {
+      "id": 16,
+      "word": "cahỹ",
+      "meaning": "cobra"
+    },
+    {
+      "id": 23,
+      "word": "pỳtcỳc",
+      "meaning": "bixo preguiça"
+    },
+    {
+      "id": 14,
+      "word": "cõhmtohm",
+      "meaning": "capivara"
+    },
+    {
+      "id": 9,
+      "word": "cra",
+      "meaning": "paca"
+    },
+    {
+      "id": 7,
+      "word": "xỹˈxỹc",
+      "meaning": "galinha"
     }
   ],
   "5": [
     {
-      "id": 9,
-      "word": "Côj",
-      "meaning": "Elemento natural líquido essencial à vida",
-      "translation": "Água",
-      "attachments": [
-        {
-          "id": 9,
-          "source": "Fotografia de rio local",
-          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
-        }
-      ]
+      "id": 27,
+      "word": "ẽhjcre",
+      "meaning": "casa"
     },
     {
-      "id": 10,
-      "word": "Putwrỳ",
-      "meaning": "Corpo celeste que ilumina a Terra durante a noite",
-      "translation": "Lua",
-      "attachments": [
-        {
-          "id": 10,
-          "source": "Astronomia ilustrada",
-          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
-        }
-      ]
+      "id": 28,
+      "word": "crẽh",
+      "meaning": "aldeia"
+    },
+    {
+      "id": 29,
+      "word": "hẽehpuu",
+      "meaning": "lagoa"
     }
   ],
-  "21": [
+  "6": [
     {
-      "id": 2,
-      "word": "Eitaaa",
-      "meaning": "lollmao.com",
-      "attachments": [
-        {
-          "id": 3,
-          "source": "google.com",
-          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
-        },
-        {
-          "id": 4,
-          "source": "Uma foto de sla",
-          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
-        }
-      ]
+      "id": 39,
+      "word": "aacohj",
+      "meaning": "agulha"
     },
     {
-      "id": 1,
-      "word": "Aoba",
-      "meaning": "Quer dizer \"aoba\"",
-      "attachments": [
-        {
-          "id": 5,
-          "source": "desc",
-          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
-        },
-        {
-          "id": 2,
-          "source": "another source",
-          "url": "https://img.freepik.com/premium-vector/icon-design-test-paper_362714-11527.jpg"
-        }
-      ]
+      "id": 33,
+      "word": "wacyy",
+      "meaning": "faca"
+    },
+    {
+      "id": 31,
+      "word": "cohje",
+      "meaning": "colher"
+    },
+    {
+      "id": 46,
+      "word": "hii crecre",
+      "meaning": "tecido"
+    },
+    {
+      "id": 40,
+      "word": "sabohnit",
+      "meaning": "sabonete"
+    },
+    {
+      "id": 37,
+      "word": "carap",
+      "meaning": "garrafa"
+    },
+    {
+      "id": 32,
+      "word": "crat",
+      "meaning": "prato"
+    },
+    {
+      "id": 38,
+      "word": "zeradir",
+      "meaning": "geladeira"
+    },
+    {
+      "id": 30,
+      "word": "cadir",
+      "meaning": "cadeira"
+    },
+    {
+      "id": 42,
+      "word": "waape",
+      "meaning": "caderno"
+    },
+    {
+      "id": 41,
+      "word": "ẽhˈparcỳ",
+      "meaning": "sapato"
+    },
+    {
+      "id": 36,
+      "word": "mix",
+      "meaning": "mesa"
+    },
+    {
+      "id": 44,
+      "word": "hii",
+      "meaning": "roupa"
+    },
+    {
+      "id": 45,
+      "word": "cỳj",
+      "meaning": "machado"
+    },
+    {
+      "id": 43,
+      "word": "canit",
+      "meaning": "caneta"
+    },
+    {
+      "id": 35,
+      "word": "rat",
+      "meaning": "lata"
+    }
+  ],
+  "7": [
+    {
+      "id": 57,
+      "word": "hỳypẽhn",
+      "meaning": "comadre"
+    },
+    {
+      "id": 47,
+      "word": "ẽhnxi",
+      "meaning": "mãe"
+    },
+    {
+      "id": 56,
+      "word": "ẽhjcjiji",
+      "meaning": "primo(a)"
+    },
+    {
+      "id": 52,
+      "word": "ẽhnxõh\r\ncỳ",
+      "meaning": "tio mais velho"
+    },
+    {
+      "id": 55,
+      "word": "ẽhjtỳmxwy",
+      "meaning": "neto(a)"
+    },
+    {
+      "id": 48,
+      "word": "ẽhnxõh",
+      "meaning": "pai"
+    },
+    {
+      "id": 50,
+      "word": "ẽhjtõ",
+      "meaning": "irmã"
+    },
+    {
+      "id": 59,
+      "word": "ẽhjcra xõhmre",
+      "meaning": "filho"
+    },
+    {
+      "id": 54,
+      "word": "tyhjre",
+      "meaning": "avó"
+    },
+    {
+      "id": 53,
+      "word": "quitre",
+      "meaning": "avô"
+    },
+    {
+      "id": 58,
+      "word": "pẽhmxwyj",
+      "meaning": "compadre"
+    },
+    {
+      "id": 49,
+      "word": "ẽhjcraˈ cahỹj",
+      "meaning": "filha"
+    },
+    {
+      "id": 60,
+      "word": "ẽhnxõh hapohˈ\r nycji",
+      "meaning": "tio mais novo"
+    }
+  ],
+  "8": [
+    {
+      "id": 66,
+      "word": "jõocwa",
+      "meaning": "peito"
+    },
+    {
+      "id": 64,
+      "word": "ẽhjcryt",
+      "meaning": "nariz"
+    },
+    {
+      "id": 71,
+      "word": "jõhˈcop",
+      "meaning": "unhas"
+    },
+    {
+      "id": 72,
+      "word": "ẽhjpar",
+      "meaning": "pé"
+    },
+    {
+      "id": 73,
+      "word": "ẽhjpar cõn",
+      "meaning": "costas"
+    },
+    {
+      "id": 65,
+      "word": "jarcwa",
+      "meaning": "boca"
+    },
+    {
+      "id": 68,
+      "word": "ẽhjte",
+      "meaning": "perna"
+    },
+    {
+      "id": 62,
+      "word": "jõhˈcra",
+      "meaning": "mãos"
+    },
+    {
+      "id": 67,
+      "word": "jara",
+      "meaning": "braço"
+    },
+    {
+      "id": 69,
+      "word": "ẽhjquẽh",
+      "meaning": "cabelo"
+    },
+    {
+      "id": 61,
+      "word": "ẽhjcrỹ",
+      "meaning": "cabeça"
+    },
+    {
+      "id": 63,
+      "word": "ẽhjto",
+      "meaning": "olhos"
+    }
+  ],
+  "9": [
+    {
+      "id": 82,
+      "word": "rõtehxu",
+      "meaning": "coco"
+    },
+    {
+      "id": 89,
+      "word": "bacaseh",
+      "meaning": "abacaxi"
+    },
+    {
+      "id": 83,
+      "word": "hõcrowaxu",
+      "meaning": "mamão"
+    },
+    {
+      "id": 77,
+      "word": "caapir",
+      "meaning": "bacaba"
+    },
+    {
+      "id": 85,
+      "word": "crow",
+      "meaning": "buriti"
+    },
+    {
+      "id": 78,
+      "word": "aseror",
+      "meaning": "acerola"
+    },
+    {
+      "id": 80,
+      "word": "rehmaw",
+      "meaning": "limão"
+    },
+    {
+      "id": 76,
+      "word": "tirre",
+      "meaning": "açaí"
+    },
+    {
+      "id": 81,
+      "word": "bacatxu",
+      "meaning": "abacate"
+    },
+    {
+      "id": 79,
+      "word": "cwajapxu",
+      "meaning": "goiaba"
+    },
+    {
+      "id": 90,
+      "word": "prutteh",
+      "meaning": "jenipapo"
+    },
+    {
+      "id": 84,
+      "word": "jactehxu",
+      "meaning": "jaca"
+    },
+    {
+      "id": 74,
+      "word": "mãc",
+      "meaning": "manga"
+    },
+    {
+      "id": 86,
+      "word": "prẽhn",
+      "meaning": "pequi"
+    },
+    {
+      "id": 75,
+      "word": "pananxu",
+      "meaning": "banana"
+    },
+    {
+      "id": 87,
+      "word": "pyhrehj",
+      "meaning": "cajá"
+    },
+    {
+      "id": 88,
+      "word": "aˈcrytxu",
+      "meaning": "caju"
     }
   ]
 }

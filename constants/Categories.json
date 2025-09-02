@@ -1,22 +1,30 @@
 [
-    {
-        "id": 1,
-        "name": "Substantivos"
-    },
-    {
-        "id": 2,
-        "name": "Verbos"
-    },
-    {
-        "id": 3,
-        "name": "Adjetivos"
-    },
-    {
-        "id": 4,
-        "name": "Expressões"
-    },
-    {
-        "id": 5,
-        "name": "Natureza"
-    }
-]
+        {
+            "id": 5,
+            "name": "LUGARES"
+        },
+        {
+            "id": 6,
+            "name": "OBJETOS"
+        },
+        {
+            "id": 7,
+            "name": "PARENTESCO"
+        },
+        {
+            "id": 8,
+            "name": "PARTES DO CORPO HUMANO"
+        },
+        {
+            "id": 9,
+            "name": "FRUTAS"
+        },
+        {
+            "id": 10,
+            "name": "PLANTAS"
+        },
+        {
+            "id": 4,
+            "name": "ANIMAIS"
+        }
+    ]
